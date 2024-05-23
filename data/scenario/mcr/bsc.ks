@@ -101,6 +101,7 @@ f.map.bsc['loc']をコメントから起動する(240204)
             window.__tyrano_key_config.key.ArrowLeft ="";
             window.__tyrano_key_config.key.ArrowRight="";
         [endscript ]
+        [chara_config talk_focus="brightness"]
     [endmacro ]
 
     [macro name="endadv"]
@@ -128,6 +129,7 @@ f.map.bsc['loc']をコメントから起動する(240204)
                 TYRANO.kag.ftag.startTag("jump",{target:"*ahead"});
             };
         [endscript ]
+        [chara_config talk_focus="none"]
     [endmacro ]
 
 

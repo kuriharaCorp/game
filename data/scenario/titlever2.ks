@@ -43,7 +43,7 @@
 [clearfix ]
 
 [image name="bgtitle" layer="0" folder="bgimage"  storage="&'bg_title'+tf.n+'.jpg'" visible="true"]
-[wait time="500" ]
+[wait time="50" ]
 [anim name="bgtitle" width="2000"  left="-500" top="-400" ]
 [mask time="2000" ]
 [wait time="2000" ]

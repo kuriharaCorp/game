@@ -61,7 +61,6 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [macro name="evt_fst"]
     ; [trace exp="&`'現在'+f.mode+'モードです'`" ]
     [iadv]
-        [chara_config talk_focus="brightness"]
         [chara_new name="syatyo" storage="chara/akane/normal.png"  jname="クリ" ]
         [chara_new name="mob" storage="chara/yamato/normal.png"  jname="ハラ" ]
         [chara_config pos_mode="false" ]
@@ -75,10 +74,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         #案内人
         それではみなさん、2Fの更衣室で白衣に着替えてください[p]
 
-        #
-        ◇操作説明◇[r]
+        #◇操作説明◇
         画面左下の十字ボタンをクリック、あるいはキーボードの十字キーでハラちゃんを動かすことができます。[p]
-        ◇操作説明◇[r]
         さっそく階段へ移動しましょう![p]
 
         #ハラ
@@ -187,7 +184,7 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [iscript ]
     f.mod_image=[];
     f.mod_image[0]='f201_39_13_ant';
-    f.mod_image[1]='f201_46_01_ent';//これはテスト
+    //f.mod_image[1]='f201_46_01_ent';//これはテスト
     f.mod_image[2]='f201_29_01_trm';
     f.mod_image[3]='f201_01_01_mac';
     f.mod_image[4]='f201_06_15_wgh';
@@ -237,12 +234,9 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     [reg_chara01 cond="tf.reg_chara01"]
 
     [iscript ]
-    //第二工場入口追加新規イベント
-    if(f.mpnm=='f201_46_01_ent'){
-        push(6,1,8,4,2);//立ち入り禁止テスト
-        push(1,1,11,4,3);//話しかけテスト
-    };
-
+    //第二工場入口(f201_46_01_ent)追加新規イベント
+    //削除
+    
     //第二工場前室追加新規イベント
     if(f.mpnm=='f201_39_13_ant'){
         push(2,1,7,2,2);//立ち入り禁止イベント
@@ -330,9 +324,7 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     //testalphaにて01.ksを読み込むかの判定処理に使用。使用する数字ラベルを全て羅列する。
         f.arlbl=[];
         //玄関(f201_46_01_ent.ks)
-        f.arlbl[0]="61842"//立ち入り禁止
         f.arlbl[1]="131012"//移動先変更
-        f.arlbl[2]="111143"//会話テスト
         //前室(f201_39_13_ant.ks)
         f.arlbl[3]="11392"//トリミングイベント
         f.arlbl[4]="21722"//立ち入り禁止
@@ -417,8 +409,7 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         今日の工場見学は、社員さんに話を聞いてきてもらうよ。[p ]
         緑の帽子をかぶった人が社員さんなんだって。[p ]
         各部屋に社員さんがいるから、話しかけてみてね。[p ]
-        #
-        ◇ゲームの目的◇[r]
+        #◇ゲームの目的◇
         各部屋にいる緑色の帽子の人から話を聞いていきましょう。[r]
         話しかけるには、その人の近くでその方向にボタンを押します。[p]
         #ハラ
@@ -438,9 +429,33 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [return ]
 [s ]
 
-*wgh
+*trm
     [iadv]
-        [image layer="1" name="photo"  storage="../image/process/p2cab.jpg" pos="c" time="500" ]
+        [image layer="1" name="photo" visible="true" storage="../image/process/p2cab.jpg" pos="c" time="500" ]
+        #
+        キャベツや白菜の芯を取ったり、プリーツレタスをばらしたりなど、[r]野菜の下処理を行います。[p]
+        [free layer="1" name="photo"  time="500" ]
+    [endadv]
+    @eval exp="f.fstTrm=true"
+[return ]
+[s ]
+
+*mac
+;mac(カット室(機械洗浄))
+    [iadv]
+        [image layer="1" name="photo" visible="true" storage="../image/process/p3cab.jpg" pos="c" time="500" ]
+        #
+       部屋紹介文がありません。[p]
+        [free layer="1" name="photo"  time="500" ]
+    [endadv]
+@eval exp="f.fstMac=true"
+[return ]
+[s ]
+
+*wgh
+;計量室
+    [iadv]
+        [image layer="1" name="photo" visible="true" storage="../image/process/p4cab.jpg" pos="c" time="500" ]
         #案内人
         様々な野菜を様々な規格に専用の機械で切り分けます。[l][r]洗浄、殺菌、脱水工程までを行います。[p]
         [free layer="1" name="photo"  time="500" ]
@@ -449,34 +464,14 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [return ]
 [s ]
 
-*mac
-[eval exp="tf.aoi='これはmac(カット室(機械洗浄))初回イベント'" ]
-[trace exp="tf.aoi" ]
-    [iadv]
-        #
-       部屋紹介文がありません。[p]
-    [endadv]
-@eval exp="f.fstMac=true"
-[return ]
-[s ]
-
-*trm
-[eval exp="tf.aoi='これはtrm(トリミング室)初回イベント'" ]
-[trace exp="tf.aoi" ]
-    [iadv]
-        #
-キャベツや白菜の芯を取ったり、プリーツレタスをばらしたりなど、[l][r]野菜の下処理を行います。[p]
-    [endadv]
-@eval exp="f.fstTrm=true"
-[return ]
-[s ]
 
 *set
-[eval exp="tf.aoi='これはset(セット準備室)初回イベント'" ]
-[trace exp="tf.aoi" ]
+;set(セット準備室)
     [iadv]
-        #
-計量室で出来上がった食材と付属品の組み合わせとセット作業を行います。[l][r]野菜だけでなく、麺・肉・海鮮・タレなどたくさんの具材を扱っています。[p]
+        [image layer="1" name="photo" visible="true" storage="../image/process/p5cab.jpg" pos="c" time="500" ]
+        #案内人
+        計量室で出来上がった食材と付属品の組み合わせとセット作業を行います。[l][r]野菜だけでなく、麺・肉・海鮮・タレなどたくさんの具材を扱っています。[p]
+        [free layer="1" name="photo"  time="500" ]
     [endadv]
 @eval exp="f.fstSet=true"
 [return ]
@@ -496,8 +491,10 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [eval exp="tf.aoi='これはpic(ピッキング室(生産管理室))初回イベント'" ]
 [trace exp="tf.aoi" ]
     [iadv]
+        [image layer="1" name="photo" visible="true" storage="../image/process/p6cab.jpg" pos="c" time="500" ]
         #
-すべての商品がここに集約され、取引先ごとに決められた出荷方法で仕分けをします。[l][r]製造部の指示出しも行っています。[p]
+        すべての商品がここに集約され、取引先ごとに決められた出荷方法で仕分けをします。[l][r]製造部の指示出しも行っています。[p]
+        [free layer="1" name="photo"  time="500" ]
     [endadv]
 @eval exp="f.fstPic=true"
 [return ]
@@ -516,30 +513,6 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [endif ]
 [return]
 [s]
-
-*61842
-;以上のラベルで第二工場玄関の時のイベント内容
-[if exp="f.mpnm=='f201_46_01_ent'"]
-    [trace exp="tf.hoge3='F2ent61842ノックバックイベント中'" ]
-    [noenter]
-
-    @eval exp="f.ismdeve=true"
-    [trace exp="f.ismdeve+'<--01.ksの61842の中通過のf.ismdeve'"]
-
-[endif ]
-[return]
-[s]
-
-; *1211112
-; ;以上のラベルで第二工場前室の時のイベント内容
-; [if exp="f.mpnm=='f101_20_01_set'"]
-;     [trace exp="tf.hoge3='F1setノックバックイベント中'" ]
-;     [noenter]
-
-;     @eval exp="f.ismdeve=true"
-; [endif ]
-; [return]
-; [s]
 
 ;移動先変更---
 
@@ -570,7 +543,7 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     ;マップ生成に必要な色々を削除する
 
     ;マップに登場するキャラクター・モノ削除
-    [chara_delete name="akane" ]
+    ;[chara_delete name="akane" ]
     [iscript ]
         //マップ読み込み済みの処理(1度だけの処理を行わない)
         f.isnmp=false;
@@ -602,47 +575,7 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     [return]
 [s]
 
-
 ;=====会話
-
-*111143
-;第二工場玄関(テスト)
-[if exp="f.mpnm=='f201_46_01_ent'"]
-    [iadv]
-        [chara_show name="akane" top="&720-600" ]
-        #akane
-        会話文テスト[p]
-        #akane
-        [link target="*111143_1" ]選択肢1 [endlink ][r]
-        [link target="*111143_2" ]選択肢2 [endlink ]
-        [s ]
-*111143_1
-[cm ]
-        @eval exp="tf.piyo7=1"
-        #akane:happy
-        1を選んだよ[p]
-        [jump target="*111143_cmn" ]
-        [s ]
-*111143_2
-[cm ]
-
-        @eval exp="tf.piyo7=2"
-        #akane:doki
-        2を選んだよ[p]
-        [jump target="*111143_cmn" ]
-        [s ]
-        *111143_cmn
-        [cm ]
-
-        #
-        変数は[emb exp="tf.piyo7"]だよ[p]
-    [endadv]
-        @eval exp="f.ismdeve=true"
-
-[endif ]
-[trace exp="tf.fuga6='111143 話しかけテストreturn前'"]
-[return]
-[s ]
 
 ;第二前室
 *11193
@@ -1346,6 +1279,54 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 
 ;前室トリミングイベント追記
 *11392
+    [if exp="f.mpnm=='f201_39_13_ant'" ]
+        [ignore exp="f.istoruming" ]
+            [iadv ]
+                #社員さん
+                ちょっと待って！[p]
+                ここから先は衣服の埃や髪の毛を取ってから進んでください。[r]
+                そこにある『取るミング』を使ってね[p]
+                #
+                動画を見て『取るミング』をしよう。[p]
+            [endadv ]
+        [endignore ]
+        [iscript ]
+            tf.url='https://www.youtube.com/embed/'+'TnX09mIwdI0'
+            f.ismdeve=true
+        [endscript ]
+
+        [dialog type="confirm" text="動画を見ますか?(youtubeへ接続します)" target_cancel="*11392_f"]
+        ;ここで動画を出す
+            [clearfix ]
+            [cm ]
+            [html ]
+                <iframe id="videoFrame" width="1280" height="720" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture;" allowfullscreen mute="1"></iframe>  
+                [endhtml ]
+                [eval exp="document.getElementById('videoFrame').src= tf.url;" ]
+                [glink target="*11392_t" text="動画を閉じる" x="1000" y="60" color="btn_12_blue"]
+            [s]
+        *11392_f
+        @eval exp="tf.nxjump='cancel'"
+    [endif ]
+    [jump target="*11392_cancel" cond="tf.nxjump=='cancel'&&f.mpnm=='f201_39_13_ant'"]
+    *11392_t
+    [wait_cancel]
+    [cm ]
+    [eval exp="f.istoruming=true" cond="f.mpnm=='f201_39_13_ant'"]
+[return ]
+[s ]
+*11392_cancel
+    [ignore exp="f.istoruming" ]
+        [iadv ]
+            #社員さん
+            使わないならここは通せないな。[p]
+        [endadv ]
+        @eval exp="tf.nxjump=''"
+        [noenter]
+    [endignore ]
+[return ]
+[s ]
+
 ;カット室より
 *1320122
 *712262
@@ -1360,24 +1341,21 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 
 ;TODO:トリミングイベント用に変更してみる
     [iscript ]
-    if(f.label=='11392')tf.txt='これはトリミングイベントです。',tf.url='TnX09mIwdI0';//第二工場前室
-    //カット室
-    if(f.label=='1320122')tf.txt='ここから先を見渡せるみたいだ。',tf.url='lqLNYD2AgV0';//部屋見渡し下
-    if(f.label=='712262')tf.txt='ここから先を見渡せるみたいだ。',tf.url='WbnmksW7vTA';//部屋見渡し上
-    //計量室
-    if(f.label=='113712')tf.txt='ここから先を見渡せるみたいだ。',tf.url='fjjR9f7NFNo';//部屋見渡し西
-    if(f.label=='182312'||f.label=='1112382')tf.txt='ここから先を見渡せるみたいだ。',tf.url='tN_ZcXQQ2Yw';//部屋見渡し東
-    //セット室
-    if(f.label=='96143')tf.txt='ここから先を見渡せるみたいだ。',tf.url='rdBZObyktmI';//部屋見渡し西
-    if(f.label=='2182333')tf.txt='ここから先を見渡せるみたいだ。',tf.url='vRp_R3ScnhQ';//部屋見渡し東
+        //カット室
+        if(f.label=='1320122')tf.txt='ここから先を見渡せるみたいだ。',tf.url='lqLNYD2AgV0';//部屋見渡し下
+        if(f.label=='712262')tf.txt='ここから先を見渡せるみたいだ。',tf.url='WbnmksW7vTA';//部屋見渡し上
+        //計量室
+        if(f.label=='113712')tf.txt='ここから先を見渡せるみたいだ。',tf.url='fjjR9f7NFNo';//部屋見渡し西
+        if(f.label=='182312'||f.label=='1112382')tf.txt='ここから先を見渡せるみたいだ。',tf.url='tN_ZcXQQ2Yw';//部屋見渡し東
+        //セット室
+        if(f.label=='96143')tf.txt='ここから先を見渡せるみたいだ。',tf.url='rdBZObyktmI';//部屋見渡し西
+        if(f.label=='2182333')tf.txt='ここから先を見渡せるみたいだ。',tf.url='vRp_R3ScnhQ';//部屋見渡し東
 
 
-
-    tf.url='https://www.youtube.com/embed/'+tf.url
-    tf.moveve = f.mpnm=='f201_01_01_mac'||
-                f.mpnm=='f201_06_15_wgh'||
-                f.mpnm=='f101_12_25_wap'||
-                f.mpnm=='f201_39_13_ant';
+        tf.url='https://www.youtube.com/embed/'+tf.url
+        tf.moveve = f.mpnm=='f201_01_01_mac'||
+                    f.mpnm=='f201_06_15_wgh'||
+                    f.mpnm=='f101_12_25_wap';
     [endscript ]
 [if exp="tf.moveve" ]
     [iadv]
@@ -1403,12 +1381,12 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     *mov_t
     [wait_cancel]
     [cm ]
-    [knockback cond="f.mpnm!='f201_39_13_ant'"]
+    [knockback]
     [return ]
 [s]
 
 *mov_cancel
-@eval exp="tf.nxjump=''"
-[noenter]
+    @eval exp="tf.nxjump=''"
+    [noenter]
 [return ]
 [s ]
