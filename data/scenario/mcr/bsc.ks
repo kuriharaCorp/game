@@ -132,6 +132,21 @@ f.map.bsc['loc']をコメントから起動する(240204)
         [chara_config talk_focus="none"]
     [endmacro ]
 
+    ;文字色変更
+    [macro name="<imp"]
+    ;重要な内容
+    [font size="32" color="yellow" bold="true" edge="4px black" edge_method="filter"]
+    [endmacro ]
+
+    [macro name="<mid"]
+    ;ちょっと重要
+    [font size="28" color="blue" bold="true" edge="2px white" edge_method="filter"]
+    [endmacro]
+
+    [macro name=">""]
+    ;変更したフォントを基に戻す
+        [resetfont ]
+    [endmacro]
 
 
     ;フィールド作成マクロ==========================

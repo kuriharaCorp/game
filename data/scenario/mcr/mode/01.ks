@@ -66,11 +66,11 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         [chara_config pos_mode="false" ]
         [chara_show layer="1" zindex="99" name="syatyo" left="&1280-400"  top="&720-600" ]
         #クリ
-        こんにちは！工場見学隊のクリです！[l][r]
+        こんにちは！工場見学隊の[<mid]クリ[>]です！[l][r]
         今日はクリハラの工場内を探検しましょう。[p]
         [chara_show layer="1" zindex="99" name="mob" left="0" top="&720-660"   ]
         #ハラ
-        はーい！[l]同じくハラです！[p]
+        はーい！[l]同じく[<mid]ハラ[>]です！[p]
         #案内人
         それではみなさん、2Fの更衣室で白衣に着替えてください[p]
 
@@ -79,7 +79,7 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         さっそく階段へ移動しましょう![p]
 
         #ハラ
-        階段を上って更衣室で着替えるだったね。[l ]よし、行こう![p]
+        [<imp]階段を上って更衣室で着替える[>]だったね。[l ]よし、行こう![p]
          @eval exp="f.isevt_fst=true"
 
     [endadv]
@@ -242,7 +242,7 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         push(2,1,7,2,2);//立ち入り禁止イベント
         push(1,1,1,9,3);//立ち入り禁止イベント
         push(1,1,3,9,2);//トリミングイベント
-        push(4,1,3,3,3);//壁
+        push(4,1,3,3);//壁
     };
     //第二工場トリミング室新規イベント
     if(f.mpnm=='f201_29_01_trm'){
@@ -292,9 +292,11 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         push(2,2,21,7,3)//話しかけフラグ東
         push(1,1,15,23,3)//システム室会話
         push(1,2,1,7,3)//立ち入り禁止+話しかけ(西封鎖)
-        push(1,2,17,2,3)//立ち入り禁止(壁)
+        push(1,2,17,2)//立ち入り禁止(壁)
         push(1,1,27,24,3)//立ち入り禁止+話しかけ(南封鎖)
-        push(1,1,11,20,3)//立ち入り禁止(壁)
+        push(1,1,11,20)//立ち入り禁止(壁)
+        push(1,4,29,4,2)//立ち入り禁止(戻し)
+        push(1,1,0,17,2)//移動先変更(セット室へ)
 
     }
 
@@ -329,9 +331,9 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         f.arlbl[3]="11392"//トリミングイベント
         f.arlbl[4]="21722"//立ち入り禁止
         f.arlbl[5]="11193"//立ち入り禁止
-        f.arlbl[6]="41333"//壁
+        //f.arlbl[6]="41333"//壁
         //トリミング室(f201_29_01_trm.ks)
-        f.arlbl[7]="2115152"//移動先変更
+        //f.arlbl[7]="2115152"//移動先変更
         f.arlbl[8]="221893"//東封鎖
         f.arlbl[9]="321353"//北封鎖(ゴミ室)
         f.arlbl[10]="22753"//上従業員フラグ
@@ -368,9 +370,11 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         f.arlbl[36]="222173"//話しかけフラグ東
         f.arlbl[37]="1115233"//システム室会話
         f.arlbl[38]="12173"//立ち入り禁止+話しかけ(西封鎖)
-        f.arlbl[39]="121723"//立ち入り禁止(壁)
+        //f.arlbl[39]="121723"//立ち入り禁止(壁)
         f.arlbl[40]="1127243"//立ち入り禁止+話しかけ(南封鎖)
-        f.arlbl[41]="1111203"//立ち入り禁止(壁)
+        //f.arlbl[41]="1111203"//立ち入り禁止(壁)
+        f.arlbl[42]="142942"//立ち入り禁止(戻し)
+        f.arlbl[43]="110172"//移動先変更(セット室へ)
 
         
 //TODO:②この配列にイベントアドレスを入れる
@@ -406,8 +410,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         [chara_show layer="1" zindex="99" name="syatyo" left="&1280-400"  top="&720-600" ]
         #クリ
         そうだね。[p ]
-        今日の工場見学は、社員さんに話を聞いてきてもらうよ。[p ]
-        緑の帽子をかぶった人が社員さんなんだって。[p ]
+        今日の工場見学は、[<imp]社員さんに話を聞いてきてもらう[>]よ。[p ]
+        [<imp]緑の帽子をかぶった人[>]が社員さんなんだって。[p ]
         各部屋に社員さんがいるから、話しかけてみてね。[p ]
         #◇ゲームの目的◇
         各部屋にいる緑色の帽子の人から話を聞いていきましょう。[r]
@@ -430,9 +434,10 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [s ]
 
 *trm
+;trmトリミング室
     [iadv]
         [image layer="1" name="photo" visible="true" storage="../image/process/p2cab.jpg" pos="c" time="500" ]
-        #
+        #案内人
         キャベツや白菜の芯を取ったり、プリーツレタスをばらしたりなど、[r]野菜の下処理を行います。[p]
         [free layer="1" name="photo"  time="500" ]
     [endadv]
@@ -444,8 +449,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 ;mac(カット室(機械洗浄))
     [iadv]
         [image layer="1" name="photo" visible="true" storage="../image/process/p3cab.jpg" pos="c" time="500" ]
-        #
-       部屋紹介文がありません。[p]
+        #案内人
+       様々な野菜を様々な規格に専用の機械で切り分けます。[r]洗浄、殺菌、脱水工程までを行います。[p]
         [free layer="1" name="photo"  time="500" ]
     [endadv]
 @eval exp="f.fstMac=true"
@@ -457,7 +462,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     [iadv]
         [image layer="1" name="photo" visible="true" storage="../image/process/p4cab.jpg" pos="c" time="500" ]
         #案内人
-        様々な野菜を様々な規格に専用の機械で切り分けます。[l][r]洗浄、殺菌、脱水工程までを行います。[p]
+        全ての野菜を重量、枚数、本数によって計量します。[r]
+        異物が入っていないか金属探知機を使って検品もしています。[p]
         [free layer="1" name="photo"  time="500" ]
     [endadv]
 @eval exp="f.fstWgh=true"
@@ -470,7 +476,7 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     [iadv]
         [image layer="1" name="photo" visible="true" storage="../image/process/p5cab.jpg" pos="c" time="500" ]
         #案内人
-        計量室で出来上がった食材と付属品の組み合わせとセット作業を行います。[l][r]野菜だけでなく、麺・肉・海鮮・タレなどたくさんの具材を扱っています。[p]
+        計量室で出来上がった食材と付属品の組み合わせとセット作業を行います。野菜だけでなく、麺・肉・海鮮・タレなどたくさんの具材を扱っています。[p]
         [free layer="1" name="photo"  time="500" ]
     [endadv]
 @eval exp="f.fstSet=true"
@@ -481,8 +487,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [eval exp="tf.aoi='これはwap(計量包装室(セット室))初回イベント'" ]
 [trace exp="tf.aoi" ]
     [iadv]
-        #
-       部屋紹介文がありません。[p]
+        #案内人
+       セット準備室で計画した通りに食材と付属品の組み合わせとセット作業を行います。[p]
     [endadv]
 @eval exp="f.fstWap=true"
 [return ]
@@ -492,9 +498,13 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [trace exp="tf.aoi" ]
     [iadv]
         [image layer="1" name="photo" visible="true" storage="../image/process/p6cab.jpg" pos="c" time="500" ]
-        #
-        すべての商品がここに集約され、取引先ごとに決められた出荷方法で仕分けをします。[l][r]製造部の指示出しも行っています。[p]
+        #案内人
+        すべての商品がここに集約され、取引先ごとに決められた出荷方法で仕分けをします。[r]製造部の指示出しも行っています。[p]
         [free layer="1" name="photo"  time="500" ]
+        [chara_show layer="1" zindex="99" name="mob" left="0" top="&720-660"   ]
+        #ハラ
+        ここが最後の部屋だな![p]
+        [chara_hide_all layer="1"]
     [endadv]
 @eval exp="f.fstPic=true"
 [return ]
@@ -505,7 +515,9 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 ;立ち入り禁止
 *21722
 ;以上のラベルで第二工場前室の時のイベント内容
-[if exp="f.mpnm=='f201_39_13_ant'"]
+*142942
+;生産管理室も追加
+[if exp="f.mpnm=='f201_39_13_ant'||f.mpnm=='f101_34_01_pic'"]
     [trace exp="tf.hoge3='21722か21182ノックバックイベント中'" ]
     [noenter]
 
@@ -522,16 +534,16 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [jump target="*confirm" cond="f.mpnm=='f201_46_01_ent'"]
 [s]
 
-*2115152
-;移動先変更(トリミング->セット準備室)
-[mod_dest dest="f101_20_01_set" etl="j2l" cond="f.mpnm=='f201_29_01_trm'"]
-[jump target="*confirm" cond="f.mpnm=='f201_29_01_trm'"]
-[s]
-
 *111122
 ;移動先変更(セット準備室->計量室)
 [mod_dest dest="f201_06_15_wgh" etl="ac10l" cond="f.mpnm=='f101_20_01_set'"]
 [jump target="*confirm" cond="f.mpnm=='f101_20_01_set'"]
+[s]
+
+*110172
+;移動先変更(生産管理室->セット室)
+[mod_dest dest="f101_12_25_wap" etl="u1b" cond="f.mpnm=='f101_34_01_pic'"]
+[jump target="*confirm" cond="f.mpnm=='f101_34_01_pic'"]
 [s]
 
 *confirm
@@ -596,8 +608,14 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     
     [endscript ]
     [iadv]
-    #
+    [if exp="f.mpnm=='f201_39_13_ant'" ]
+    #社員さん
+    そうそう、私みたいな人が「緑の帽子の人」ですよ。[r]
+
+    [else ]
+    #クリ
     ふんふん…なるほどなぁ[r]
+    [endif]
     あ、こっちは進行方向じゃないよ、[emb exp="tf.way"]だって。[p]
 
     [endadv]
@@ -618,16 +636,6 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     @eval exp="f.ismdeve=true"
 
 [endif ]
-[return ]
-[s]
-;生産管理室
-;ただの壁
-*121723
-*1111203
-;第二工場前室
-*41333
-    @eval exp="f.ismdeve=true" cond="f.mpnm=='f101_34_01_pic'||f.mpnm=='f201_39_13_ant'"
-
 [return ]
 [s]
 

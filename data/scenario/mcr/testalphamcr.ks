@@ -1327,9 +1327,11 @@
     [macro name="noenter"]
         [iadv]
         #
-        そっちに用はないね[l]戻ろう[p]
+        不思議な力で押し戻される…！[p]
+        ;そっちに用はないね[l]戻ろう[p]
         [endadv]
-        [mask time="50" graphic="./keepout.png" ]
+        ;[mask time="50" graphic="./keepout.png" ]
+        [mask time="50" color="white"  ]
         [knockback]
         [mask_off time="50"]
     [endmacro]

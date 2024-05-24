@@ -21,7 +21,7 @@
 
     //pushでイベントを記入する
     //どのマップからも移動していない場合初期位置に入れる。これはてきとう。ワープ移動とかに使う
-    if(f.maplst===undefined)f.etl='n8b';
+    if(f.maplst===undefined)f.etl='x10b';
     if(f.maplst==='f201_29_01_trm')f.etl='ab10l';//トリミング室(E)から
     if(f.maplst==='f201_06_15_wgh')f.etl='w14t';//計量室(S)から
     

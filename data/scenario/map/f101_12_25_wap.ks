@@ -25,7 +25,7 @@
             //レイヤー1を使用するなら宣言
              f.isma=true;
             //f.maplst(移動前のマップ名)に対応する初期位置をf.etlに入れる
-            if(f.maplst===undefined)f.etl='x8l';
+            if(f.maplst===undefined)f.etl='l3b';
             if(f.maplst==='f101_20_01_set')f.etl='k1b';//セット室(セット準備室)(N1)から
             if(f.maplst==='f101_30_10_ccr')f.etl='u1b';//コンテナ洗浄室(N2)から
             if(f.maplst==='f101_36_28_ref')f.etl='x6l';//冷蔵庫(計量機械室間最上)(E1)から
