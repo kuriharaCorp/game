@@ -61,14 +61,17 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [macro name="evt_fst"]
     ; [trace exp="&`'現在'+f.mode+'モードです'`" ]
     [iadv]
-        [chara_new name="syatyo" storage="chara/akane/normal.png"  jname="クリ" ]
-        [chara_new name="mob" storage="chara/yamato/normal.png"  jname="ハラ" ]
+    ;TODO:あとで消す
+        ;[chara_new name="syatyo" storage="chara/akane/normal.png"  jname="クリ" ]
+        ;[chara_new name="mob" storage="chara/yamato/normal.png"  jname="ハラ" ]
         [chara_config pos_mode="false" ]
-        [chara_show layer="1" zindex="99" name="syatyo" left="&1280-400"  top="&720-600" ]
+        [show name="kuri" face="suit"]
+        ;[chara_show face="suit"  layer="1" zindex="99" name="kuri" left="0"  top="&720-700" ]
         #クリ
         こんにちは！工場見学隊の[<mid]クリ[>]です！[l][r]
         今日はクリハラの工場内を探検しましょう。[p]
-        [chara_show layer="1" zindex="99" name="mob" left="0" top="&720-660"   ]
+        [show name="hara" face="suit" side="R"]
+        ;[chara_show layer="1" zindex="99" name="hara" left="&1280-500" top="&720-700"   ]
         #ハラ
         はーい！[l]同じく[<mid]ハラ[>]です！[p]
         #案内人
@@ -81,6 +84,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         #ハラ
         [<imp]階段を上って更衣室で着替える[>]だったね。[l ]よし、行こう![p]
          @eval exp="f.isevt_fst=true"
+        [mask time="1000" ]
+        [wait time="1000" ]
 
     [endadv]
 
@@ -98,6 +103,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     [renew name="&tf.mpnm"]
     ;マップ読み込み済みの処理(1度だけの処理を行わない)
     @eval exp="f.isnmp=true" 
+
+    [mask_off time="50" ]
 
 [endmacro ]
 
@@ -142,11 +149,14 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     [endscript ]
     [if exp="f.end01" ]
         [iadv ]
-                [chara_show layer="1" zindex="99" name="syatyo" left="&1280-400"  top="&720-600" ]
+        ;TODO:あとで消す(chara_show)
+        [show name="kuri"]
+                ;[chara_show layer="1" zindex="99" name="syatyo" left="0"  top="&720-700" ]
 
             #クリ
             おつかれさま！回ってこられた？[p ]
-                    [chara_show layer="1" zindex="99" name="mob" left="0" top="&720-660"   ]
+        [show name="hara" side="R"]
+                    ;[chara_show layer="1" zindex="99" name="mob" left="&1280-500" top="&720-700"   ]
 
             #ハラ
             うん！一通り見てきたよ！[p ]
@@ -159,10 +169,11 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
             #クリ
             それでは今日の工場見学は終わりだよ。[p ]
             もっとクリハラのことを知りたい！と思ったら、ぜひリアルの工場見学もしてみてね。[p ]
-        [endadv ]
-        [dialog text="タイトル画面に戻ります" ]
         [mask time="2000" ]
         [wait time="2000" ]
+
+        [endadv ]
+        [dialog text="タイトル画面に戻ります" ]
         [destroy ]
         [mask_off time="50" ]
         [jump storage="titlever2.ks" ]
@@ -197,17 +208,43 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 
 ;キャラ登録
     [chara_config pos_mode="false" ]
-    [macro name="reg_chara01"]
+    ;TODO:akaneを消す
+    [macro name="reg_chara00"]
         [chara_new name="akane" jname="あかね" storage="chara/akane/normal.png" ]
         [chara_face name="akane" face="happy" storage="chara/akane/happy.png" ]
         [chara_face name="akane" face="doki" storage="chara/akane/doki.png" ]
     [endmacro ]
+    [macro name="reg_chara01"]
+        [chara_new name="hara" jname="ハラ" storage="chara/hara1.png"]
+        [chara_face name="hara" face="suit" storage="chara/hara0.png"]
+    [endmacro]
+    [macro name="reg_chara02"]
+        [chara_new name="kuri" jname="クリ" storage="chara/kuri1.png"]
+        [chara_face name="kuri" face="suit" storage="chara/kuri0.png"]
+    [endmacro]
+    [macro name="reg_mob01"]
+        [chara_new name="mbm" jname="社員さん" storage="chara/man0.png"]
+    [endmacro]
+    [macro name="reg_mob02"]
+        [chara_new name="mbw" jname="社員さん" storage="chara/wom0.png"]
+    [endmacro]
+
+    [macro name="reg_mob03"]
+        [chara_new name="mbg" jname="社員さん" storage="chara/mon0.png"]
+    [endmacro]
+
+;キャラ立ち位置
+    [macro name="show"]
+        @eval exp="(mp.side=='R')?mp.left=eval(1280-500):mp.left=0;"
+        ;[dialog text="&%face" ]
+        [chara_show name="&mp.name" layer="1" zindex="99" name="&mp.name" face="%face|default"  left="&mp.left" top="&720-700"]
+    [endmacro]
 
 ;話しかけシステム雛形マクロ===
 [iscript ]
     f.sct_def=[];
-    f.sct_def[0]='◆何をしていますか？';
-    f.sct_def[1]='◇どんなことを気を付けていますか？';
+    f.sct_def[0]='◆何をしていますか？[1]';
+    f.sct_def[1]='◇どんなことを気を付けていますか？[2]';
     tf.sct=['',''];
 [endscript ]
 
@@ -223,15 +260,24 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 
 ;人物の呼出はここかなぁ。
     [iscript ]
-        tf.reg_chara01= f.mpnm=='f201_29_01_trm'||
-                        f.mpnm=='f201_46_01_ent'||
-                        f.mpnm=='f201_01_01_mac'||
-                        f.mpnm=='f201_06_15_wgh'||
-                        f.mpnm=='f101_12_25_wap'||
-                        f.mpnm=='f101_34_01_pic';
+/*
+f.mpnm=='f201_46_01_ent'||
+f.mpnm=='f201_39_13_ant'||
+f.mpnm=='f201_29_01_trm'||
+f.mpnm=='f201_01_01_mac'||
+f.mpnm=='f201_06_15_wgh'||
+f.mpnm=='f101_20_01_set'||
+f.mpnm=='f101_12_25_wap'||
+f.mpnm=='f101_34_01_pic';
+  */  
+        tf.reg_mob03=   f.mpnm=='f201_39_13_ant';
     [endscript ]
 
-    [reg_chara01 cond="tf.reg_chara01"]
+    [reg_chara01]
+    [reg_chara02]
+    [reg_mob01]
+    [reg_mob02]
+    [reg_mob03 cond="tf.reg_mob03"]
 
     [iscript ]
     //第二工場入口(f201_46_01_ent)追加新規イベント
@@ -404,10 +450,13 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 ;tf.aoiは超適当に付けた名前。何の意味もないです。
 *ant
     [iadv]
-        [chara_show layer="1" zindex="99" name="mob" left="0" top="&720-660"   ]
+    ;TODO:あとで消す(chara_show)
+        [show name="hara" side="R"]
+        ;[chara_show layer="1" zindex="99" name="hara" face="def"  left="&1280-400" top="&720-700"   ]
         #ハラ
         さっそく工場の白衣に着替えてきたよ。楽しみだね！[p]
-        [chara_show layer="1" zindex="99" name="syatyo" left="&1280-400"  top="&720-600" ]
+        [show name="kuri"]
+        ;[chara_show layer="1" zindex="99" name="kuri" face="def"  left="0"  top="&720-700" ]
         #クリ
         そうだね。[p ]
         今日の工場見学は、[<imp]社員さんに話を聞いてきてもらう[>]よ。[p ]
@@ -501,7 +550,9 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         #案内人
         すべての商品がここに集約され、取引先ごとに決められた出荷方法で仕分けをします。[r]製造部の指示出しも行っています。[p]
         [free layer="1" name="photo"  time="500" ]
-        [chara_show layer="1" zindex="99" name="mob" left="0" top="&720-660"   ]
+        [show name="hara" side="R"]
+        ;TODO:後で消す(chara_show)
+        ;[chara_show layer="1" zindex="99" name="mob" left="0" top="&720-660"   ]
         #ハラ
         ここが最後の部屋だな![p]
         [chara_hide_all layer="1"]
@@ -609,6 +660,9 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     [endscript ]
     [iadv]
     [if exp="f.mpnm=='f201_39_13_ant'" ]
+    [show name="mbg"]
+    ;TODO:あとで消す(chara_show)
+    ;[chara_show name="mbg" left="0" top="&720-700"  ]
     #社員さん
     そうそう、私みたいな人が「緑の帽子の人」ですよ。[r]
 
@@ -660,17 +714,20 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [if exp="f.mpnm='f201_29_01_trm'" ]
 
     [iadv ]
-        [chara_show name="akane" top="&720-600" layer="1" ]
+    ;TODO:あとで消す(chara_show周り)
+        [show name="mbw"]
+        ;[chara_show name="akane" top="&720-600" layer="1" ]
         #
             あのー…[l][r]
             [font color="0xccc" bold="true"  ]
-                [link target="22753_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
-                [link target="22753_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01trm1!==undefined"][endlink ]
+                [link keyfocus="1" target="22753_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
+                [link keyfocus="2" target="22753_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01trm1!==undefined"][endlink ]
             [resetfont]
         [s ]
         *22753_1
             [cm ]
-            #akane:happy
+            ;#akane:happy
+            #mbw
             キャベツの芯を取っています[p]
             [iscript ]
                 if(typeof f.flg01trm1==='undefined')(typeof f.flg01trm!=='undefined')?f.flg01trm=f.flg01trm+25:f.flg01trm=25;
@@ -680,7 +737,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         [s ]
         *22753_2
             [cm]
-            #akane:doki
+            ;#akane:doki
+            #mbw
             虫がついていないか見ています[p]
             [iscript ]
                 if(f.flg01trm1==1)f.flg01trm=f.flg01trm+25;
@@ -699,17 +757,20 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 *227133
 [if exp="f.mpnm='f201_29_01_trm'" ]
     [iadv ]
-        [chara_show name="akane" top="&720-600" layer="1" ]
+    ;TODO:あとで消す(chara_show周り)
+        [show name="mbm"]
+        ;[chara_show name="akane" top="&720-600" layer="1" ]
         #
             あのー…[l][r]
             [font color="0xccc" bold="true"  ]
-                [link target="227133_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
-                [link target="227133_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01trm2!==undefined"][endlink ]
+                [link keyfocus="1" target="227133_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
+                [link keyfocus="2" target="227133_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01trm2!==undefined"][endlink ]
             [resetfont]
         [s ]
         *227133_1
             [cm ]
-            #akane:happy
+            ;#akane:happy
+            #mbm
             プリーツレタスをばらしています[p]
             [iscript ]
                 if(typeof f.flg01trm2==='undefined')(typeof f.flg01trm!=='undefined')?f.flg01trm=f.flg01trm+25:f.flg01trm=25;
@@ -719,7 +780,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         [s ]
         *227133_2
             [cm]
-            #akane:doki
+            ;#akane:doki
+            #mbm
             野菜の鮮度に気を付けます[p]
             [iscript ]
                 if(f.flg01trm2==1)f.flg01trm=f.flg01trm+25;
@@ -769,17 +831,20 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [if exp="f.mpnm='f201_01_01_mac'" ]
 
     [iadv ]
-        [chara_show name="akane" top="&720-600" layer="1" ]
+    ;TODO:あとで消す(chara_show周り)
+        [show name="mbw"]
+        ;[chara_show name="akane" top="&720-600" layer="1" ]
         #
             あのー…[l][r]
             [font color="0xccc" bold="true"  ]
-                [link target="222073_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
-                [link target="222073_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01mac1!==undefined"][endlink ]
+                [link keyfocus="1" target="222073_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
+                [link keyfocus="2" target="222073_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01mac1!==undefined"][endlink ]
             [resetfont]
         [s ]
         *222073_1
             [cm ]
-            #akane:happy
+            ;#akane:happy
+            #mbw
             規格を合わせてスライサーでカットしています[p]
             [iscript ]
                 if(typeof f.flg01mac1==='undefined')(typeof f.flg01mac!=='undefined')?f.flg01mac=f.flg01mac+25:f.flg01mac=25;
@@ -789,7 +854,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         [s ]
         *222073_2
             [cm]
-            #akane:doki
+            ;#akane:doki
+            #mbw
             規格を間違わないように合わせています[p]
             [iscript ]
                 if(f.flg01mac1==1)f.flg01mac=f.flg01mac+25;
@@ -808,17 +874,20 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 *2220103
 [if exp="f.mpnm='f201_01_01_mac'" ]
     [iadv ]
-        [chara_show name="akane" top="&720-600" layer="1" ]
+    ;TODO:あとで消す(chara_show周り)
+        [show name="mbm"]
+        ;[chara_show name="akane" top="&720-600" layer="1" ]
         #
             あのー…[l][r]
             [font color="0xccc" bold="true"  ]
-                [link target="2220103_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
-                [link target="2220103_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01mac2!==undefined"][endlink ]
+                [link keyfocus="1" target="2220103_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
+                [link keyfocus="2" target="2220103_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01mac2!==undefined"][endlink ]
             [resetfont]
         [s ]
         *2220103_1
             [cm ]
-            #akane:happy
+            ;#akane:happy
+            #mbm
             洗浄後の野菜を脱水しています[p]
             [iscript ]
                 if(typeof f.flg01mac2==='undefined')(typeof f.flg01mac!=='undefined')?f.flg01mac=f.flg01mac+25:f.flg01mac=25;
@@ -828,7 +897,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         [s ]
         *2220103_2
             [cm]
-            #akane:doki
+            ;#akane:doki
+            #mbm
             洗浄、殺菌の時間に気を付けます[p]
             [iscript ]
                 if(f.flg01mac2==1)f.flg01mac=f.flg01mac+25;
@@ -878,17 +948,20 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [if exp="f.mpnm='f201_06_15_wgh'" ]
 
     [iadv ]
-        [chara_show name="akane" top="&720-600" layer="1" ]
+        ;TODO:あとで消す(chara_show周り)
+        ;[chara_show name="akane" top="&720-600" layer="1" ]
+        [show name="mbw"]
         #
             あのー…[l][r]
             [font color="0xccc" bold="true"  ]
-                [link target="121553_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
-                [link target="121553_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01wgh1!==undefined"][endlink ]
+                [link keyfocus="1" target="121553_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
+                [link keyfocus="2" target="121553_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01wgh1!==undefined"][endlink ]
             [resetfont]
         [s ]
         *121553_1
             [cm ]
-            #akane:happy
+            ;#akane:happy
+            #mbw
             ピーマンを量ってパックしています[p]
             [iscript ]
                 if(typeof f.flg01wgh1==='undefined')(typeof f.flg01wgh!=='undefined')?f.flg01wgh=f.flg01wgh+25:f.flg01wgh=25;
@@ -898,7 +971,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         [s ]
         *121553_2
             [cm]
-            #akane:doki
+            ;#akane:doki
+            #mbw
             野菜の変色に気を付けています[p]
             [iscript ]
                 if(f.flg01wgh1==1)f.flg01wgh=f.flg01wgh+25;
@@ -917,17 +991,20 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 *11863
 [if exp="f.mpnm='f201_06_15_wgh'" ]
     [iadv ]
-        [chara_show name="akane" top="&720-600" layer="1" ]
+    ;TODO:あとで消す(chara_show周り)
+        ;[chara_show name="akane" top="&720-600" layer="1" ]
+        [show name="mbm"]
         #
             あのー…[l][r]
             [font color="0xccc" bold="true"  ]
-                [link target="11863_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
-                [link target="11863_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01wgh2!==undefined"][endlink ]
+                [link keyfocus="1" target="11863_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
+                [link keyfocus="2" target="11863_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01wgh2!==undefined"][endlink ]
             [resetfont]
         [s ]
         *11863_1
             [cm ]
-            #akane:happy
+            ;#akane:happy
+            #mbm
             千切りキャベツを真空パックしています[p]
             [iscript ]
                 if(typeof f.flg01wgh2==='undefined')(typeof f.flg01wgh!=='undefined')?f.flg01wgh=f.flg01wgh+25:f.flg01wgh=25;
@@ -937,7 +1014,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         [s ]
         *11863_2
             [cm]
-            #akane:doki
+            ;#akane:doki
+            #mbm
             数量間違いがないようにカウントします[p]
             [iscript ]
                 if(f.flg01wgh2==1)f.flg01wgh=f.flg01wgh+25;
@@ -987,17 +1065,20 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [if exp="f.mpnm='f101_20_01_set'" ]
 
     [iadv ]
-        [chara_show name="akane" top="&720-600" layer="1" ]
+    ;TODO:あとで消す(chara_show周り)
+        ;[chara_show name="akane" top="&720-600" layer="1" ]
+        [show name="mbw"]
         #
             あのー…[l][r]
             [font color="0xccc" bold="true"  ]
-                [link target="224113_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
-                [link target="224113_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01set1!==undefined"][endlink ]
+                [link keyfocus="1" target="224113_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
+                [link keyfocus="2" target="224113_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01set1!==undefined"][endlink ]
             [resetfont]
         [s ]
         *224113_1
             [cm ]
-            #akane:happy
+            ;#akane:happy
+            #mbw
             必要な肉を冷蔵庫から運んでいます[p]
             [iscript ]
                 if(typeof f.flg01set1==='undefined')(typeof f.flg01set!=='undefined')?f.flg01set=f.flg01set+25:f.flg01set=25;
@@ -1007,7 +1088,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         [s ]
         *224113_2
             [cm]
-            #akane:doki
+            ;#akane:doki
+            #mbw
             名前が似ているものやサイズの近い物の入れ間違いに気を付けています[p]
             [iscript ]
                 if(f.flg01set1==1)f.flg01set=f.flg01set+25;
@@ -1026,17 +1108,20 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 *226173
 [if exp="f.mpnm='f101_20_01_set'" ]
     [iadv ]
-        [chara_show name="akane" top="&720-600" layer="1" ]
+    ;TODO:あとで消す(chara_show周り)
+        ;[chara_show name="akane" top="&720-600" layer="1" ]
+        [show name="mbm"]
         #
             あのー…[l][r]
             [font color="0xccc" bold="true"  ]
-                [link target="226173_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
-                [link target="226173_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01set2!==undefined"][endlink ]
+                [link keyfocus="1" target="226173_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
+                [link keyfocus="2" target="226173_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01set2!==undefined"][endlink ]
             [resetfont]
         [s ]
         *226173_1
             [cm ]
-            #akane:happy
+            ;#akane:happy
+            #mbm
             商品企画書を見て具材を準備しています[p]
             [iscript ]
                 if(typeof f.flg01set2==='undefined')(typeof f.flg01set!=='undefined')?f.flg01set=f.flg01set+25:f.flg01set=25;
@@ -1046,7 +1131,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         [s ]
         *226173_2
             [cm]
-            #akane:doki
+            ;#akane:doki
+            #mbm
             材料を過不足なく集めることです[p]
             [iscript ]
                 if(f.flg01set2==1)f.flg01set=f.flg01set+25;
@@ -1096,17 +1182,20 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [if exp="f.mpnm='f101_12_25_wap'" ]
 
     [iadv ]
-        [chara_show name="akane" top="&720-600" layer="1" ]
+    ;TODO:あとで消す(chara_show周り)
+        ;[chara_show name="akane" top="&720-600" layer="1" ]
+        [show name="mbw"]
         #
             あのー…[l][r]
             [font color="0xccc" bold="true"  ]
-                [link target="2218123_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
-                [link target="2218123_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01wap1!==undefined"][endlink ]
+                [link keyfocus="1" target="2218123_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
+                [link keyfocus="2" target="2218123_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01wap1!==undefined"][endlink ]
             [resetfont]
         [s ]
         *2218123_1
             [cm ]
-            #akane:happy
+            ;#akane:happy
+            #mbw
             準備してくれた具材を1商品ごとにセットアップしています[p]
             [iscript ]
                 if(typeof f.flg01wap1==='undefined')(typeof f.flg01wap!=='undefined')?f.flg01wap=f.flg01wap+25:f.flg01wap=25;
@@ -1116,7 +1205,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         [s ]
         *2218123_2
             [cm]
-            #akane:doki
+            ;#akane:doki
+            #mbw
             材料の入れ間違いがないようにしています[p]
             [iscript ]
                 if(f.flg01wap1==1)f.flg01wap=f.flg01wap+25;
@@ -1135,17 +1225,20 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 *226153
 [if exp="f.mpnm='f101_12_25_wap'" ]
     [iadv ]
-        [chara_show name="akane" top="&720-600" layer="1" ]
+    ;TODO:あとで消す(chara_show周り)
+        ;[chara_show name="akane" top="&720-600" layer="1" ]
+        [show name="mbm"]
         #
             あのー…[l][r]
             [font color="0xccc" bold="true"  ]
-                [link target="226153_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
-                [link target="226153_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01wap2!==undefined"][endlink ]
+                [link keyfocus="1" target="226153_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
+                [link keyfocus="2" target="226153_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01wap2!==undefined"][endlink ]
             [resetfont]
         [s ]
         *226153_1
             [cm ]
-            #akane:happy
+            ;#akane:happy
+            #mbm
             スライスごぼうの真空パックをしています[p]
             [iscript ]
                 if(typeof f.flg01wap2==='undefined')(typeof f.flg01wap!=='undefined')?f.flg01wap=f.flg01wap+25:f.flg01wap=25;
@@ -1155,7 +1248,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         [s ]
         *226153_2
             [cm]
-            #akane:doki
+            ;#akane:doki
+            #mbm
             決められた時間に次の部署に出せるようにしています[p]
             [iscript ]
                 if(f.flg01wap2==1)f.flg01wap=f.flg01wap+25;
@@ -1205,17 +1299,20 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [if exp="f.mpnm='f101_34_01_pic'" ]
 
     [iadv ]
-        [chara_show name="akane" top="&720-600" layer="1" ]
+    ;TODO:あとで消す(chara_show)
+        ;[chara_show name="akane" top="&720-600" layer="1" ]
+        [show name="mbw"]
         #
             あのー…[l][r]
             [font color="0xccc" bold="true"  ]
-                [link target="122103_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
-                [link target="122103_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01pic1!==undefined"][endlink ]
+                [link keyfocus="1" target="122103_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
+                [link keyfocus="2" target="122103_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01pic1!==undefined"][endlink ]
             [resetfont]
         [s ]
         *122103_1
             [cm ]
-            #akane:happy
+            ;#akane:happy
+            #mbw
             商品ラベルシールを貼っています[p]
             [iscript ]
                 if(typeof f.flg01pic1==='undefined')(typeof f.flg01pic!=='undefined')?f.flg01pic=f.flg01pic+25:f.flg01pic=25;
@@ -1225,7 +1322,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         [s ]
         *122103_2
             [cm]
-            #akane:doki
+            ;#akane:doki
+            #mbw
             出荷時間に遅れないようにします[p]
             [iscript ]
                 if(f.flg01pic1==1)f.flg01pic=f.flg01pic+25;
@@ -1244,17 +1342,20 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 *222173
 [if exp="f.mpnm='f101_34_01_pic'" ]
     [iadv ]
-        [chara_show name="akane" top="&720-600" layer="1" ]
+    ;TODO:あとで消す(chara_show周り)
+        ;[chara_show name="akane" top="&720-600" layer="1" ]
+        [show name="mbm"]
         #
             あのー…[l][r]
             [font color="0xccc" bold="true"  ]
-                [link target="222173_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
-                [link target="222173_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01pic2!==undefined"][endlink ]
+                [link keyfocus="1" target="222173_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
+                [link keyfocus="2" target="222173_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01pic2!==undefined"][endlink ]
             [resetfont]
         [s ]
         *222173_1
             [cm ]
-            #akane:happy
+            ;#akane:happy
+            #mbm
             行先ごとに商品を仕分けしています[p]
             [iscript ]
                 if(typeof f.flg01pic2==='undefined')(typeof f.flg01pic!=='undefined')?f.flg01pic=f.flg01pic+25:f.flg01pic=25;
@@ -1264,7 +1365,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         [s ]
         *222173_2
             [cm]
-            #akane:doki
+            ;#akane:doki
+            #mbm
             行先、数を間違えないようにしています[p]
             [iscript ]
                 if(f.flg01pic2==1)f.flg01pic=f.flg01pic+25;
@@ -1290,12 +1392,15 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     [if exp="f.mpnm=='f201_39_13_ant'" ]
         [ignore exp="f.istoruming" ]
             [iadv ]
+                [show name="mbg"]
+                ;[chara_show name="mbg" left="0" top="&720-700"  ]
                 #社員さん
                 ちょっと待って！[p]
                 ここから先は衣服の埃や髪の毛を取ってから進んでください。[r]
                 そこにある『取るミング』を使ってね[p]
                 #
                 動画を見て『取るミング』をしよう。[p]
+                [chara_hide name="mbg" wait="true" left="0" top="&720-700"]
             [endadv ]
         [endignore ]
         [iscript ]
