@@ -422,7 +422,7 @@
 
         ;MENUボタン表示
             ;[glink name="mapmenu" text="MENU" x="&1280-300" y="0" exp="TYRANO.kag.ftag.startTag('sleepgame',{storage:'menu.ks'});" ]
-            [glink text="MENU" target="*gotitle2" x="&1280-300" y="0" color="btn_01_white"]
+            [glink text="MENU" target="*gotitle2" x="&1280-300" y="0" color="btn_01_white" cond="f.mode!='01'"]
 
             [iscript ]
                 //引数で渡す内容を変更
