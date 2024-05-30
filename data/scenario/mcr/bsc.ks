@@ -90,6 +90,8 @@ f.map.bsc['loc']をコメントから起動する(240204)
 
     ;ADVモードの時の共通コード
     [macro name="iadv"]
+    ;名前欄を空欄にしておく
+    #
     ;ボタン非表示
         [clearfix ]
         [adv ]
@@ -108,7 +110,7 @@ f.map.bsc['loc']をコメントから起動する(240204)
     ;メッセージウィンドウ削除&ボタン再表示
         [layopt layer=message0 visible=false]
         [crbtn]
-        [glink text="MENU" target="*gotitle2" x="&1280-300" y="0" color="btn_01_white" cond="f.mode!='01'"] 
+        [glink text="MENU" target="*gotitle2" x="&1280-300" y="0" color="btn_01_white" cond="f.dbg"] 
         [layopt layer="message0" visible="false" ]
         ;十字ボタン有効化
         [iscript ]

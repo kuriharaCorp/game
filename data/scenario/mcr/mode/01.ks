@@ -237,7 +237,7 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     [macro name="show"]
         @eval exp="(mp.side=='R')?mp.left=eval(1280-500):mp.left=0;"
         ;[dialog text="&%face" ]
-        [chara_show name="&mp.name" layer="1" zindex="99" name="&mp.name" face="%face|default"  left="&mp.left" top="&720-700"]
+        [chara_show name="&mp.name" layer="1" zindex="99" name="&mp.name" face="%face|default"  left="&mp.left" top="&720-700" time="500"]
     [endmacro]
 
 ;話しかけシステム雛形マクロ===
@@ -339,7 +339,7 @@ f.mpnm=='f101_34_01_pic';
         //TODO:壁に変更
         //push(2,18,23,3,3)//部屋見渡し東
         push(1,1,25,6)//冷凍庫1壁
-        push(1,1,24,8)//ふさぎブロック↑
+        push(1,2,24,8)//ふさぎブロック↑
         push(1,1,23,9)//ふさぎブロック2
         push(1,1,25,12)//冷凍庫2壁
         push(1,1,25,17)//冷凍庫3壁
@@ -774,8 +774,10 @@ f.mpnm=='f101_34_01_pic';
             #mbw
             キャベツの芯を取っています[p]
             [iscript ]
-                if(typeof f.flg01trm1==='undefined')(typeof f.flg01trm!=='undefined')?f.flg01trm=f.flg01trm+25:f.flg01trm=25;
-                f.flg01trm1=1;
+                if(typeof f.flg01trm1==='undefined'){
+                    (typeof f.flg01trm!=='undefined')?f.flg01trm=f.flg01trm+25:f.flg01trm=25;
+                    f.flg01trm1=1;
+                }
             [endscript ]
             [jump target="*22753_cmn" ]
         [s ]
@@ -817,8 +819,10 @@ f.mpnm=='f101_34_01_pic';
             #mbm
             プリーツレタスをばらしています[p]
             [iscript ]
-                if(typeof f.flg01trm2==='undefined')(typeof f.flg01trm!=='undefined')?f.flg01trm=f.flg01trm+25:f.flg01trm=25;
-                f.flg01trm2=1;
+                if(typeof f.flg01trm2==='undefined'){
+                    (typeof f.flg01trm!=='undefined')?f.flg01trm=f.flg01trm+25:f.flg01trm=25;
+                    f.flg01trm2=1;
+                }
             [endscript ]
             [jump target="*227133_cmn" ]
         [s ]
@@ -891,8 +895,10 @@ f.mpnm=='f101_34_01_pic';
             #mbw
             規格を合わせてスライサーでカットしています[p]
             [iscript ]
-                if(typeof f.flg01mac1==='undefined')(typeof f.flg01mac!=='undefined')?f.flg01mac=f.flg01mac+25:f.flg01mac=25;
-                f.flg01mac1=1;
+                if(typeof f.flg01mac1==='undefined'){
+                    (typeof f.flg01mac!=='undefined')?f.flg01mac=f.flg01mac+25:f.flg01mac=25;
+                    f.flg01mac1=1;
+                }
             [endscript ]
             [jump target="*222073_cmn" ]
         [s ]
@@ -934,8 +940,10 @@ f.mpnm=='f101_34_01_pic';
             #mbm
             洗浄後の野菜を脱水しています[p]
             [iscript ]
-                if(typeof f.flg01mac2==='undefined')(typeof f.flg01mac!=='undefined')?f.flg01mac=f.flg01mac+25:f.flg01mac=25;
-                f.flg01mac2=1;
+                if(typeof f.flg01mac2==='undefined'){
+                    (typeof f.flg01mac!=='undefined')?f.flg01mac=f.flg01mac+25:f.flg01mac=25;
+                    f.flg01mac2=1;
+                }
             [endscript ]
             [jump target="*2220103_cmn" ]
         [s ]
@@ -1008,8 +1016,10 @@ f.mpnm=='f101_34_01_pic';
             #mbw
             ピーマンを量ってパックしています[p]
             [iscript ]
-                if(typeof f.flg01wgh1==='undefined')(typeof f.flg01wgh!=='undefined')?f.flg01wgh=f.flg01wgh+25:f.flg01wgh=25;
-                f.flg01wgh1=1;
+                if(typeof f.flg01wgh1==='undefined'){
+                    (typeof f.flg01wgh!=='undefined')?f.flg01wgh=f.flg01wgh+25:f.flg01wgh=25;
+                    f.flg01wgh1=1;
+                }
             [endscript ]
             [jump target="*121553_cmn" ]
         [s ]
@@ -1051,8 +1061,10 @@ f.mpnm=='f101_34_01_pic';
             #mbm
             千切りキャベツを真空パックしています[p]
             [iscript ]
-                if(typeof f.flg01wgh2==='undefined')(typeof f.flg01wgh!=='undefined')?f.flg01wgh=f.flg01wgh+25:f.flg01wgh=25;
-                f.flg01wgh2=1;
+                if(typeof f.flg01wgh2==='undefined'){
+                    (typeof f.flg01wgh!=='undefined')?f.flg01wgh=f.flg01wgh+25:f.flg01wgh=25;
+                    f.flg01wgh2=1;
+                }
             [endscript ]
             [jump target="*11863_cmn" ]
         [s ]
@@ -1125,8 +1137,10 @@ f.mpnm=='f101_34_01_pic';
             #mbw
             必要な肉を冷蔵庫から運んでいます[p]
             [iscript ]
-                if(typeof f.flg01set1==='undefined')(typeof f.flg01set!=='undefined')?f.flg01set=f.flg01set+25:f.flg01set=25;
-                f.flg01set1=1;
+                if(typeof f.flg01set1==='undefined'){
+                    (typeof f.flg01set!=='undefined')?f.flg01set=f.flg01set+25:f.flg01set=25;
+                    f.flg01set1=1;
+                }
             [endscript ]
             [jump target="*224113_cmn" ]
         [s ]
@@ -1168,8 +1182,10 @@ f.mpnm=='f101_34_01_pic';
             #mbm
             商品企画書を見て具材を準備しています[p]
             [iscript ]
-                if(typeof f.flg01set2==='undefined')(typeof f.flg01set!=='undefined')?f.flg01set=f.flg01set+25:f.flg01set=25;
-                f.flg01set2=1;
+                if(typeof f.flg01set2==='undefined'){
+                    (typeof f.flg01set!=='undefined')?f.flg01set=f.flg01set+25:f.flg01set=25;
+                    f.flg01set2=1;
+                }
             [endscript ]
             [jump target="*226173_cmn" ]
         [s ]
@@ -1242,8 +1258,10 @@ f.mpnm=='f101_34_01_pic';
             #mbw
             準備してくれた具材を1商品ごとにセットアップしています[p]
             [iscript ]
-                if(typeof f.flg01wap1==='undefined')(typeof f.flg01wap!=='undefined')?f.flg01wap=f.flg01wap+25:f.flg01wap=25;
-                f.flg01wap1=1;
+                if(typeof f.flg01wap1==='undefined'){
+                    (typeof f.flg01wap!=='undefined')?f.flg01wap=f.flg01wap+25:f.flg01wap=25;
+                    f.flg01wap1=1;
+                }
             [endscript ]
             [jump target="*2218123_cmn" ]
         [s ]
@@ -1283,10 +1301,12 @@ f.mpnm=='f101_34_01_pic';
             [cm ]
             ;#akane:happy
             #mbm
-            スライスごぼうの真空パックをしています[p]
+            海老の計量とパックをしています[p]
             [iscript ]
-                if(typeof f.flg01wap2==='undefined')(typeof f.flg01wap!=='undefined')?f.flg01wap=f.flg01wap+25:f.flg01wap=25;
-                f.flg01wap2=1;
+                if(typeof f.flg01wap2==='undefined'){
+                    (typeof f.flg01wap!=='undefined')?f.flg01wap=f.flg01wap+25:f.flg01wap=25;
+                    f.flg01wap2=1;
+                }
             [endscript ]
             [jump target="*226153_cmn" ]
         [s ]
@@ -1359,8 +1379,10 @@ f.mpnm=='f101_34_01_pic';
             #mbw
             商品ラベルシールを貼っています[p]
             [iscript ]
-                if(typeof f.flg01pic1==='undefined')(typeof f.flg01pic!=='undefined')?f.flg01pic=f.flg01pic+25:f.flg01pic=25;
-                f.flg01pic1=1;
+                if(typeof f.flg01pic1==='undefined'){
+                    (typeof f.flg01pic!=='undefined')?f.flg01pic=f.flg01pic+25:f.flg01pic=25;
+                    f.flg01pic1=1;
+                }
             [endscript ]
             [jump target="*122103_cmn" ]
         [s ]
@@ -1402,8 +1424,10 @@ f.mpnm=='f101_34_01_pic';
             #mbm
             行先ごとに商品を仕分けしています[p]
             [iscript ]
-                if(typeof f.flg01pic2==='undefined')(typeof f.flg01pic!=='undefined')?f.flg01pic=f.flg01pic+25:f.flg01pic=25;
-                f.flg01pic2=1;
+                if(typeof f.flg01pic2==='undefined'){
+                    (typeof f.flg01pic!=='undefined')?f.flg01pic=f.flg01pic+25:f.flg01pic=25;
+                    f.flg01pic2=1;
+                }
             [endscript ]
             [jump target="*222173_cmn" ]
         [s ]
@@ -1513,7 +1537,7 @@ f.mpnm=='f101_34_01_pic';
         //if(f.label=='2182333')tf.txt='ここから先を見渡せるみたいだ。',tf.url='vRp_R3ScnhQ';//部屋見渡し東
 
 
-        tf.url='https://www.youtube.com/embed/'+tf.url
+        tf.url='https://www.youtube.com/embed/'+tf.url+'?mute=1'
         tf.moveve = f.mpnm=='f201_01_01_mac'||
                     f.mpnm=='f201_06_15_wgh'||
                     f.mpnm=='f101_12_25_wap';
