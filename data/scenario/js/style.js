@@ -22,3 +22,18 @@ function split(str){
     f['povx']=a.join("");
     f['povy']= str.split(/[^0-9]/g).join("");
 };
+
+    //点数計算関数(01.ks)
+    //func=>flg01trm, cnt=>f.flg01trm1, n=>加点(25)
+    function calstudy(flg,cnt,c,n){
+        if(c==1){
+                if(typeof cnt==='undefined'){
+                    (typeof flg!=='undefined')?flg=flg+n*1:flg=n*1;
+                    cnt=1;
+                }}
+        if(c==2){
+                if(cnt==1)flg=flg+n*1;
+                cnt++;
+        }
+        return[flg,cnt];
+    };

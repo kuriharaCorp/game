@@ -61,17 +61,12 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [macro name="evt_fst"]
     ; [trace exp="&`'現在'+f.mode+'モードです'`" ]
     [iadv]
-    ;TODO:あとで消す
-        ;[chara_new name="syatyo" storage="chara/akane/normal.png"  jname="クリ" ]
-        ;[chara_new name="mob" storage="chara/yamato/normal.png"  jname="ハラ" ]
         [chara_config pos_mode="false" ]
         [show name="kuri" face="suit"]
-        ;[chara_show face="suit"  layer="1" zindex="99" name="kuri" left="0"  top="&720-700" ]
         #クリ
         こんにちは！工場見学隊の[<mid]クリ[>]です！[l][r]
         今日はクリハラの工場内を探検しましょう。[p]
         [show name="hara" face="suit" side="R"]
-        ;[chara_show layer="1" zindex="99" name="hara" left="&1280-500" top="&720-700"   ]
         #ハラ
         はーい！[l]同じく[<mid]ハラ[>]です！[p]
         #案内人
@@ -149,15 +144,10 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     [endscript ]
     [if exp="f.end01" ]
         [iadv ]
-        ;TODO:あとで消す(chara_show)
         [show name="kuri"]
-                ;[chara_show layer="1" zindex="99" name="syatyo" left="0"  top="&720-700" ]
-
             #クリ
             おつかれさま！回ってこられた？[p ]
         [show name="hara" side="R"]
-                    ;[chara_show layer="1" zindex="99" name="mob" left="&1280-500" top="&720-700"   ]
-
             #ハラ
             うん！一通り見てきたよ！[p ]
             社員さんに話を聞けたよ。[p ]
@@ -208,12 +198,6 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 
 ;キャラ登録
     [chara_config pos_mode="false" ]
-    ;TODO:akaneを消す
-    [macro name="reg_chara00"]
-        [chara_new name="akane" jname="あかね" storage="chara/akane/normal.png" ]
-        [chara_face name="akane" face="happy" storage="chara/akane/happy.png" ]
-        [chara_face name="akane" face="doki" storage="chara/akane/doki.png" ]
-    [endmacro ]
     [macro name="reg_chara01"]
         [chara_new name="hara" jname="ハラ" storage="chara/hara1.png"]
         [chara_face name="hara" face="suit" storage="chara/hara0.png"]
@@ -236,7 +220,6 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 ;キャラ立ち位置
     [macro name="show"]
         @eval exp="(mp.side=='R')?mp.left=eval(1280-500):mp.left=0;"
-        ;[dialog text="&%face" ]
         [chara_show name="&mp.name" layer="1" zindex="99" name="&mp.name" face="%face|default"  left="&mp.left" top="&720-700" time="500"]
     [endmacro]
 
@@ -246,8 +229,78 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     f.sct_def[0]='◆何をしていますか？[1]';
     f.sct_def[1]='◇どんなことを気を付けていますか？[2]';
     tf.sct=['',''];
+
+    //会話内容
+    f.talkto=[];
+    f.talkto['trm']=[];//トリミング室
+    f.talkto['trm'][0]=[];
+    f.talkto['trm'][0][0]='キャベツの芯を取っています';
+    f.talkto['trm'][0][1]='虫がついていないか見ています';
+    f.talkto['trm'][1]=[];
+    f.talkto['trm'][1][0]='プリーツレタスをばらしています';
+    f.talkto['trm'][1][1]='野菜の鮮度に気を付けます';
+    f.talkto['mac']=[];//カット室
+    f.talkto['mac'][0]=[];
+    f.talkto['mac'][0][0]='規格を合わせてスライサーでカットしています';
+    f.talkto['mac'][0][1]='規格を間違わないように合わせています';
+    f.talkto['mac'][1]=[];
+    f.talkto['mac'][1][0]='洗浄後の野菜を脱水しています';
+    f.talkto['mac'][1][1]='洗浄、殺菌の時間に気を付けます';
+    f.talkto['wgh']=[];//計量室
+    f.talkto['wgh'][0]=[];
+    f.talkto['wgh'][0][0]='ピーマンを量ってパックしています';
+    f.talkto['wgh'][0][1]='野菜の変色に気を付けています';
+    f.talkto['wgh'][1]=[];
+    f.talkto['wgh'][1][0]='千切りキャベツを真空パックしています';
+    f.talkto['wgh'][1][1]='数量間違いがないようにカウントします';
+    f.talkto['set']=[];//セット準備室
+    f.talkto['set'][0]=[];
+    f.talkto['set'][0][0]='必要な肉を冷蔵庫から運んでいます';
+    f.talkto['set'][0][1]='名前が似ているものやサイズの近い物の入れ間違いに気を付けています';
+    f.talkto['set'][1]=[];
+    f.talkto['set'][1][0]='商品企画書を見て具材を準備しています';
+    f.talkto['set'][1][1]='材料を過不足なく集めることです';   
+    f.talkto['wap']=[];//セット室
+    f.talkto['wap'][0]=[];
+    f.talkto['wap'][0][0]='準備してくれた具材を1商品ごとにセットアップしています';
+    f.talkto['wap'][0][1]='材料の入れ間違いがないようにしています';
+    f.talkto['wap'][1]=[];
+    f.talkto['wap'][1][0]='海老の計量とパックをしています';
+    f.talkto['wap'][1][1]='決められた時間に次の部署に出せるようにしています'; 
+    f.talkto['pic']=[];//生産管理室
+    f.talkto['pic'][0]=[];
+    f.talkto['pic'][0][0]='商品ラベルシールを貼っています';
+    f.talkto['pic'][0][1]='出荷時間に遅れないようにします';
+    f.talkto['pic'][1]=[];
+    f.talkto['pic'][1][0]='行先ごとに商品を仕分けしています';
+    f.talkto['pic'][1][1]='行先、数を間違えないようにしています';
+    
+
+
 [endscript ]
 
+;勉強チェックマシーン
+[macro name="checkstudy"]
+    [iscript ]
+        tf.next=mp.next;
+        tf.c=mp.c;
+    [endscript ]
+    [ignore exp="tf.c==true" ]
+        [iadv ]
+            @eval exp="if(typeof tf.c==='undefined')tf.c=0"
+            #
+            現在の勉強率は[emb exp="tf.c" ]/100です。[l][er]
+            [if exp="tf.c==100"]
+                #
+                条件を満たしました。次は『[emb exp="tf.next"]』です。[p]
+                [else ]
+                #
+                条件を満たしていません。緑色の帽子の人物からお話を聞いてきてください[l][r]
+                この部屋には2名います。[p]
+            [endif ]
+        [endadv ]
+    [endignore ]
+[endmacro]
 
 
 [return]
@@ -311,11 +364,6 @@ f.mpnm=='f101_34_01_pic';
         push(1,2,15,5,3)//話しかけフラグ1
         push(1,1,8,6,3)//話しかけフラグ2
         push(1,2,30,10,3)//全員に話を聞くフラグ
-        //TODO:ここ消す
-        //push(1,13,7,1,2)//部屋見渡し西
-        //push(1,8,23,1,2)//部屋見渡し東
-        //push(1,1,33,7,3)//前室封鎖封鎖
-        //push(11,1,23,8,2)//上記同文
         push(1,4,8,1)//西封鎖
         push(1,1,1,6)//隙間詰め壁
         push(1,1,33,7,3)//前室封鎖会話
@@ -324,8 +372,7 @@ f.mpnm=='f101_34_01_pic';
     if(f.mpnm=='f101_20_01_set'){
         push(2,2,4,11,3)//話しかけフラグ1
         push(2,2,6,17,3)//話しかけフラグ2
-        //TODO:壁に変更
-        push(1,3,0,6)//立ち入り禁止+話しかけ(西封鎖)
+        push(1,3,0,6)//壁(西封鎖)
         push(1,2,10,11,3)//立ち入り禁止+話しかけ(東封鎖)
         push(1,1,11,2,2)//移動先変更(計量室へ)
         push(4,1,3,25,3)//フラグチェック門
@@ -336,8 +383,6 @@ f.mpnm=='f101_34_01_pic';
         push(2,2,6,15,3)//話しかけフラグ西
         push(2,1,20,0,3)//フラグチェック門
         push(9,6,1,4,3)//部屋見渡し西
-        //TODO:壁に変更
-        //push(2,18,23,3,3)//部屋見渡し東
         push(1,1,25,6)//冷凍庫1壁
         push(1,2,24,8)//ふさぎブロック↑
         push(1,1,23,9)//ふさぎブロック2
@@ -389,13 +434,8 @@ f.mpnm=='f101_34_01_pic';
         f.arlbl[3]="11392"//トリミングイベント
         f.arlbl[4]="21722"//立ち入り禁止
         f.arlbl[5]="11193"//立ち入り禁止
-        //f.arlbl[6]="41333"//壁
         //トリミング室(f201_29_01_trm.ks)
-        //f.arlbl[7]="2115152"//移動先変更
         f.arlbl[8]="221893"//東封鎖
-        //TODO:変更消す
-        //f.arlbl[9]="321353"//北封鎖(ゴミ室)
-        f.arlbl[9]="321353"//北封鎖(ゴミ室)
         f.arlbl[10]="22753"//上従業員フラグ
         f.arlbl[11]="227133"//下従業員フラグ
         f.arlbl[12]="121103"//全員に話を聞くまで通さない
@@ -410,16 +450,10 @@ f.mpnm=='f101_34_01_pic';
         f.arlbl[19]="121553"//央従業員フラグ
         f.arlbl[20]="11863"//西従業員フラグ
         f.arlbl[21]="113373"//前室封鎖会話
-        //TODO:ここ消す
-        //f.arlbl[21]="113712"//見渡し西
-        //f.arlbl[22]="182312"//見渡し東縦
-        //f.arlbl[21]="113373"//見渡し西
-        //f.arlbl[23]="1112382"//見渡し東横
         //セット準備室(f101_20_01_set.ks)
         f.arlbl[24]="224113"//央従業員フラグ
         f.arlbl[25]="226173"//下従業員フラグ
         f.arlbl[26]="413253"//全員に話を聞く門
-        //f.arlbl[27]="13163"//西封鎖
         f.arlbl[28]="1210113"//東封鎖(コンテナ洗浄室)
         f.arlbl[29]="111122"//移動先変更(計量室)
         //セット室(f101_12_25_wap.ks)
@@ -427,15 +461,12 @@ f.mpnm=='f101_34_01_pic';
         f.arlbl[31]="226153"//西話しかけフラグ
         f.arlbl[32]="212003"//フラグチェック門
         f.arlbl[33]="96143"//部屋見渡し西
-        //f.arlbl[34]="2182333"//部屋見渡し東
         //生産管理室(f101_34_01_pic)
         f.arlbl[35]="122103"//話しかけフラグ西
         f.arlbl[36]="222173"//話しかけフラグ東
         f.arlbl[37]="1115233"//システム室会話
         f.arlbl[38]="12173"//立ち入り禁止+話しかけ(西封鎖)
-        //f.arlbl[39]="121723"//立ち入り禁止(壁)
         f.arlbl[40]="1127243"//立ち入り禁止+話しかけ(南封鎖)
-        //f.arlbl[41]="1111203"//立ち入り禁止(壁)
         f.arlbl[42]="142942"//立ち入り禁止(戻し)
         f.arlbl[43]="110172"//移動先変更(セット室へ)
 
@@ -467,13 +498,10 @@ f.mpnm=='f101_34_01_pic';
 ;tf.aoiは超適当に付けた名前。何の意味もないです。
 *ant
     [iadv]
-    ;TODO:あとで消す(chara_show)
         [show name="hara" side="R"]
-        ;[chara_show layer="1" zindex="99" name="hara" face="def"  left="&1280-400" top="&720-700"   ]
         #ハラ
         さっそく工場の白衣に着替えてきたよ。楽しみだね！[p]
         [show name="kuri"]
-        ;[chara_show layer="1" zindex="99" name="kuri" face="def"  left="0"  top="&720-700" ]
         #クリ
         そうだね。[p ]
         今日の工場見学は、[<imp]社員さんに話を聞いてきてもらう[>]よ。[p ]
@@ -574,8 +602,6 @@ f.mpnm=='f101_34_01_pic';
         [free layer="1" name="photo"  time="500" ]
         #
         [show name="hara" side="R"]
-        ;TODO:後で消す(chara_show)
-        ;[chara_show layer="1" zindex="99" name="mob" left="0" top="&720-660"   ]
         #ハラ
         ここが最後の部屋だな![p]
         [chara_hide_all layer="1"]
@@ -668,13 +694,11 @@ f.mpnm=='f101_34_01_pic';
 *11193
 ;トリミング室東、北封鎖イベント
 *221893
-;*321353
-;TODO:トリミングとセット準備室合体。あとでバラす
-;*13163
+;セット準備室
 *1210113
-;TODO:生産管理室追加
+;生産管理室
 *12173
-;計量室追加
+;計量室追加(前室入口)
 *113373
 [if exp="f.mpnm=='f201_29_01_trm'||f.mpnm=='f101_20_01_set'||f.mpnm=='f101_34_01_pic'||f.mpnm=='f201_39_13_ant'||f.mpnm=='f201_06_15_wgh'" ]
     [iscript ]
@@ -688,8 +712,6 @@ f.mpnm=='f101_34_01_pic';
     [iadv]
     [if exp="f.mpnm=='f201_39_13_ant'" ]
     [show name="mbg"]
-    ;TODO:あとで消す(chara_show)
-    ;[chara_show name="mbg" left="0" top="&720-700"  ]
     #mbg
     そうそう、私みたいな人が「緑の帽子の人」ですよ。[p]
     こんな風に選択肢が出るからね。[p]文字クリックかキーの1or2を押してエンターだよ。[r]
@@ -758,9 +780,7 @@ f.mpnm=='f101_34_01_pic';
 [if exp="f.mpnm='f201_29_01_trm'" ]
 
     [iadv ]
-    ;TODO:あとで消す(chara_show周り)
         [show name="mbw"]
-        ;[chara_show name="akane" top="&720-600" layer="1" ]
         #
             あのー…[l][r]
             [font color="0xccc" bold="true"  ]
@@ -770,26 +790,18 @@ f.mpnm=='f101_34_01_pic';
         [s ]
         *22753_1
             [cm ]
-            ;#akane:happy
             #mbw
-            キャベツの芯を取っています[p]
-            [iscript ]
-                if(typeof f.flg01trm1==='undefined'){
-                    (typeof f.flg01trm!=='undefined')?f.flg01trm=f.flg01trm+25:f.flg01trm=25;
-                    f.flg01trm1=1;
-                }
-            [endscript ]
+            ;キャベツの芯を取っています
+            [emb exp="f.talkto['trm'][0][0]"][p]
+            [eval exp="[f.flg01trm,f.flg01trm1]=calstudy(f.flg01trm,f.flg01trm1,1,25);" ]
             [jump target="*22753_cmn" ]
         [s ]
         *22753_2
             [cm]
-            ;#akane:doki
             #mbw
-            虫がついていないか見ています[p]
-            [iscript ]
-                if(f.flg01trm1==1)f.flg01trm=f.flg01trm+25;
-                f.flg01trm1++;
-            [endscript ]
+            ;虫がついていないか見ています
+            [emb exp="f.talkto['trm'][0][1]"][p]
+            [eval exp="[f.flg01trm,f.flg01trm1]=calstudy(f.flg01trm,f.flg01trm1,2,25);" ]
             [jump target="*22753_cmn" ]
         [s ]
         *22753_cmn
@@ -803,9 +815,7 @@ f.mpnm=='f101_34_01_pic';
 *227133
 [if exp="f.mpnm='f201_29_01_trm'" ]
     [iadv ]
-    ;TODO:あとで消す(chara_show周り)
         [show name="mbm"]
-        ;[chara_show name="akane" top="&720-600" layer="1" ]
         #
             あのー…[l][r]
             [font color="0xccc" bold="true"  ]
@@ -815,26 +825,18 @@ f.mpnm=='f101_34_01_pic';
         [s ]
         *227133_1
             [cm ]
-            ;#akane:happy
             #mbm
-            プリーツレタスをばらしています[p]
-            [iscript ]
-                if(typeof f.flg01trm2==='undefined'){
-                    (typeof f.flg01trm!=='undefined')?f.flg01trm=f.flg01trm+25:f.flg01trm=25;
-                    f.flg01trm2=1;
-                }
-            [endscript ]
+            ;プリーツレタスをばらしています
+            [emb exp="f.talkto['trm'][1][0]"][p]
+            [eval exp="[f.flg01trm,f.flg01trm2]=calstudy(f.flg01trm,f.flg01trm2,1,25);" ]
             [jump target="*227133_cmn" ]
         [s ]
         *227133_2
             [cm]
-            ;#akane:doki
             #mbm
-            野菜の鮮度に気を付けます[p]
-            [iscript ]
-                if(f.flg01trm2==1)f.flg01trm=f.flg01trm+25;
-                f.flg01trm2++;
-            [endscript ]
+            ;野菜の鮮度に気を付けます
+            [emb exp="f.talkto['trm'][1][1]"][p]
+            [eval exp="[f.flg01trm,f.flg01trm2]=calstudy(f.flg01trm,f.flg01trm2,2,25);" ]
             [jump target="*227133_cmn" ]
         [s ]
         *227133_cmn
@@ -849,22 +851,8 @@ f.mpnm=='f101_34_01_pic';
 ;トリミング室全員話したかチェック
 *121103
 [if exp="f.mpnm='f201_29_01_trm'" ]
-    [ignore exp="f.flg01trm==true" ]
-        [iadv ]
-            @eval exp="if(typeof f.flg01trm==='undefined')f.flg01trm=0"
-            #
-            現在の勉強率は[emb exp="f.flg01trm" ]/100です。[l][er]
-            [if exp="f.flg01trm==100"]
-                #
-                条件を満たしました。次は『カット室』です。[p]
-                [eval exp="f.flg01trm=true"]
-                    [else ]
-                #
-                条件を満たしていません。緑色の帽子の人物からお話を聞いてきてください[l][r]
-                この部屋には2名います。[p]
-            [endif ]
-        [endadv ]
-    [endignore ]
+    [checkstudy next="カット室" c="&f.flg01trm"]
+    [eval exp="f.flg01trm=true" cond="f.flg01trm==100"]
     [mod_dest dest="f201_01_01_mac" etl="ab10l" cond="f.flg01trm"]
     [jump target="*confirm" cond="f.flg01trm"]
 
@@ -879,9 +867,7 @@ f.mpnm=='f101_34_01_pic';
 [if exp="f.mpnm='f201_01_01_mac'" ]
 
     [iadv ]
-    ;TODO:あとで消す(chara_show周り)
         [show name="mbw"]
-        ;[chara_show name="akane" top="&720-600" layer="1" ]
         #
             あのー…[l][r]
             [font color="0xccc" bold="true"  ]
@@ -891,26 +877,18 @@ f.mpnm=='f101_34_01_pic';
         [s ]
         *222073_1
             [cm ]
-            ;#akane:happy
             #mbw
-            規格を合わせてスライサーでカットしています[p]
-            [iscript ]
-                if(typeof f.flg01mac1==='undefined'){
-                    (typeof f.flg01mac!=='undefined')?f.flg01mac=f.flg01mac+25:f.flg01mac=25;
-                    f.flg01mac1=1;
-                }
-            [endscript ]
+            ;規格を合わせてスライサーでカットしています
+            [emb exp="f.talkto['mac'][0][0]"][p]
+            [eval exp="[f.flg01mac,f.flg01mac1]=calstudy(f.flg01mac,f.flg01mac1,1,25);" ]
             [jump target="*222073_cmn" ]
         [s ]
         *222073_2
             [cm]
-            ;#akane:doki
             #mbw
-            規格を間違わないように合わせています[p]
-            [iscript ]
-                if(f.flg01mac1==1)f.flg01mac=f.flg01mac+25;
-                f.flg01mac1++;
-            [endscript ]
+            ;規格を間違わないように合わせています
+            [emb exp="f.talkto['mac'][0][1]"][p]
+            [eval exp="[f.flg01mac,f.flg01mac1]=calstudy(f.flg01mac,f.flg01mac1,2,25);" ]
             [jump target="*222073_cmn" ]
         [s ]
         *222073_cmn
@@ -924,9 +902,7 @@ f.mpnm=='f101_34_01_pic';
 *2220103
 [if exp="f.mpnm='f201_01_01_mac'" ]
     [iadv ]
-    ;TODO:あとで消す(chara_show周り)
         [show name="mbm"]
-        ;[chara_show name="akane" top="&720-600" layer="1" ]
         #
             あのー…[l][r]
             [font color="0xccc" bold="true"  ]
@@ -936,26 +912,18 @@ f.mpnm=='f101_34_01_pic';
         [s ]
         *2220103_1
             [cm ]
-            ;#akane:happy
             #mbm
-            洗浄後の野菜を脱水しています[p]
-            [iscript ]
-                if(typeof f.flg01mac2==='undefined'){
-                    (typeof f.flg01mac!=='undefined')?f.flg01mac=f.flg01mac+25:f.flg01mac=25;
-                    f.flg01mac2=1;
-                }
-            [endscript ]
+            ;洗浄後の野菜を脱水しています
+            [emb exp="f.talkto['mac'][1][0]"][p]
+            [eval exp="[f.flg01mac,f.flg01mac2]=calstudy(f.flg01mac,f.flg01mac2,1,25);" ]
             [jump target="*2220103_cmn" ]
         [s ]
         *2220103_2
             [cm]
-            ;#akane:doki
             #mbm
-            洗浄、殺菌の時間に気を付けます[p]
-            [iscript ]
-                if(f.flg01mac2==1)f.flg01mac=f.flg01mac+25;
-                f.flg01mac2++;
-            [endscript ]
+            ;洗浄、殺菌の時間に気を付けます
+            [emb exp="f.talkto['mac'][1][1]"][p]
+            [eval exp="[f.flg01mac,f.flg01mac2]=calstudy(f.flg01mac,f.flg01mac2,2,25);" ]
             [jump target="*2220103_cmn" ]
         [s ]
         *2220103_cmn
@@ -970,22 +938,9 @@ f.mpnm=='f101_34_01_pic';
 ;カット室全員話したかチェック
 *2123143
 [if exp="f.mpnm='f201_01_01_mac'" ]
-    [ignore exp="f.flg01mac==true"" ]
-        [iadv ]
-            @eval exp="if(typeof f.flg01mac==='undefined')f.flg01mac=0"
-            #
-            現在の勉強率は[emb exp="f.flg01mac" ]/100です。[l][er]
-            [if exp="f.flg01mac==100"]
-            #
-            条件を満たしました。次は『計量室』です。[p]
-            [eval exp="f.flg01mac=true"]
-                [else ]
-            #
-            条件を満たしていません。緑色の帽子の人物からお話を聞いてきてください[l][r]
-            この部屋には2名います。[p]
-            [endif ]
-        [endadv ]
-    [endignore ]
+    [checkstudy next="計量室" c="&f.flg01mac"]
+    [eval exp="f.flg01mac=true" cond="f.flg01mac==100"]
+
     [mod_dest dest="f201_06_15_wgh" etl="r1b" cond="f.flg01mac"]
     [jump target="*confirm" cond="f.flg01mac"]
 
@@ -1000,8 +955,6 @@ f.mpnm=='f101_34_01_pic';
 [if exp="f.mpnm='f201_06_15_wgh'" ]
 
     [iadv ]
-        ;TODO:あとで消す(chara_show周り)
-        ;[chara_show name="akane" top="&720-600" layer="1" ]
         [show name="mbw"]
         #
             あのー…[l][r]
@@ -1012,26 +965,18 @@ f.mpnm=='f101_34_01_pic';
         [s ]
         *121553_1
             [cm ]
-            ;#akane:happy
             #mbw
-            ピーマンを量ってパックしています[p]
-            [iscript ]
-                if(typeof f.flg01wgh1==='undefined'){
-                    (typeof f.flg01wgh!=='undefined')?f.flg01wgh=f.flg01wgh+25:f.flg01wgh=25;
-                    f.flg01wgh1=1;
-                }
-            [endscript ]
+            ;ピーマンを量ってパックしています
+            [emb exp="f.talkto['wgh'][0][0]"][p]
+            [eval exp="[f.flg01wgh,f.flg01wgh1]=calstudy(f.flg01wgh,f.flg01wgh1,1,25);" ]
             [jump target="*121553_cmn" ]
         [s ]
         *121553_2
             [cm]
-            ;#akane:doki
             #mbw
-            野菜の変色に気を付けています[p]
-            [iscript ]
-                if(f.flg01wgh1==1)f.flg01wgh=f.flg01wgh+25;
-                f.flg01wgh1++;
-            [endscript ]
+            ;野菜の変色に気を付けています
+            [emb exp="f.talkto['wgh'][0][1]"][p]
+            [eval exp="[f.flg01wgh,f.flg01wgh1]=calstudy(f.flg01wgh,f.flg01wgh1,2,25);" ]
             [jump target="*121553_cmn" ]
         [s ]
         *121553_cmn
@@ -1045,8 +990,6 @@ f.mpnm=='f101_34_01_pic';
 *11863
 [if exp="f.mpnm='f201_06_15_wgh'" ]
     [iadv ]
-    ;TODO:あとで消す(chara_show周り)
-        ;[chara_show name="akane" top="&720-600" layer="1" ]
         [show name="mbm"]
         #
             あのー…[l][r]
@@ -1057,26 +1000,18 @@ f.mpnm=='f101_34_01_pic';
         [s ]
         *11863_1
             [cm ]
-            ;#akane:happy
             #mbm
-            千切りキャベツを真空パックしています[p]
-            [iscript ]
-                if(typeof f.flg01wgh2==='undefined'){
-                    (typeof f.flg01wgh!=='undefined')?f.flg01wgh=f.flg01wgh+25:f.flg01wgh=25;
-                    f.flg01wgh2=1;
-                }
-            [endscript ]
+            ;千切りキャベツを真空パックしています
+            [emb exp="f.talkto['wgh'][1][0]"][p]
+            [eval exp="[f.flg01wgh,f.flg01wgh2]=calstudy(f.flg01wgh,f.flg01wgh2,1,25);" ]
             [jump target="*11863_cmn" ]
         [s ]
         *11863_2
             [cm]
-            ;#akane:doki
             #mbm
-            数量間違いがないようにカウントします[p]
-            [iscript ]
-                if(f.flg01wgh2==1)f.flg01wgh=f.flg01wgh+25;
-                f.flg01wgh2++;
-            [endscript ]
+            ;数量間違いがないようにカウントします
+            [emb exp="f.talkto['wgh'][1][1]"][p]
+            [eval exp="[f.flg01wgh,f.flg01wgh2]=calstudy(f.flg01wgh,f.flg01wgh2,2,25);" ]
             [jump target="*11863_cmn" ]
         [s ]
         *11863_cmn
@@ -1091,22 +1026,8 @@ f.mpnm=='f101_34_01_pic';
 ;計量室全員話したかチェック
 *1230103
 [if exp="f.mpnm='f201_06_15_wgh'" ]
-    [ignore exp="f.flg01wgh==true"" ]
-        [iadv ]
-            @eval exp="if(typeof f.flg01wgh==='undefined')f.flg01wgh=0"
-            #
-            現在の勉強率は[emb exp="f.flg01wgh" ]/100です。[l][er]
-            [if exp="f.flg01wgh==100"]
-            #
-            条件を満たしました。次は『セット準備室』です。[p]
-            [eval exp="f.flg01wgh=true"]
-                [else ]
-            #
-            条件を満たしていません。緑色の帽子の人物からお話を聞いてきてください[l][r]
-            この部屋には2名います。[p]
-            [endif ]
-        [endadv ]
-    [endignore ]
+    [checkstudy next="セット準備室" c="&f.flg01wgh"]
+    [eval exp="f.flg01wgh=true" cond="f.flg01wgh==100"]
     [mod_dest dest="f101_20_01_set" etl="j2l" cond="f.flg01wgh"]
     [jump target="*confirm" cond="f.flg01wgh"]
 
@@ -1121,8 +1042,6 @@ f.mpnm=='f101_34_01_pic';
 [if exp="f.mpnm='f101_20_01_set'" ]
 
     [iadv ]
-    ;TODO:あとで消す(chara_show周り)
-        ;[chara_show name="akane" top="&720-600" layer="1" ]
         [show name="mbw"]
         #
             あのー…[l][r]
@@ -1133,22 +1052,19 @@ f.mpnm=='f101_34_01_pic';
         [s ]
         *224113_1
             [cm ]
-            ;#akane:happy
             #mbw
-            必要な肉を冷蔵庫から運んでいます[p]
-            [iscript ]
-                if(typeof f.flg01set1==='undefined'){
-                    (typeof f.flg01set!=='undefined')?f.flg01set=f.flg01set+25:f.flg01set=25;
-                    f.flg01set1=1;
-                }
-            [endscript ]
+            ;必要な肉を冷蔵庫から運んでいます
+            [emb exp="f.talkto['set'][0][0]"][p]
+            [eval exp="[f.flg01set,f.flg01set1]=calstudy(f.flg01set,f.flg01set1,1,25);" ]
             [jump target="*224113_cmn" ]
         [s ]
         *224113_2
             [cm]
-            ;#akane:doki
             #mbw
-            名前が似ているものやサイズの近い物の入れ間違いに気を付けています[p]
+            ;名前が似ているものやサイズの近い物の入れ間違いに気を付けています
+            [emb exp="f.talkto['set'][0][1]"][p]
+            [eval exp="[f.flg01set,f.flg01set1]=calstudy(f.flg01set,f.flg01set1,2,25);" ]
+
             [iscript ]
                 if(f.flg01set1==1)f.flg01set=f.flg01set+25;
                 f.flg01set1++;
@@ -1166,8 +1082,6 @@ f.mpnm=='f101_34_01_pic';
 *226173
 [if exp="f.mpnm='f101_20_01_set'" ]
     [iadv ]
-    ;TODO:あとで消す(chara_show周り)
-        ;[chara_show name="akane" top="&720-600" layer="1" ]
         [show name="mbm"]
         #
             あのー…[l][r]
@@ -1178,26 +1092,18 @@ f.mpnm=='f101_34_01_pic';
         [s ]
         *226173_1
             [cm ]
-            ;#akane:happy
             #mbm
-            商品企画書を見て具材を準備しています[p]
-            [iscript ]
-                if(typeof f.flg01set2==='undefined'){
-                    (typeof f.flg01set!=='undefined')?f.flg01set=f.flg01set+25:f.flg01set=25;
-                    f.flg01set2=1;
-                }
-            [endscript ]
+            ;商品企画書を見て具材を準備しています
+            [emb exp="f.talkto['set'][1][0]"][p]
+            [eval exp="[f.flg01set,f.flg01set2]=calstudy(f.flg01set,f.flg01set2,1,25);" ]
             [jump target="*226173_cmn" ]
         [s ]
         *226173_2
             [cm]
-            ;#akane:doki
             #mbm
-            材料を過不足なく集めることです[p]
-            [iscript ]
-                if(f.flg01set2==1)f.flg01set=f.flg01set+25;
-                f.flg01set2++;
-            [endscript ]
+            ;材料を過不足なく集めることです
+            [emb exp="f.talkto['set'][1][1]"][p]
+            [eval exp="[f.flg01set,f.flg01set2]=calstudy(f.flg01set,f.flg01set2,2,25);" ]
             [jump target="*226173_cmn" ]
         [s ]
         *226173_cmn
@@ -1212,22 +1118,8 @@ f.mpnm=='f101_34_01_pic';
 ;セット準備室全員話したかチェック
 *413253
 [if exp="f.mpnm='f101_20_01_set'" ]
-    [ignore exp="f.flg01set==true"" ]
-        [iadv ]
-            @eval exp="if(typeof f.flg01set==='undefined')f.flg01set=0"
-            #
-            現在の勉強率は[emb exp="f.flg01set" ]/100です。[l][er]
-            [if exp="f.flg01set==100"]
-            #
-            条件を満たしました。次は『セット室』です。[p]
-            [eval exp="f.flg01set=true"]
-                [else ]
-            #
-            条件を満たしていません。緑色の帽子の人物からお話を聞いてきてください[l][r]
-            この部屋には2名います。[p]
-            [endif ]
-        [endadv ]
-    [endignore ]
+    [checkstudy next="セット室" c="&f.flg01set"]
+    [eval exp="f.flg01set=true" cond="f.flg01set==100"]
     [mod_dest dest="f101_12_25_wap" etl="k1b" cond="f.flg01set"]
     [jump target="*confirm" cond="f.flg01set"]
 
@@ -1242,8 +1134,6 @@ f.mpnm=='f101_34_01_pic';
 [if exp="f.mpnm='f101_12_25_wap'" ]
 
     [iadv ]
-    ;TODO:あとで消す(chara_show周り)
-        ;[chara_show name="akane" top="&720-600" layer="1" ]
         [show name="mbw"]
         #
             あのー…[l][r]
@@ -1254,26 +1144,18 @@ f.mpnm=='f101_34_01_pic';
         [s ]
         *2218123_1
             [cm ]
-            ;#akane:happy
             #mbw
-            準備してくれた具材を1商品ごとにセットアップしています[p]
-            [iscript ]
-                if(typeof f.flg01wap1==='undefined'){
-                    (typeof f.flg01wap!=='undefined')?f.flg01wap=f.flg01wap+25:f.flg01wap=25;
-                    f.flg01wap1=1;
-                }
-            [endscript ]
+            ;準備してくれた具材を1商品ごとにセットアップしています
+            [emb exp="f.talkto['wap'][0][0]"][p]
+            [eval exp="[f.flg01wap,f.flg01wap1]=calstudy(f.flg01wap,f.flg01wap1,1,25);" ]
             [jump target="*2218123_cmn" ]
         [s ]
         *2218123_2
             [cm]
-            ;#akane:doki
             #mbw
-            材料の入れ間違いがないようにしています[p]
-            [iscript ]
-                if(f.flg01wap1==1)f.flg01wap=f.flg01wap+25;
-                f.flg01wap1++;
-            [endscript ]
+            ;材料の入れ間違いがないようにしています
+            [emb exp="f.talkto['wap'][0][1]"][p]
+            [eval exp="[f.flg01wap,f.flg01wap1]=calstudy(f.flg01wap,f.flg01wap1,2,25);" ]
             [jump target="*2218123_cmn" ]
         [s ]
         *2218123_cmn
@@ -1287,8 +1169,6 @@ f.mpnm=='f101_34_01_pic';
 *226153
 [if exp="f.mpnm='f101_12_25_wap'" ]
     [iadv ]
-    ;TODO:あとで消す(chara_show周り)
-        ;[chara_show name="akane" top="&720-600" layer="1" ]
         [show name="mbm"]
         #
             あのー…[l][r]
@@ -1299,26 +1179,18 @@ f.mpnm=='f101_34_01_pic';
         [s ]
         *226153_1
             [cm ]
-            ;#akane:happy
             #mbm
-            海老の計量とパックをしています[p]
-            [iscript ]
-                if(typeof f.flg01wap2==='undefined'){
-                    (typeof f.flg01wap!=='undefined')?f.flg01wap=f.flg01wap+25:f.flg01wap=25;
-                    f.flg01wap2=1;
-                }
-            [endscript ]
+            ;海老の計量とパックをしています
+            [emb exp="f.talkto['wap'][1][0]"][p]
+            [eval exp="[f.flg01wap,f.flg01wap2]=calstudy(f.flg01wap,f.flg01wap2,1,25);" ]
             [jump target="*226153_cmn" ]
         [s ]
         *226153_2
             [cm]
-            ;#akane:doki
             #mbm
-            決められた時間に次の部署に出せるようにしています[p]
-            [iscript ]
-                if(f.flg01wap2==1)f.flg01wap=f.flg01wap+25;
-                f.flg01wap2++;
-            [endscript ]
+            ;決められた時間に次の部署に出せるようにしています
+            [emb exp="f.talkto['wap'][1][1]"][p]
+            [eval exp="[f.flg01wap,f.flg01wap2]=calstudy(f.flg01wap,f.flg01wap2,2,25);" ]
             [jump target="*226153_cmn" ]
         [s ]
         *226153_cmn
@@ -1333,22 +1205,8 @@ f.mpnm=='f101_34_01_pic';
 ;セット室全員話したかチェック
 *212003
 [if exp="f.mpnm='f101_12_25_wap'" ]
-    [ignore exp="f.flg01wap==true"" ]
-        [iadv ]
-            @eval exp="if(typeof f.flg01wap==='undefined')f.flg01wap=0"
-            #
-            現在の勉強率は[emb exp="f.flg01wap" ]/100です。[l][er]
-            [if exp="f.flg01wap==100"]
-            #
-            条件を満たしました。次は『生産管理室』です。[p]
-            [eval exp="f.flg01wap=true"]
-                [else ]
-            #
-            条件を満たしていません。緑色の帽子の人物からお話を聞いてきてください[l][r]
-            この部屋には2名います。[p]
-            [endif ]
-        [endadv ]
-    [endignore ]
+    [checkstudy next="生産管理室" c="&f.flg01wap"]
+    [eval exp="f.flg01wap=true" cond="f.flg01wap==100"]
     [mod_dest dest="f101_34_01_pic" etl="a17r" cond="f.flg01wap"]
     [jump target="*confirm" cond="f.flg01wap"]
 
@@ -1363,8 +1221,6 @@ f.mpnm=='f101_34_01_pic';
 [if exp="f.mpnm='f101_34_01_pic'" ]
 
     [iadv ]
-    ;TODO:あとで消す(chara_show)
-        ;[chara_show name="akane" top="&720-600" layer="1" ]
         [show name="mbw"]
         #
             あのー…[l][r]
@@ -1375,26 +1231,18 @@ f.mpnm=='f101_34_01_pic';
         [s ]
         *122103_1
             [cm ]
-            ;#akane:happy
             #mbw
-            商品ラベルシールを貼っています[p]
-            [iscript ]
-                if(typeof f.flg01pic1==='undefined'){
-                    (typeof f.flg01pic!=='undefined')?f.flg01pic=f.flg01pic+25:f.flg01pic=25;
-                    f.flg01pic1=1;
-                }
-            [endscript ]
+            ;商品ラベルシールを貼っています
+            [emb exp="f.talkto['pic'][0][0]"][p]
+            [eval exp="[f.flg01pic,f.flg01pic1]=calstudy(f.flg01pic,f.flg01pic1,1,25);" ]
             [jump target="*122103_cmn" ]
         [s ]
         *122103_2
             [cm]
-            ;#akane:doki
             #mbw
-            出荷時間に遅れないようにします[p]
-            [iscript ]
-                if(f.flg01pic1==1)f.flg01pic=f.flg01pic+25;
-                f.flg01pic1++;
-            [endscript ]
+            ;出荷時間に遅れないようにします
+            [emb exp="f.talkto['pic'][0][1]"][p]
+            [eval exp="[f.flg01pic,f.flg01pic1]=calstudy(f.flg01pic,f.flg01pic1,2,25);" ]
             [jump target="*122103_cmn" ]
         [s ]
         *122103_cmn
@@ -1408,8 +1256,6 @@ f.mpnm=='f101_34_01_pic';
 *222173
 [if exp="f.mpnm='f101_34_01_pic'" ]
     [iadv ]
-    ;TODO:あとで消す(chara_show周り)
-        ;[chara_show name="akane" top="&720-600" layer="1" ]
         [show name="mbm"]
         #
             あのー…[l][r]
@@ -1420,26 +1266,18 @@ f.mpnm=='f101_34_01_pic';
         [s ]
         *222173_1
             [cm ]
-            ;#akane:happy
             #mbm
-            行先ごとに商品を仕分けしています[p]
-            [iscript ]
-                if(typeof f.flg01pic2==='undefined'){
-                    (typeof f.flg01pic!=='undefined')?f.flg01pic=f.flg01pic+25:f.flg01pic=25;
-                    f.flg01pic2=1;
-                }
-            [endscript ]
+            ;行先ごとに商品を仕分けしています
+            [emb exp="f.talkto['pic'][1][0]"][p]
+            [eval exp="[f.flg01pic,f.flg01pic2]=calstudy(f.flg01pic,f.flg01pic2,1,25);" ]
             [jump target="*222173_cmn" ]
         [s ]
         *222173_2
             [cm]
-            ;#akane:doki
             #mbm
-            行先、数を間違えないようにしています[p]
-            [iscript ]
-                if(f.flg01pic2==1)f.flg01pic=f.flg01pic+25;
-                f.flg01pic2++;
-            [endscript ]
+            ;行先、数を間違えないようにしています
+            [emb exp="f.talkto['pic'][1][1]"][p]
+            [eval exp="[f.flg01pic,f.flg01pic2]=calstudy(f.flg01pic,f.flg01pic2,2,25);" ]
             [jump target="*222173_cmn" ]
         [s ]
         *222173_cmn
@@ -1461,7 +1299,6 @@ f.mpnm=='f101_34_01_pic';
         [ignore exp="f.istoruming" ]
             [iadv ]
                 [show name="mbg"]
-                ;[chara_show name="mbg" left="0" top="&720-700"  ]
                 #社員さん
                 ちょっと待って！[p]
                 ここから先は衣服の埃や髪の毛を取ってから進んでください。[r]
@@ -1511,35 +1348,19 @@ f.mpnm=='f101_34_01_pic';
 ;カット室より
 *1320122
 *712262
-;計量室より
-/*
-*113712
-*182312
-*1112382
-*/
 ;セット室より
 *96143
-;*2182333
-
 
 ;TODO:トリミングイベント用に変更してみる
     [iscript ]
         //カット室
         if(f.label=='1320122')tf.txt='ここから先を見渡せるみたいだ。',tf.url='lqLNYD2AgV0';//部屋見渡し下
         if(f.label=='712262')tf.txt='ここから先を見渡せるみたいだ。',tf.url='WbnmksW7vTA';//部屋見渡し上
-        //計量室
-        /*
-        if(f.label=='113712')tf.txt='ここから先を見渡せるみたいだ。',tf.url='fjjR9f7NFNo';//部屋見渡し西
-        if(f.label=='182312'||f.label=='1112382')tf.txt='ここから先を見渡せるみたいだ。',tf.url='tN_ZcXQQ2Yw';//部屋見渡し東
-        */
         //セット室
         if(f.label=='96143')tf.txt='ここから先を見渡せるみたいだ。',tf.url='rdBZObyktmI';//部屋見渡し西
-        //if(f.label=='2182333')tf.txt='ここから先を見渡せるみたいだ。',tf.url='vRp_R3ScnhQ';//部屋見渡し東
-
 
         tf.url='https://www.youtube.com/embed/'+tf.url+'?mute=1'
         tf.moveve = f.mpnm=='f201_01_01_mac'||
-                    f.mpnm=='f201_06_15_wgh'||
                     f.mpnm=='f101_12_25_wap';
     [endscript ]
 [if exp="tf.moveve" ]
