@@ -627,15 +627,14 @@
     ;呼び出す画像をa.pngにするか01.pngにするかの判定==================
                 ;カセット有無及びマップに追加要素がある場合storageを変化させる。
                     [iscript ]
+                    //tf.cntnmn==>現在が最初期かそれ以外かを判定する。
                         (typeof tf.hasmdimg==="undefined")?tf.cntnmn=tf.stmap:tf.cntnmn=tf.mpnm;
-                        tf.tail='a'
+                        tf.tail='a';
                         for(let l=0;l<=f.mod_image.length-1;l++){
                                 if(f.mod_image[l]==tf.cntnmn)tf.tail=f.mode;
                         }
                         (typeof tf.hasmdimg==="undefined")?tf.hasmdimg=tf.stmap:tf.hasmdimg=tf.mpnm;
                     [endscript ]
-                                [trace exp="tf.tail+'<----tf.tail'"]
-
     ;/呼び出す画像をa.pngにするか01.pngにするかの判定==================    
             [trace exp="f.mod_image+'<---f.mod_image'"]
             [image name="field" visible="true" layer="1" folder="bgimage" storage="&'map/'+f.mpnm+tf.tail+'.png'" x="&f.nx.mp.x" y="&f.nx.mp.y"  wait="false" cond="f.isma"]

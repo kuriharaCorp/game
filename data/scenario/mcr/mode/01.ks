@@ -55,6 +55,12 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 をこちらでも検索させる
 
 動くたびに毎回ここは読み込まれる
+
+
+注意
+現本にあるイベントの上書きのうち、以下は不可能。
+- 移動先の上書きのとき、移動先が原本にあり移動先の初期位置が設定されている場合
+- 移動のときは原本.ksを通って変更した内容がさらに上書きされるため。
 */
 
 ;初回読み込み用(bsc呼び出し)
@@ -93,7 +99,7 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     [iscript ]
         tf.mpnm=tf.stmap;
         f.isnmp=false;
-        f.isma=true;
+        f.isma=true;//aと01を表示するか否か。
     [endscript ]
     [renew name="&tf.mpnm"]
     ;マップ読み込み済みの処理(1度だけの処理を行わない)
@@ -175,6 +181,8 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 ;[mod_dest dest="" etl="" cond="適用する部屋名"]
 [macro name="mod_dest" ]
     [iscript ]
+    //キャンセル対策に現在のmpnmを保持しておく
+        tf.mpnm_bu=tf.mpnm
         tf.mpnm=mp.dest
         f.etl=mp.etl
         f.ismdeve=true
@@ -338,6 +346,7 @@ f.mpnm=='f101_34_01_pic';
     
     //第二工場前室追加新規イベント
     if(f.mpnm=='f201_39_13_ant'){
+        push(1,2,6,4,2);//移動先変更(玄関)
         push(2,1,7,2,2);//立ち入り禁止イベント
         push(1,1,1,9,3);//立ち入り禁止イベント
         push(1,1,3,9,2);//トリミングイベント
@@ -431,6 +440,7 @@ f.mpnm=='f101_34_01_pic';
         //玄関(f201_46_01_ent.ks)
         f.arlbl[1]="131012"//移動先変更
         //前室(f201_39_13_ant.ks)
+        f.arlbl[2]="12642"//移動先変更
         f.arlbl[3]="11392"//トリミングイベント
         f.arlbl[4]="21722"//立ち入り禁止
         f.arlbl[5]="11193"//立ち入り禁止
@@ -635,6 +645,14 @@ f.mpnm=='f101_34_01_pic';
 [jump target="*confirm" cond="f.mpnm=='f201_46_01_ent'"]
 [s]
 
+*12642
+;移動先変更(第二前室->第二玄関)
+[trace exp="'移動先変更(第二前室->第二玄関)を実行しました。'"]
+[mod_dest dest="f201_46_01_ent" etl="k2r" cond="f.mpnm=='f201_39_13_ant'"]
+[jump target="*confirm" cond="f.mpnm=='f201_39_13_ant'"]
+[s]
+
+
 *111122
 ;移動先変更(セット準備室->計量室)
 [mod_dest dest="f201_06_15_wgh" etl="ac10l" cond="f.mpnm=='f101_20_01_set'"]
@@ -650,6 +668,8 @@ f.mpnm=='f101_34_01_pic';
 *confirm
     [dialog text="マップ移動するけどいいかな？" type="confirm" target="*go"  ]
     [knockback]
+    ;キャンセルのとき、mpnmを元に戻す
+    @eval exp="tf.mpnm=tf.mpnm_bu"
 [return]
 
 *go

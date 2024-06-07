@@ -62,7 +62,7 @@
     //どのマップからも移動していない場合初期位置に入れる
     if(f.maplst===undefined)f.etl='n2l';
     if(f.maplst=='f201_48_06_rep')f.etl='c5t';//南冷蔵庫から
-    if(f.maplst=='f201_39_13_ant')f.etl='j2r';//内階段から
+    if(f.maplst=='f201_39_13_ant')f.etl='k2r';//内階段から
     //f.povxyzにそれぞれ入る
     split(f.etl);
     //f.maplst='f201_46_01_ent';
