@@ -181,9 +181,10 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 ;[mod_dest dest="" etl="" cond="適用する部屋名"]
 [macro name="mod_dest" ]
     [iscript ]
-    //キャンセル対策に現在のmpnmを保持しておく
+    //キャンセル対策に現在のmpnm,etlを保持しておく
         tf.mpnm_bu=tf.mpnm
         tf.mpnm=mp.dest
+        tf.etl=f.etl
         f.etl=mp.etl
         f.ismdeve=true
     [endscript ]
@@ -266,7 +267,7 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     f.talkto['set'][0][0]='必要な肉を冷蔵庫から運んでいます';
     f.talkto['set'][0][1]='名前が似ているものやサイズの近い物の入れ間違いに気を付けています';
     f.talkto['set'][1]=[];
-    f.talkto['set'][1][0]='商品企画書を見て具材を準備しています';
+    f.talkto['set'][1][0]='商品規格書を見て具材を準備しています';
     f.talkto['set'][1][1]='材料を過不足なく集めることです';   
     f.talkto['wap']=[];//セット室
     f.talkto['wap'][0]=[];
@@ -670,6 +671,9 @@ f.mpnm=='f101_34_01_pic';
     [knockback]
     ;キャンセルのとき、mpnmを元に戻す
     @eval exp="tf.mpnm=tf.mpnm_bu"
+
+    ;キャンセルのとき以前のマップ情報に戻す
+    @eval exp="f.etl=tf.etl"
 [return]
 
 *go
@@ -1113,7 +1117,7 @@ f.mpnm=='f101_34_01_pic';
         *226173_1
             [cm ]
             #mbm
-            ;商品企画書を見て具材を準備しています
+            ;商品規格書を見て具材を準備しています
             [emb exp="f.talkto['set'][1][0]"][p]
             [eval exp="[f.flg01set,f.flg01set2]=calstudy(f.flg01set,f.flg01set2,1,25);" ]
             [jump target="*226173_cmn" ]

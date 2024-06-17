@@ -111,6 +111,8 @@ f.map.bsc['loc']をコメントから起動する(240204)
         [layopt layer=message0 visible=false]
         [crbtn]
         [glink text="MENU" target="*gotitle2" x="&1280-300" y="0" color="btn_01_white" cond="f.dbg"] 
+        [glink text="リスポーン" target="*reset" x="&1280-200" y="0" color="btn_01_red"]
+
         [layopt layer="message0" visible="false" ]
         ;十字ボタン有効化
         [iscript ]

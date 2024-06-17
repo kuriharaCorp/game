@@ -348,7 +348,7 @@
             f.locx=[locxl,locxr]
         [endscript ]
 
-        ;最初に表示させる画像を表示
+        ;最初に表示させる画像を表示(fpsモード用現在使用していない)
         [bg storage="&mp.name+'/'+tf.imgnm+'.jpg'" time="50" cond="f.isfps"]
     [endmacro ]
 
@@ -423,6 +423,8 @@
         ;MENUボタン表示
             ;[glink name="mapmenu" text="MENU" x="&1280-300" y="0" exp="TYRANO.kag.ftag.startTag('sleepgame',{storage:'menu.ks'});" ]
             [glink text="MENU" target="*gotitle2" x="&1280-300" y="0" color="btn_01_white" cond="f.dbg"]
+            [glink text="リスポーン" target="*reset" x="&1280-200" y="0" color="btn_01_red"]
+
 
             [iscript ]
                 //引数で渡す内容を変更
@@ -635,6 +637,8 @@
                         }
                         (typeof tf.hasmdimg==="undefined")?tf.hasmdimg=tf.stmap:tf.hasmdimg=tf.mpnm;
                     [endscript ]
+                                [trace exp="tf.tail+'<----tf.tail'"]
+
     ;/呼び出す画像をa.pngにするか01.pngにするかの判定==================    
             [trace exp="f.mod_image+'<---f.mod_image'"]
             [image name="field" visible="true" layer="1" folder="bgimage" storage="&'map/'+f.mpnm+tf.tail+'.png'" x="&f.nx.mp.x" y="&f.nx.mp.y"  wait="false" cond="f.isma"]

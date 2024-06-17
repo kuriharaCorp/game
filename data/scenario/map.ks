@@ -118,6 +118,31 @@ tf.mpnmを調べてそれが01.ksの配列に含まれるか調べる
             ;新機能用にこっちに一時変更
             ;[jump storage="menuver2.ks" ]
             [s ]
+
+    *reset
+        ;resetボタンを押したとき
+        [iscript ]
+        //マップに入った時の初期位置
+                split(f.etl);//f.povxyzにそれぞれ入る
+                f.isnmp=false//マップの一度だけ読み込むの制限を解除。リセット後trueに戻す。
+                /*
+                　falseのとき、マップを読み込みなおすので、位置がリセットされる
+                　falseのとき、同理由でキャンセルが正しく働かない。
+                */
+                //位置を一時的に記録する変数(移動後初期値0になる)
+                //キャンセルの時の元の位置に戻るための記録用
+                f.reps.x=f.povx=f.gridx[tf.loc.x];
+                f.reps.y=f.povy=tf.loc.y;
+                f.reps.z=f.povz
+        [endscript ]
+            ;もっかい破壊
+            [destroy]
+            [map_bld name="&tf.name"]
+            ;全体創造
+            [renew name="&f.mpnm"]         
+            ;キャンセル用にリセットが終わったら元に戻す。
+            @eval exp="f.isnmp=true"; 
+[s ]
     *remenu
         ;menuから戻ってきたとき
             ;もっかい破壊
