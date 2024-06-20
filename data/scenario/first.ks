@@ -37,6 +37,9 @@
 @eval exp="tf.count=0"
 
 
+[dialog text="音が鳴ります。ご注意ください。"]
+[call storage="soundtrack.ks" ]
+
 ;@jump storage="testfile.ks" 
 @jump storage="titlever2.ks"
 [s]

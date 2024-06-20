@@ -24,6 +24,10 @@
 
 @wait time = 200
 
+;音楽再生
+;[playbgm storage="&f.msc['title']" ]
+[bgm nm="title"]
+
 *start 
 
 [image name="logo" layer="0" page="back"  storage="../image/title/logo_title.png" visible="true" x="26" y="10"   ]
@@ -32,7 +36,7 @@
 
 [wait time="1500" ]
 
-[button name="stbtn01" x="610" y="420" graphic="title/btn_sts01_0.png" enterimg="title/btn_sts01_1.png" target="gamestart" keyfocus="1" exp="f.mode='01'"]
+[button name="stbtn01" x="610" y="420" graphic="title/btn_sts01_0.png" enterimg="title/btn_sts01_1.png" target="gamestart" keyfocus="1" exp="f.mode='01'" clickse="&f.se['ok']" enterse="&f.se['select']" ]
 [button name="dbgbtn" x="1140" y="610" graphic="title/btn_debug.png" fix="true" target="*dbgcount" ]
 
 
@@ -59,6 +63,7 @@
 *gamestart
 [cm ]
 [clearfix ]
+[fadeoutbgm]
 
 ;ゲームクリア後の処理
 [if exp="f.end01===true" ]

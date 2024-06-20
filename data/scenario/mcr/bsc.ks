@@ -134,6 +134,7 @@ f.map.bsc['loc']をコメントから起動する(240204)
             };
         [endscript ]
         [chara_config talk_focus="none"]
+        [fadeoutbgm ]
     [endmacro ]
 
     ;文字色変更

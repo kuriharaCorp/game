@@ -19,6 +19,16 @@ if(f.mode=='01')tf.stmap='f201_46_01_ent';
 
 [crimap st="&tf.stmap"]
 *return
+
+;一度起動したら部屋切り替えまで起動しない
+;[playbgm storage="&f.msc['bsc']" restart="false" ]
+[bgm nm="bsc"]
+
+
+;足音とかここでいいかも。
+
+
+
 [start_keyconfig ]
 [clearstack ]
 ;ここに追加カセット画像を表示するか否かを記載

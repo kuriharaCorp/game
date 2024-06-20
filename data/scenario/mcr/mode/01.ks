@@ -67,6 +67,7 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 [macro name="evt_fst"]
     ; [trace exp="&`'現在'+f.mode+'モードです'`" ]
     [iadv]
+        [bgm nm="talk"]
         [chara_config pos_mode="false" ]
         [show name="kuri" face="suit"]
         #クリ
@@ -77,15 +78,17 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         はーい！[l]同じく[<mid]ハラ[>]です！[p]
         #案内人
         それではみなさん、2Fの更衣室で白衣に着替えてください[p]
-
+        [se nm="imp"]
         #◇操作説明◇
         画面左下の十字ボタンをクリック、あるいはキーボードの十字キーでハラちゃんを動かすことができます。[p]
         さっそく階段へ移動しましょう![p]
 
+        [se nm="imp"]
         #ハラ
         [<imp]階段を上って更衣室で着替える[>]だったね。[l ]よし、行こう![p]
          @eval exp="f.isevt_fst=true"
         [mask time="1000" ]
+        [fadeoutbgm]
         [wait time="1000" ]
 
     [endadv]
@@ -150,6 +153,7 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     [endscript ]
     [if exp="f.end01" ]
         [iadv ]
+        [bgm nm="talk"]
         [show name="kuri"]
             #クリ
             おつかれさま！回ってこられた？[p ]
@@ -301,9 +305,11 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
             現在の勉強率は[emb exp="tf.c" ]/100です。[l][er]
             [if exp="tf.c==100"]
                 #
+                [se nm="ok"]
                 条件を満たしました。次は『[emb exp="tf.next"]』です。[p]
                 [else ]
                 #
+                [se nm="ng"]
                 条件を満たしていません。緑色の帽子の人物からお話を聞いてきてください[l][r]
                 この部屋には2名います。[p]
             [endif ]
@@ -509,15 +515,19 @@ f.mpnm=='f101_34_01_pic';
 ;tf.aoiは超適当に付けた名前。何の意味もないです。
 *ant
     [iadv]
+        [bgm nm="talk"]
         [show name="hara" side="R"]
         #ハラ
         さっそく工場の白衣に着替えてきたよ。楽しみだね！[p]
         [show name="kuri"]
         #クリ
         そうだね。[p ]
+        [se nm="imp"]
         今日の工場見学は、[<imp]社員さんに話を聞いてきてもらう[>]よ。[p ]
+        [se nm="imp"]
         [<imp]緑の帽子をかぶった人[>]が社員さんなんだって。[p ]
         各部屋に社員さんがいるから、話しかけてみてね。[p ]
+        [se nm="imp"]
         #◇ゲームの目的◇
         各部屋にいる緑色の帽子の人から話を聞いていきましょう。[r]
         話しかけるには、その人の近くでその方向にボタンを押します。[p]
@@ -527,6 +537,7 @@ f.mpnm=='f101_34_01_pic';
         #クリ
         それじゃあいったん解散！また会おう！[p]
         [chara_hide_all layer="1"]
+        [bgm nm="evt"]
         #案内人
         それでは「惣菜キット」を作る工程を一緒に見ていきましょう[p]
         [image layer="1" name="photo"  storage="../image/process/p1cab.jpg" pos="c" time="500" ]
@@ -541,6 +552,7 @@ f.mpnm=='f101_34_01_pic';
 *trm
 ;trmトリミング室
     [iadv]
+        [bgm nm="evt"]
         [image layer="1" name="photo" visible="true" storage="../image/process/p2cab.jpg" pos="c" time="500" ]
         #案内人
         キャベツや白菜の芯を取ったり、プリーツレタスをばらしたりなど、[r]野菜の下処理を行います。[p]
@@ -554,6 +566,7 @@ f.mpnm=='f101_34_01_pic';
 *mac
 ;mac(カット室(機械洗浄))
     [iadv]
+        [bgm nm="evt"]
         [image layer="1" name="photo" visible="true" storage="../image/process/p3cab.jpg" pos="c" time="500" ]
         #案内人
        様々な野菜を様々な規格に専用の機械で切り分けます。[r]洗浄、殺菌、脱水工程までを行います。[p]
@@ -567,6 +580,7 @@ f.mpnm=='f101_34_01_pic';
 *wgh
 ;計量室
     [iadv]
+        [bgm nm="evt"]
         [image layer="1" name="photo" visible="true" storage="../image/process/p4cab.jpg" pos="c" time="500" ]
         #案内人
         全ての野菜を重量、枚数、本数によって計量します。[r]
@@ -582,6 +596,7 @@ f.mpnm=='f101_34_01_pic';
 *set
 ;set(セット準備室)
     [iadv]
+        [bgm nm="evt"]
         [image layer="1" name="photo" visible="true" storage="../image/process/p5cab.jpg" pos="c" time="500" ]
         #案内人
         計量室で出来上がった食材と付属品の組み合わせとセット作業を行います。野菜だけでなく、麺・肉・海鮮・タレなどたくさんの具材を扱っています。[p]
@@ -596,6 +611,7 @@ f.mpnm=='f101_34_01_pic';
 [eval exp="tf.aoi='これはwap(計量包装室(セット室))初回イベント'" ]
 [trace exp="tf.aoi" ]
     [iadv]
+        [bgm nm="evt"]
         #案内人
        セット準備室で計画した通りに食材と付属品の組み合わせとセット作業を行います。[p]
        #
@@ -607,6 +623,7 @@ f.mpnm=='f101_34_01_pic';
 [eval exp="tf.aoi='これはpic(ピッキング室(生産管理室))初回イベント'" ]
 [trace exp="tf.aoi" ]
     [iadv]
+        [bgm nm="evt"]
         [image layer="1" name="photo" visible="true" storage="../image/process/p6cab.jpg" pos="c" time="500" ]
         #案内人
         すべての商品がここに集約され、取引先ごとに決められた出荷方法で仕分けをします。[r]製造部の指示出しも行っています。[p]
@@ -614,6 +631,7 @@ f.mpnm=='f101_34_01_pic';
         #
         [show name="hara" side="R"]
         #ハラ
+        [se nm="imp"]
         ここが最後の部屋だな![p]
         [chara_hide_all layer="1"]
         #
@@ -734,10 +752,12 @@ f.mpnm=='f101_34_01_pic';
     
     [endscript ]
     [iadv]
+    [bgm nm="talk"]
     [if exp="f.mpnm=='f201_39_13_ant'" ]
     [show name="mbg"]
     #mbg
     そうそう、私みたいな人が「緑の帽子の人」ですよ。[p]
+    [se nm="imp"]
     こんな風に選択肢が出るからね。[p]文字クリックかキーの1or2を押してエンターだよ。[r]
         [font color="0xccc" bold="true"  ]
             [link keyfocus="1" target="113373_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
@@ -804,6 +824,7 @@ f.mpnm=='f101_34_01_pic';
 [if exp="f.mpnm='f201_29_01_trm'" ]
 
     [iadv ]
+    [bgm nm="talk"]
         [show name="mbw"]
         #
             あのー…[l][r]
@@ -839,6 +860,8 @@ f.mpnm=='f101_34_01_pic';
 *227133
 [if exp="f.mpnm='f201_29_01_trm'" ]
     [iadv ]
+    [bgm nm="talk"]
+
         [show name="mbm"]
         #
             あのー…[l][r]
@@ -891,6 +914,7 @@ f.mpnm=='f101_34_01_pic';
 [if exp="f.mpnm='f201_01_01_mac'" ]
 
     [iadv ]
+    [bgm nm="talk"]
         [show name="mbw"]
         #
             あのー…[l][r]
@@ -926,6 +950,7 @@ f.mpnm=='f101_34_01_pic';
 *2220103
 [if exp="f.mpnm='f201_01_01_mac'" ]
     [iadv ]
+    [bgm nm="talk"]
         [show name="mbm"]
         #
             あのー…[l][r]
@@ -979,6 +1004,7 @@ f.mpnm=='f101_34_01_pic';
 [if exp="f.mpnm='f201_06_15_wgh'" ]
 
     [iadv ]
+    [bgm nm="talk"]
         [show name="mbw"]
         #
             あのー…[l][r]
@@ -1014,6 +1040,7 @@ f.mpnm=='f101_34_01_pic';
 *11863
 [if exp="f.mpnm='f201_06_15_wgh'" ]
     [iadv ]
+    [bgm nm="talk"]
         [show name="mbm"]
         #
             あのー…[l][r]
@@ -1066,6 +1093,7 @@ f.mpnm=='f101_34_01_pic';
 [if exp="f.mpnm='f101_20_01_set'" ]
 
     [iadv ]
+    [bgm nm="talk"]
         [show name="mbw"]
         #
             あのー…[l][r]
@@ -1106,6 +1134,7 @@ f.mpnm=='f101_34_01_pic';
 *226173
 [if exp="f.mpnm='f101_20_01_set'" ]
     [iadv ]
+    [bgm nm="talk"]
         [show name="mbm"]
         #
             あのー…[l][r]
@@ -1158,6 +1187,7 @@ f.mpnm=='f101_34_01_pic';
 [if exp="f.mpnm='f101_12_25_wap'" ]
 
     [iadv ]
+    [bgm nm="talk"]
         [show name="mbw"]
         #
             あのー…[l][r]
@@ -1193,6 +1223,7 @@ f.mpnm=='f101_34_01_pic';
 *226153
 [if exp="f.mpnm='f101_12_25_wap'" ]
     [iadv ]
+    [bgm nm="talk"]
         [show name="mbm"]
         #
             あのー…[l][r]
@@ -1245,6 +1276,7 @@ f.mpnm=='f101_34_01_pic';
 [if exp="f.mpnm='f101_34_01_pic'" ]
 
     [iadv ]
+    [bgm nm="talk"]
         [show name="mbw"]
         #
             あのー…[l][r]
@@ -1280,6 +1312,7 @@ f.mpnm=='f101_34_01_pic';
 *222173
 [if exp="f.mpnm='f101_34_01_pic'" ]
     [iadv ]
+    [bgm nm="talk"]
         [show name="mbm"]
         #
             あのー…[l][r]
@@ -1322,6 +1355,7 @@ f.mpnm=='f101_34_01_pic';
     [if exp="f.mpnm=='f201_39_13_ant'" ]
         [ignore exp="f.istoruming" ]
             [iadv ]
+                [bgm nm="evt"]
                 [show name="mbg"]
                 #社員さん
                 ちょっと待って！[p]
