@@ -37,3 +37,57 @@ function split(str){
         }
         return[flg,cnt];
     };
+
+
+
+
+//Shiftキーを押しているかどうか。押し続けている場合5秒まで。
+let isFunctionEnabled = false; // Shiftキー押下中はtrueに設定
+let shiftPressedTime = 0; // Shiftキーが押された時間
+let coolDownTime = 10000; // クールタイム（ミリ秒）
+
+document.addEventListener('keydown', function(event) {
+  if (event.key === 'Shift' && isFunctionEnabled != "none") {
+    shiftPressedTime = Date.now(); // Shiftキーが押された時間を記録
+    isFunctionEnabled = true;
+    //console.log('Shiftキーが押されました'+isFunctionEnabled);
+
+    // 5秒後にShiftキーを解除するタイマーを設定
+    setTimeout(function() {
+      if (isFunctionEnabled) {
+        isFunctionEnabled = "none";
+        //console.log('Shiftキーを解除しました'+isFunctionEnabled);
+
+      }
+    }, 5000);
+  }
+});
+
+document.addEventListener('keyup', function(event) {
+  if (event.key === 'Shift') {
+    isFunctionEnabled = false;
+    //console.log('Shiftキーを離しました');
+
+    // クールタイムタイマーを設定
+    setTimeout(function() {
+      isFunctionEnabled = true;
+      //console.log('Shiftキーが再び押せるようになりました');
+    }, coolDownTime);
+  }
+});
+
+
+//ベクトルキーを押し続けた時に押し上げて連打と同じ判定にする
+//Shiftキーを押している間のみ。
+document.addEventListener('keydown', function(event) {
+  if (event.code === 'ArrowUp' || event.code === 'ArrowDown' ||
+      event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
+    if (isFunctionEnabled) {
+      event.preventDefault(); // 矢印キー無効化
+      setTimeout(function() {
+        document.dispatchEvent(new KeyboardEvent('keyup', { code: event.code }));
+        //console.log('停止した');
+      }, 100);
+    }
+  }
+});

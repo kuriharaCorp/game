@@ -88,6 +88,44 @@ f.map.bsc['loc']をコメントから起動する(240204)
 
     [endmacro]
 
+    ;---------------------------------------------------
+
+    ;歩行動作のONOFF
+    [macro name="KA"]
+        [iscript ]
+            if(mp.s=='OFF'){
+                window.__tyrano_key_config.key.ArrowUp   ="";
+                window.__tyrano_key_config.key.ArrowDown ="";
+                window.__tyrano_key_config.key.ArrowLeft ="";
+                window.__tyrano_key_config.key.ArrowRight="";
+
+
+            console.log('KA停止');
+            }else{
+                window.__tyrano_key_config.key.ArrowUp=function () {
+                    TYRANO.kag.stat.f['vec']='T';
+                    TYRANO.kag.ftag.startTag("jump",{target:"*ahead"});
+                };
+                window.__tyrano_key_config.key.ArrowDown=function () {
+                    TYRANO.kag.stat.f['vec']='B';
+                    TYRANO.kag.ftag.startTag("jump",{target:"*ahead"});
+                };
+                window.__tyrano_key_config.key.ArrowLeft=function () {
+                    TYRANO.kag.stat.f['vec']='L';
+                    TYRANO.kag.ftag.startTag("jump",{target:"*ahead"});
+                };
+                window.__tyrano_key_config.key.ArrowRight=function () {
+                    TYRANO.kag.stat.f['vec']='R';
+                    TYRANO.kag.ftag.startTag("jump",{target:"*ahead"});
+                };
+
+            console.log('KA起動');
+            }
+        [endscript]
+    [endmacro ]
+
+    ;---------------------------------------------------
+
     ;ADVモードの時の共通コード
     [macro name="iadv"]
     ;名前欄を空欄にしておく
@@ -97,12 +135,7 @@ f.map.bsc['loc']をコメントから起動する(240204)
         [adv ]
         [cm]
         ;十字ボタンを無効化
-        [iscript ]
-            window.__tyrano_key_config.key.ArrowUp   ="";
-            window.__tyrano_key_config.key.ArrowDown ="";
-            window.__tyrano_key_config.key.ArrowLeft ="";
-            window.__tyrano_key_config.key.ArrowRight="";
-        [endscript ]
+        [KA s="OFF"]
         [chara_config talk_focus="brightness"]
     [endmacro ]
 
@@ -115,24 +148,7 @@ f.map.bsc['loc']をコメントから起動する(240204)
 
         [layopt layer="message0" visible="false" ]
         ;十字ボタン有効化
-        [iscript ]
-            window.__tyrano_key_config.key.ArrowUp=function () {
-                TYRANO.kag.stat.f['vec']='T';
-                TYRANO.kag.ftag.startTag("jump",{target:"*ahead"});
-            };
-            window.__tyrano_key_config.key.ArrowDown=function () {
-                TYRANO.kag.stat.f['vec']='B';
-                TYRANO.kag.ftag.startTag("jump",{target:"*ahead"});
-            };
-            window.__tyrano_key_config.key.ArrowLeft=function () {
-                TYRANO.kag.stat.f['vec']='L';
-                TYRANO.kag.ftag.startTag("jump",{target:"*ahead"});
-            };
-            window.__tyrano_key_config.key.ArrowRight=function () {
-                TYRANO.kag.stat.f['vec']='R';
-                TYRANO.kag.ftag.startTag("jump",{target:"*ahead"});
-            };
-        [endscript ]
+        [KA]
         [chara_config talk_focus="none"]
         [fadeoutbgm ]
     [endmacro ]

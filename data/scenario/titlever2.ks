@@ -72,6 +72,7 @@
     @eval exp="f.mode='01';tf.n=0;" 
     @bg storage ="&'bg_title'+tf.n+'.jpg'" time=1000
     @wait time = 1500
+    @jump storage="first.ks"
 [endif]
 
 [image name="bgtitle" layer="0" folder="bgimage"  storage="&'bg_title'+tf.n+'.jpg'" visible="true"]

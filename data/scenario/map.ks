@@ -68,6 +68,28 @@ tf.mpnmを調べてそれが01.ksの配列に含まれるか調べる
 ;２部屋以上移動するとサイレントフリーズする
 ;一度ONになったあと部屋移動
 ;knockbackでも発生
+
+;@loadjs storage="../scenario/js/dash.js"
+
+;ここでボタンが押されているかどうかの判定を行う
+[iscript]
+    const keysDown = {};
+    window.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight' ||
+        event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+    //押している間の判定
+    TYRANO.kag.variable.tf.walk=null;
+    }
+    });
+
+    window.addEventListener('keyup', (event) => {
+    if (event.key === 'ArrowLeft' || event.key === 'ArrowRight' ||
+        event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+    //ボタンが離れているときの判定
+    TYRANO.kag.variable.tf.walk=false;
+    }
+    });
+[endscript]
    
 
 ;スタートのイベント(最初1回)
@@ -75,9 +97,17 @@ tf.mpnmを調べてそれが01.ksの配列に含まれるか調べる
 [evt_mid cond="f.mode!='none'"]
 [evt_end cond="f.mode!='none'"]
 ;@eval exp="console.log(`ここで止まるぞ`)"
+
+    ;500ミリ秒キーを押していなければ歩行が止まる
+    [wait time="500"]
+    ;[chara_mod cond="tf.istf" name="player_mt" face="&f.vec.toLowerCase()+'0'" time="50" wait="true" cond="tf.walk==false"]
+    [chara_mod cond="tf.istf" name="player_mt" face="&f.povz+'0'" time="50" wait="true" cond="tf.walk==false"]
+    ;キャラが動いているのかの判定
+    [eval exp="tf.ismove=false"]
 [s ]
 
 *ahead
+[wait_cancel]
 [stop_keyconfig ]
 [evemap]
 

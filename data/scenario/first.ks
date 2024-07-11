@@ -24,6 +24,13 @@
 ;共通JSfunction読み込み
 @loadjs storage="../scenario/js/style.js"
 
+
+;オリジナルタグてすと
+[loadjs storage="orizinal.js"]
+
+
+
+
 ;仮テスト
 ;@jump storage="map/maptemplate.ks" 
 
@@ -39,6 +46,14 @@
 
 [dialog text="音が鳴ります。ご注意ください。"]
 [call storage="soundtrack.ks" ]
+
+;編集中は音が出ないようにしておく
+;///////////////////////////
+;[bgmopt volume="0"]
+;[seopt volume="0"]
+;///////////////////////////
+
+
 
 ;@jump storage="testfile.ks" 
 @jump storage="titlever2.ks"

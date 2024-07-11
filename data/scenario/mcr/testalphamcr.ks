@@ -91,7 +91,8 @@
         //位置
         f.pc['ps']=[];f.pc.ps['x']=0;f.pc.ps['y']=0;
         //キャラ登録用pass
-        tf.pass='chara/tip/1341/'
+        //tf.pass='chara/tip/1341/'
+        tf.pass='chara/tip/anim/'
 
     //modeのラベル配列初期値
         f.arlbl=[];
@@ -103,20 +104,29 @@
 [endscript ]
     ;## 操作キャラクターの登録
         [chara_config effect="jswing" ]
-        [chara_new name="player_mt" height="&f.pc.sz.y" width="&f.pc.sz.x" storage="&tf.pass+'1.png'" ]
+        ;[chara_new name="player_mt" height="&f.pc.sz.y" width="&f.pc.sz.x" storage="&tf.pass+'1.png'" ]
+        ; [chara_face name="player_mt" face="b0" storage="&tf.pass+'0.png'"]
+        ; [chara_face name="player_mt" face="b1" storage="&tf.pass+'1.png'"]
+        ; [chara_face name="player_mt" face="b2" storage="&tf.pass+'2.png'"]
+        ; [chara_face name="player_mt" face="l0" storage="&tf.pass+'3.png'"]
+        ; [chara_face name="player_mt" face="l1" storage="&tf.pass+'4.png'"]
+        ; [chara_face name="player_mt" face="l2" storage="&tf.pass+'5.png'"]
+        ; [chara_face name="player_mt" face="r0" storage="&tf.pass+'6.png'"]
+        ; [chara_face name="player_mt" face="r1" storage="&tf.pass+'7.png'"]
+        ; [chara_face name="player_mt" face="r2" storage="&tf.pass+'8.png'"]
+        ; [chara_face name="player_mt" face="t0" storage="&tf.pass+'9.png'"]
+        ; [chara_face name="player_mt" face="t1" storage="&tf.pass+'10.png'"]
+        ; [chara_face name="player_mt" face="t2" storage="&tf.pass+'11.png'"]
+        [chara_new name="player_mt" height="&f.pc.sz.y" width="&f.pc.sz.x" storage="&tf.pass+'0.png'" ]
+
         [chara_face name="player_mt" face="b0" storage="&tf.pass+'0.png'"]
-        [chara_face name="player_mt" face="b1" storage="&tf.pass+'1.png'"]
-        [chara_face name="player_mt" face="b2" storage="&tf.pass+'2.png'"]
+        [chara_face name="player_mt" face="b1" storage="&tf.pass+'b1.png'"]
         [chara_face name="player_mt" face="l0" storage="&tf.pass+'3.png'"]
-        [chara_face name="player_mt" face="l1" storage="&tf.pass+'4.png'"]
-        [chara_face name="player_mt" face="l2" storage="&tf.pass+'5.png'"]
+        [chara_face name="player_mt" face="l1" storage="&tf.pass+'l1.png'"]
         [chara_face name="player_mt" face="r0" storage="&tf.pass+'6.png'"]
-        [chara_face name="player_mt" face="r1" storage="&tf.pass+'7.png'"]
-        [chara_face name="player_mt" face="r2" storage="&tf.pass+'8.png'"]
+        [chara_face name="player_mt" face="r1" storage="&tf.pass+'r1.png'"]
         [chara_face name="player_mt" face="t0" storage="&tf.pass+'9.png'"]
-        [chara_face name="player_mt" face="t1" storage="&tf.pass+'10.png'"]
-        [chara_face name="player_mt" face="t2" storage="&tf.pass+'11.png'"]
-        ;ボタンを押しっぱなしにすると画像が切り替わるとかそういうのがあればつけたい
+        [chara_face name="player_mt" face="t1" storage="&tf.pass+'t1.png'"]
 
 ;/一度だけ宣言===================
 
@@ -237,11 +247,11 @@
     [macro name="map_bld" ]
 
         ;placeの引数を取得する(f.povxyz,tf.pl12345)(*rt_bldに戻る)
-        [jump storage="&'map/'+mp.name+'.ks'" target="*place" cond="!f.isnmp"]
+        [jumpS storage="&'map/'+mp.name+'.ks'" target="*place" cond="!f.isnmp"]
         ;[jump storage="&'map/'+f.mpnm+'.ks'" target="*place" ]
 *rt_bld
         ;ここでmode01.ksの追加イベントも読み込む(*rt_bld2に戻る)
-        [jump storage="&'mcr/mode/'+f.mode+'.ks'" target="*place" cond="f.mode!='none'&&!f.isnmp"]
+        [jumpS storage="&'mcr/mode/'+f.mode+'.ks'" target="*place" cond="f.mode!='none'&&!f.isnmp"]
 *rt_bld2
         [iscript ]
             f.map[mp.name]=[];
@@ -1030,7 +1040,30 @@
         
             ;振り返るとき(!T=t)キャラ画像を向けた方向に切り替える。
             [eval exp="tf.istf=f.vec.toUpperCase()!=f.povz.toUpperCase()" ]
-            [chara_mod cond="tf.istf" name="player_mt" face="&f.vec.toLowerCase()+'0'" time="50" wait="false" ]
+            ;[chara_mod cond="tf.istf" name="player_mt" face="&f.vec.toLowerCase()+'0'" time="50" wait="false" ]
+
+            ;マップ切り替えを検知
+            [eval exp="tf.fststep=tf.tempmpnm!=tf.mpnm"]
+            ;条件でアニメーション立ち絵に変更
+            [if exp="tf.istf|!tf.ismove|tf.fststep" ]
+                [chara_mod name="player_mt" face="&f.vec.toLowerCase()+'1'" time="50" wait="false" ]
+                [eval exp="tf.ismove=true" ]
+            [endif ]
+
+            [eval exp="tf.tempmpnm=tf.mpnm"]
+
+            /*
+                切り替え条件
+                絶対条件
+                ・別方向に切り替えたとき
+                相対条件
+                ・現在停止している場合
+            
+                この時点のtf.istfは、キャラの向きが変わったか否か。
+
+                部屋移動後の最初の1回目を起動させたい
+                tf.mpnmの名前が以前と切り替わった時
+            */
 
             ;objでマップかキャラクターを動かす。
             [if exp="f.vec==f.povz.toUpperCase()" ]
@@ -1219,7 +1252,7 @@
                 [endignore ]
                 ;初期化
                 @eval exp="f.infokey=0"; 
-
+                [KA]
             [endignore ]
         [endif ]
 

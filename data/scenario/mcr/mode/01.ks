@@ -79,8 +79,11 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         #案内人
         それではみなさん、2Fの更衣室で白衣に着替えてください[p]
         [se nm="imp"]
+        [image name="keyboard" layer="1" folder="image/tutorial" storage="keyboard.png" width="400" left="&1280/2-200" top="0" ]
         #◇操作説明◇
         画面左下の十字ボタンをクリック、あるいはキーボードの十字キーでハラちゃんを動かすことができます。[p]
+        [<imp]Shiftキーを押しながら十字キーを長押し[>]で少し早く動けます。[p]
+        [free name="keyboard" layer="1" time="2000"]
         さっそく階段へ移動しましょう![p]
 
         [se nm="imp"]
@@ -685,7 +688,8 @@ f.mpnm=='f101_34_01_pic';
 [s]
 
 *confirm
-    [dialog text="マップ移動するけどいいかな？" type="confirm" target="*go"  ]
+    [KA s="OFF"]
+    [dialog text="マップ移動するけどいいかな？" type="confirm" storage="&tf.nextjump" target="*go"  ]
     [knockback]
     ;キャンセルのとき、mpnmを元に戻す
     @eval exp="tf.mpnm=tf.mpnm_bu"
@@ -1367,7 +1371,7 @@ f.mpnm=='f101_34_01_pic';
             [endadv ]
         [endignore ]
         [iscript ]
-            tf.url='https://www.youtube.com/embed/'+'TnX09mIwdI0'
+            tf.url='https://www.youtube.com/embed/'+'TnX09mIwdI0'+'?mute=1'
             f.ismdeve=true
         [endscript ]
 
