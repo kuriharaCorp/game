@@ -70,24 +70,40 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         [bgm nm="talk"]
         [chara_config pos_mode="false" ]
         [show name="kuri" face="suit"]
-        #クリ
-        こんにちは！工場見学隊の[<mid]クリ[>]です！[l][r]
-        今日はクリハラの工場内を探検しましょう。[p]
-        [show name="hara" face="suit" side="R"]
-        #ハラ
-        はーい！[l]同じく[<mid]ハラ[>]です！[p]
+        #マロン
+        こんにちは！[<mid]工場見学隊のマロン[>]です！[l][r]
+        今日はクリハラの工場内を探検しましょう。頑張りましょうね！[p]
+        /*
+            ここで名前入力
+        */
+
+        [edit left="600" top="200" name="f.playername" initial="あなた" maxchars="6"]
+        [show name="pl" face="suit" side="R"]
+
+        [glink color="btn_01_red" text="あなたの名前を決定→" target=next x=600 y=300 cm=false]
+        [s]
+
+        *next
+        [commit name="f.playername"]
+        [cm]
+
+        [reg_chara01]
+        [show name="pl" face="suit" side="R"]
+        #pl
+        はーい！[p]
+        ;[l]同じく[<mid][emb exp="f.playername"][>]です！[p]
         #案内人
         それではみなさん、2Fの更衣室で白衣に着替えてください[p]
         [se nm="imp"]
         [image name="keyboard" layer="1" folder="image/tutorial" storage="keyboard.png" width="400" left="&1280/2-200" top="0" ]
         #◇操作説明◇
-        画面左下の十字ボタンをクリック、あるいはキーボードの十字キーでハラちゃんを動かすことができます。[p]
+        画面左下の十字ボタンをクリック、あるいはキーボードの十字キーで[<mid][emb exp="f.playername"][>]を動かすことができます。[p]
         [<imp]Shiftキーを押しながら十字キーを長押し[>]で少し早く動けます。[p]
         [free name="keyboard" layer="1" time="2000"]
         さっそく階段へ移動しましょう![p]
 
         [se nm="imp"]
-        #ハラ
+        #pl
         [<imp]階段を上って更衣室で着替える[>]だったね。[l ]よし、行こう![p]
          @eval exp="f.isevt_fst=true"
         [mask time="1000" ]
@@ -156,20 +172,21 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     [endscript ]
     [if exp="f.end01" ]
         [iadv ]
+        [se nm="eye"]
         [bgm nm="talk"]
         [show name="kuri"]
-            #クリ
+            #マロン
             おつかれさま！回ってこられた？[p ]
-        [show name="hara" side="R"]
-            #ハラ
+        [show name="pl" side="R"]
+            #pl
             うん！一通り見てきたよ！[p ]
             社員さんに話を聞けたよ。[p ]
-            #クリ
+            #マロン
             それは良かった！[p ]
             クリハラでは野菜のカットを含めた「惣菜キット」を作っていることがわかったね。[p ]
-            #ハラ
+            #pl
             そうだね！スーパーでどんなお惣菜になるのか、ワクワクするね！[p ]
-            #クリ
+            #マロン
             それでは今日の工場見学は終わりだよ。[p ]
             もっとクリハラのことを知りたい！と思ったら、ぜひリアルの工場見学もしてみてね。[p ]
         [mask time="2000" ]
@@ -215,11 +232,11 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 ;キャラ登録
     [chara_config pos_mode="false" ]
     [macro name="reg_chara01"]
-        [chara_new name="hara" jname="ハラ" storage="chara/hara1.png"]
-        [chara_face name="hara" face="suit" storage="chara/hara0.png"]
+        [chara_new name="pl" jname="&f.playername" storage="chara/hara1.png"]
+        [chara_face name="pl" face="suit" storage="chara/hara0.png"]
     [endmacro]
     [macro name="reg_chara02"]
-        [chara_new name="kuri" jname="クリ" storage="chara/kuri1.png"]
+        [chara_new name="kuri" jname="マロン" storage="chara/kuri1.png"]
         [chara_face name="kuri" face="suit" storage="chara/kuri0.png"]
     [endmacro]
     [macro name="reg_mob01"]
@@ -518,12 +535,13 @@ f.mpnm=='f101_34_01_pic';
 ;tf.aoiは超適当に付けた名前。何の意味もないです。
 *ant
     [iadv]
+        [se nm="eye"]
         [bgm nm="talk"]
-        [show name="hara" side="R"]
-        #ハラ
+        [show name="pl" side="R"]
+        #pl
         さっそく工場の白衣に着替えてきたよ。楽しみだね！[p]
         [show name="kuri"]
-        #クリ
+        #マロン
         そうだね。[p ]
         [se nm="imp"]
         今日の工場見学は、[<imp]社員さんに話を聞いてきてもらう[>]よ。[p ]
@@ -534,10 +552,10 @@ f.mpnm=='f101_34_01_pic';
         #◇ゲームの目的◇
         各部屋にいる緑色の帽子の人から話を聞いていきましょう。[r]
         話しかけるには、その人の近くでその方向にボタンを押します。[p]
-        #ハラ
+        #pl
         はーい！わかりました。[l][r]
         どんな工程があるのか聞けるといいな！[p]
-        #クリ
+        #マロン
         それじゃあいったん解散！また会おう！[p]
         [chara_hide_all layer="1"]
         [bgm nm="evt"]
@@ -632,8 +650,8 @@ f.mpnm=='f101_34_01_pic';
         すべての商品がここに集約され、取引先ごとに決められた出荷方法で仕分けをします。[r]製造部の指示出しも行っています。[p]
         [free layer="1" name="photo"  time="500" ]
         #
-        [show name="hara" side="R"]
-        #ハラ
+        [show name="pl" side="R"]
+        #pl
         [se nm="imp"]
         ここが最後の部屋だな![p]
         [chara_hide_all layer="1"]
@@ -781,7 +799,7 @@ f.mpnm=='f101_34_01_pic';
 
     [else ]
     [show name="kuri"]
-    #クリ
+    #マロン
     ふんふん…なるほどなぁ[r]
     [endif]
     あ、こっちは進行方向じゃないよ、[emb exp="tf.way"]だって。[p]

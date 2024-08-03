@@ -14,6 +14,7 @@ f.se['select']='btn3.mp3';
 f.se['ok']='btn4.mp3';
 f.se['ng']='beep4.mp3';
 f.se['imp']='success.mp3';
+f.se['eye']='scenechange.mp3';
 [endscript ]
 
 
