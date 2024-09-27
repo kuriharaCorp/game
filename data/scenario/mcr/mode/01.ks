@@ -277,15 +277,15 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     f.talkto['mac'][0][0]='規格を合わせてスライサーでカットしています';
     f.talkto['mac'][0][1]='規格を間違わないように合わせています';
     f.talkto['mac'][1]=[];
-    f.talkto['mac'][1][0]='洗浄後の野菜を脱水しています';
-    f.talkto['mac'][1][1]='洗浄、殺菌の時間に気を付けます';
+    f.talkto['mac'][1][0]='野菜を機械でカットしています';
+    f.talkto['mac'][1][1]='出荷量にあわせた量を切るようにしています';
     f.talkto['wgh']=[];//計量室
     f.talkto['wgh'][0]=[];
     f.talkto['wgh'][0][0]='ピーマンを量ってパックしています';
     f.talkto['wgh'][0][1]='野菜の変色に気を付けています';
     f.talkto['wgh'][1]=[];
     f.talkto['wgh'][1][0]='千切りキャベツを真空パックしています';
-    f.talkto['wgh'][1][1]='数量間違いがないようにカウントします';
+    f.talkto['wgh'][1][1]='穴が開いて真空漏れしていないか確認しています';
     f.talkto['set']=[];//セット準備室
     f.talkto['set'][0]=[];
     f.talkto['set'][0][0]='必要な肉を冷蔵庫から運んでいます';
@@ -295,7 +295,7 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     f.talkto['set'][1][1]='材料を過不足なく集めることです';   
     f.talkto['wap']=[];//セット室
     f.talkto['wap'][0]=[];
-    f.talkto['wap'][0][0]='準備してくれた具材を1商品ごとにセットアップしています';
+    f.talkto['wap'][0][0]='準備してくれた具材を1キットごとにセットアップしています';
     f.talkto['wap'][0][1]='材料の入れ間違いがないようにしています';
     f.talkto['wap'][1]=[];
     f.talkto['wap'][1][0]='海老の計量とパックをしています';
@@ -336,6 +336,49 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         [endadv ]
     [endignore ]
 [endmacro]
+
+
+; アナウンスマクロ化
+[macro name="announcement"]
+    [iscript ]
+    f.add='../image/process/';
+    f.arraytext=[];
+    f.arraytext[1]=['キャベツや白菜の芯を取ったり、プリーツレタスをばらしたりなど、','野菜の下処理を行います。']//trm
+    f.arraytext[2]=['様々な野菜を様々な規格に専用の機械で切り分けます。','洗浄、殺菌、脱水工程までを行います。']//mac
+    f.arraytext[3]=['全ての野菜を重量、枚数、本数によって計量します。','異物が入っていないか金属探知機を使って検品もしています。']//wgh
+    f.arraytext[4]=[' 計量室で出来上がった食材と付属品の組み合わせや、セット作業を行います。野菜だけでなく、','麺・肉・海鮮・タレなどたくさんの具材を扱っています。']//set
+    f.arraytext[5]=['セット準備室で計画した通りに食材と付属品を組み合わせ、キットを完成させます。','']//wap
+    f.arraytext[6]=['すべての商品がここに集約され、取引先ごとに決められた出荷方法で仕分けをします。','製造部の指示出しも行っています。']
+    
+    tf.txtA=f.arraytext[mp.n][0]
+    tf.txtB=f.arraytext[mp.n][1]
+    tf.n=mp.n
+    //5のときだけ画像がないので4に変更
+    if(tf.n==5)tf.n=4
+    [endscript]
+
+
+    [bgm nm="evt"]
+    ; [image layer="1" name="photo,photoBF" visible="true" storage="&f.add+'p'+(tf.n*1+0)+'cab.jpg'" pos="c" time="500" page="fore" wait="false"]
+    ; [image layer="1" name="photo,photoAF" visible="true" storage="&f.add+'p'+(tf.n*1+1)+'cab.jpg'" pos="r" time="500" page="back" wait="true"]
+    [image layer="1" name="photo,photoAF" visible="true" storage="&f.add+'p'+(tf.n*1+1)+'cab.jpg'" pos="c" time="500" wait="false"]
+    [image layer="1" name="photo,photoBF" visible="true" storage="&f.add+'p'+(tf.n*1+0)+'cab.jpg'" pos="c" time="500" wait="true"]
+
+    #案内人
+    [emb exp="tf.txtA"][r]
+    ; [trans layer="1" time="2000"]
+    ;6は最後で画像がないので移動処理を行わない
+    [ignore exp="tf.n==6"]
+        [anim name="photoBF" left="-=250"]
+        [anim name="photoAF" left="+=250"]
+    [endignore]
+    [emb exp="tf.txtB"]
+    [wait time="1000"][p]
+    [free layer="1" name="photo"  time="500" ]
+    #
+[endmacro]
+
+
 
 
 [return]
@@ -398,7 +441,7 @@ f.mpnm=='f101_34_01_pic';
     //第二工場計量室新規イベント
     if(f.mpnm=='f201_06_15_wgh'){
         push(1,2,15,5,3)//話しかけフラグ1
-        push(1,1,8,6,3)//話しかけフラグ2
+        push(1,1,30,2,3)//話しかけフラグ2
         push(1,2,30,10,3)//全員に話を聞くフラグ
         push(1,4,8,1)//西封鎖
         push(1,1,1,6)//隙間詰め壁
@@ -406,7 +449,7 @@ f.mpnm=='f101_34_01_pic';
     }
     //第一工場セット準備室新規イベント
     if(f.mpnm=='f101_20_01_set'){
-        push(2,2,4,11,3)//話しかけフラグ1
+        push(2,1,4,2,3)//話しかけフラグ1
         push(2,2,6,17,3)//話しかけフラグ2
         push(1,3,0,6)//壁(西封鎖)
         push(1,2,10,11,3)//立ち入り禁止+話しかけ(東封鎖)
@@ -485,10 +528,10 @@ f.mpnm=='f101_34_01_pic';
         //計量室(f201_06_15_wgh)
         f.arlbl[18]="1230103"//移動先変更+話を聞く門
         f.arlbl[19]="121553"//央従業員フラグ
-        f.arlbl[20]="11863"//西従業員フラグ
+        f.arlbl[20]="113023"//西従業員フラグ->北東人物変更
         f.arlbl[21]="113373"//前室封鎖会話
         //セット準備室(f101_20_01_set.ks)
-        f.arlbl[24]="224113"//央従業員フラグ
+        f.arlbl[24]="21423"//央従業員フラグ
         f.arlbl[25]="226173"//下従業員フラグ
         f.arlbl[26]="413253"//全員に話を聞く門
         f.arlbl[28]="1210113"//東封鎖(コンテナ洗浄室)
@@ -561,7 +604,7 @@ f.mpnm=='f101_34_01_pic';
         [bgm nm="evt"]
         #案内人
         それでは「惣菜キット」を作る工程を一緒に見ていきましょう[p]
-        [image layer="1" name="photo"  storage="../image/process/p1cab.jpg" pos="c" time="500" ]
+        [image layer="1" name="photo"  storage="../image/process/p0cab.jpg" pos="c" time="500" ]
         これからめぐるお部屋でこのキャベツがどのように加工されていくのかよく覚えておいてくださいね[p]
         [free layer="1" name="photo"  time="500" ]
         #
@@ -570,15 +613,11 @@ f.mpnm=='f101_34_01_pic';
 [return ]
 [s ]
 
+
 *trm
 ;trmトリミング室
     [iadv]
-        [bgm nm="evt"]
-        [image layer="1" name="photo" visible="true" storage="../image/process/p2cab.jpg" pos="c" time="500" ]
-        #案内人
-        キャベツや白菜の芯を取ったり、プリーツレタスをばらしたりなど、[r]野菜の下処理を行います。[p]
-        [free layer="1" name="photo"  time="500" ]
-        #
+        [announcement n="1"]
     [endadv]
     @eval exp="f.fstTrm=true"
 [return ]
@@ -587,12 +626,7 @@ f.mpnm=='f101_34_01_pic';
 *mac
 ;mac(カット室(機械洗浄))
     [iadv]
-        [bgm nm="evt"]
-        [image layer="1" name="photo" visible="true" storage="../image/process/p3cab.jpg" pos="c" time="500" ]
-        #案内人
-       様々な野菜を様々な規格に専用の機械で切り分けます。[r]洗浄、殺菌、脱水工程までを行います。[p]
-        [free layer="1" name="photo"  time="500" ]
-        #
+        [announcement n="2"]
     [endadv]
 @eval exp="f.fstMac=true"
 [return ]
@@ -601,13 +635,7 @@ f.mpnm=='f101_34_01_pic';
 *wgh
 ;計量室
     [iadv]
-        [bgm nm="evt"]
-        [image layer="1" name="photo" visible="true" storage="../image/process/p4cab.jpg" pos="c" time="500" ]
-        #案内人
-        全ての野菜を重量、枚数、本数によって計量します。[r]
-        異物が入っていないか金属探知機を使って検品もしています。[p]
-        [free layer="1" name="photo"  time="500" ]
-        #
+        [announcement n="3"]
     [endadv]
 @eval exp="f.fstWgh=true"
 [return ]
@@ -617,12 +645,7 @@ f.mpnm=='f101_34_01_pic';
 *set
 ;set(セット準備室)
     [iadv]
-        [bgm nm="evt"]
-        [image layer="1" name="photo" visible="true" storage="../image/process/p5cab.jpg" pos="c" time="500" ]
-        #案内人
-        計量室で出来上がった食材と付属品の組み合わせとセット作業を行います。野菜だけでなく、麺・肉・海鮮・タレなどたくさんの具材を扱っています。[p]
-        [free layer="1" name="photo"  time="500" ]
-        #
+        [announcement n="4"]
     [endadv]
 @eval exp="f.fstSet=true"
 [return ]
@@ -632,10 +655,7 @@ f.mpnm=='f101_34_01_pic';
 [eval exp="tf.aoi='これはwap(計量包装室(セット室))初回イベント'" ]
 [trace exp="tf.aoi" ]
     [iadv]
-        [bgm nm="evt"]
-        #案内人
-       セット準備室で計画した通りに食材と付属品の組み合わせとセット作業を行います。[p]
-       #
+        [announcement n="5"]
     [endadv]
 @eval exp="f.fstWap=true"
 [return ]
@@ -644,12 +664,7 @@ f.mpnm=='f101_34_01_pic';
 [eval exp="tf.aoi='これはpic(ピッキング室(生産管理室))初回イベント'" ]
 [trace exp="tf.aoi" ]
     [iadv]
-        [bgm nm="evt"]
-        [image layer="1" name="photo" visible="true" storage="../image/process/p6cab.jpg" pos="c" time="500" ]
-        #案内人
-        すべての商品がここに集約され、取引先ごとに決められた出荷方法で仕分けをします。[r]製造部の指示出しも行っています。[p]
-        [free layer="1" name="photo"  time="500" ]
-        #
+        [announcement n="6"]
         [show name="pl" side="R"]
         #pl
         [se nm="imp"]
@@ -1058,8 +1073,8 @@ f.mpnm=='f101_34_01_pic';
 [endif ]
 [return ]
 [s ]
-;従業員フラグ西(計量室)
-*11863
+;従業員フラグ西(計量室)->変更北東
+*113023
 [if exp="f.mpnm='f201_06_15_wgh'" ]
     [iadv ]
     [bgm nm="talk"]
@@ -1067,27 +1082,27 @@ f.mpnm=='f101_34_01_pic';
         #
             あのー…[l][r]
             [font color="0xccc" bold="true"  ]
-                [link keyfocus="1" target="11863_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
-                [link keyfocus="2" target="11863_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01wgh2!==undefined"][endlink ]
+                [link keyfocus="1" target="113023_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
+                [link keyfocus="2" target="113023_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01wgh2!==undefined"][endlink ]
             [resetfont]
         [s ]
-        *11863_1
+        *113023_1
             [cm ]
             #mbm
             ;千切りキャベツを真空パックしています
             [emb exp="f.talkto['wgh'][1][0]"][p]
             [eval exp="[f.flg01wgh,f.flg01wgh2]=calstudy(f.flg01wgh,f.flg01wgh2,1,25);" ]
-            [jump target="*11863_cmn" ]
+            [jump target="*113023_cmn" ]
         [s ]
-        *11863_2
+        *113023_2
             [cm]
             #mbm
             ;数量間違いがないようにカウントします
             [emb exp="f.talkto['wgh'][1][1]"][p]
             [eval exp="[f.flg01wgh,f.flg01wgh2]=calstudy(f.flg01wgh,f.flg01wgh2,2,25);" ]
-            [jump target="*11863_cmn" ]
+            [jump target="*113023_cmn" ]
         [s ]
-        *11863_cmn
+        *113023_cmn
         [cm ]
     [endadv ]
 
@@ -1111,7 +1126,7 @@ f.mpnm=='f101_34_01_pic';
 
 ;---セット準備室---
 ;従業員フラグ央(セット準備室)
-*224113
+*21423
 [if exp="f.mpnm='f101_20_01_set'" ]
 
     [iadv ]
@@ -1120,19 +1135,19 @@ f.mpnm=='f101_34_01_pic';
         #
             あのー…[l][r]
             [font color="0xccc" bold="true"  ]
-                [link keyfocus="1" target="224113_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
-                [link keyfocus="2" target="224113_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01set1!==undefined"][endlink ]
+                [link keyfocus="1" target="21423_1" ][emb exp="(tf.sct[0]!='')?tf.sct[0]:f.sct_def[0];"][endlink ][r]
+                [link keyfocus="2" target="21423_2" ][emb exp="(tf.sct[1]!='')?tf.sct[1]:f.sct_def[1];" cond="f.flg01set1!==undefined"][endlink ]
             [resetfont]
         [s ]
-        *224113_1
+        *21423_1
             [cm ]
             #mbw
             ;必要な肉を冷蔵庫から運んでいます
             [emb exp="f.talkto['set'][0][0]"][p]
             [eval exp="[f.flg01set,f.flg01set1]=calstudy(f.flg01set,f.flg01set1,1,25);" ]
-            [jump target="*224113_cmn" ]
+            [jump target="*21423_cmn" ]
         [s ]
-        *224113_2
+        *21423_2
             [cm]
             #mbw
             ;名前が似ているものやサイズの近い物の入れ間違いに気を付けています
@@ -1143,9 +1158,9 @@ f.mpnm=='f101_34_01_pic';
                 if(f.flg01set1==1)f.flg01set=f.flg01set+25;
                 f.flg01set1++;
             [endscript ]
-            [jump target="*224113_cmn" ]
+            [jump target="*21423_cmn" ]
         [s ]
-        *224113_cmn
+        *21423_cmn
         [cm ]
     [endadv ]
     @eval exp="f.ismdeve=true"
