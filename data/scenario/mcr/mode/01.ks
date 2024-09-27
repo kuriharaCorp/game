@@ -604,7 +604,7 @@ f.mpnm=='f101_34_01_pic';
         [bgm nm="evt"]
         #案内人
         それでは「惣菜キット」を作る工程を一緒に見ていきましょう[p]
-        [image layer="1" name="photo"  storage="../image/process/p0cab.jpg" pos="c" time="500" ]
+        [image layer="1" name="photo"  storage="../image/process/p1cab.jpg" pos="c" time="500" ]
         これからめぐるお部屋でこのキャベツがどのように加工されていくのかよく覚えておいてくださいね[p]
         [free layer="1" name="photo"  time="500" ]
         #
