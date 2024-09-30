@@ -62,6 +62,9 @@ f.map.bsc['loc']をコメントから起動する(240204)
         [freeimage layer="1"]
         [layopt layer=message0 visible=false]
         [chara_hide_all time="50"]
+        ;shiftキーを強制的に外す
+        ; Shiftを押しながら部屋移動すると押し続ける動作になる不具合解消用
+        [eval exp="isFunctionEnabled = false;"]
 
     [endmacro ]
 
