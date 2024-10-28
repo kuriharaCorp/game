@@ -66,6 +66,7 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 ;初回読み込み用(bsc呼び出し)
 [macro name="evt_fst"]
     ; [trace exp="&`'現在'+f.mode+'モードです'`" ]
+; [skipstart]
     [iadv]
         [bgm nm="talk"]
         [chara_config pos_mode="false" ]
@@ -111,7 +112,7 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
         [wait time="1000" ]
 
     [endadv]
-
+; [skipstop]
     ;エンジンの限界で、一度にfor文まで処理ができないためここで再起動させる。
     ;もっかい破壊
     [destroy]
@@ -554,6 +555,9 @@ f.mpnm=='f101_34_01_pic';
 //TODO:②この配列にイベントアドレスを入れる
     [endscript ]
 
+    ; mob情報をさらに読込
+    [call storage="mcr/mode/01_mob.ks"]
+
     [jump storage="&f.pg" target="*rt_bld2" ]
 
     ;[return ]
@@ -831,7 +835,7 @@ f.mpnm=='f101_34_01_pic';
 [if exp="f.mpnm=='f101_34_01_pic'" ]
     [iadv]
     #
-    ここが第一工場の玄関だって。ところでもう勉強は終わったのかい？[p]
+    ここが第一工場の入口だって。ところでもう勉強は終わったのかい？[p]
 
     [endadv]
     @eval exp="f.ismdeve=true"
@@ -1404,7 +1408,7 @@ f.mpnm=='f101_34_01_pic';
             [endadv ]
         [endignore ]
         [iscript ]
-            tf.url='https://www.youtube.com/embed/'+'TnX09mIwdI0'+'?mute=1'
+            tf.url='https://www.youtube.com/embed/'+'I7WBBplYTRo'+'?mute=1'
             f.ismdeve=true
         [endscript ]
 
@@ -1491,3 +1495,18 @@ f.mpnm=='f101_34_01_pic';
     [noenter]
 [return ]
 [s ]
+
+; モブセリフシステム。6番目にmを付ける。testalphaより。
+*mobline
+    [Cngmsg n="1"]
+    ;ふきだし表示を開始する
+    [fuki_start layer="message1"]
+        #
+        [emb exp="f.mob_line[f.label]"][p]
+    [fuki_stop]
+    [Cngmsg]
+
+
+    [eval exp="f.ismdeve=true"]
+[return]
+[s]

@@ -458,6 +458,7 @@
                 tf.pl3=[];
                 tf.pl4=[];
                 tf.pl5=[];
+                tf.pl6=[];
             [endscript ]
         [endignore ]
 
@@ -1189,10 +1190,13 @@
                         case f.eveid===3:f.infokey=f.eveid;break;
                     }
                     //マスイベント以外の発火を初期値にする
-                    f.ismdeve=false
+                    f.ismdeve=false;
+                    //6番目を初期化
+                    tf.lblop='';
                 [endscript ]
                 ;イベントラベル番号f.labelを作成
                 [crilbl]
+                ; ↑tf.pl6からtf.lblopを作成。
                 ;call先にラベル名が存在するかチェック
                 [iscript ]
                     for(let i=0;i<f.arlbl.length;i++){
@@ -1204,8 +1208,15 @@
         ; [endif ]
             ;callをするためにIF+ignoreを分割。
                 ;上書きするイベントがあればf.ismdeve=T
-                [call storage="&'./mcr/mode/'+f.mode+'.ks'" target="&f.label"  cond="tf.istn&&tf.ismvev&&tf.ismvev_not!=true" ]
+                [call storage="&'./mcr/mode/'+f.mode+'.ks'" target="&f.label"  cond="tf.istn&&tf.ismvev&&tf.ismvev_not!=true&&tf.lblop==''" ]
         
+                ;モブ用追加イベント呼び出し
+                [ignore exp="f.ismdeve" ]
+                    [if exp="tf.lblop=='m'"]
+                        [call storage="&'./mcr/mode/'+f.mode+'.ks'" target="*mobline"]
+                    [endif]
+                [endignore ]
+
         ; [if exp="tf.ismvev" ]
         ;     [ignore exp="tf.ismvev_not" ]
                 [ignore exp="f.ismdeve" ]
@@ -1510,7 +1521,26 @@
 
                 //tm[n[s]]==11092となるはずなんだよなあ<--21182になる
                 f.label=tm[n[s]].join('');
-            
+                //tm[n]はその部屋の2or3のイベント5桁を入れている。6番目のsを求める
+                //tmの何番目なのかを求める
+                for(let i=tm.length-1;i>=0;i--){
+                    //要素の重複と順番を固定で判断
+                    let isMatch = true;
+                    for (let j = 0; j < tm[n[s]].length; j++) {
+                        if (tm[i][j] !== tm[n[s]][j]) {
+                            isMatch = false;
+                            break;
+                        }
+                    }
+
+                    if (isMatch) {
+                        // 完全一致の場合の処理
+                        tf.lblop=tf.pl6[i];
+                        if(tf.lblop===undefined)tf.lblop='';
+                        break;
+
+                    }
+                };
         [endscript ]
     [endmacro]
 [return ]
