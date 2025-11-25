@@ -56,7 +56,7 @@
     tf.dbgcnt++
     if(tf.dbgcnt==20)f.dbg=true;
 [endscript ]
-    [dialog text="デバッグモードを起動しました。" cond="f.dbg"]
+    [dialogS text="デバッグモードを起動しました。" cond="f.dbg"]
 
 [s ]
 
@@ -86,5 +86,6 @@
 [mask_off time="50" ]
 
 
-[jump storage="map.ks" ]
+; [jump storage="map.ks" ]
+[jump storage="test_cameraworld.ks" ]
 [s ]

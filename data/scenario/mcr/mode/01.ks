@@ -66,7 +66,7 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
 ;初回読み込み用(bsc呼び出し)
 [macro name="evt_fst"]
     ; [trace exp="&`'現在'+f.mode+'モードです'`" ]
-; [skipstart]
+[skipstart]
     [iadv]
         [bgm nm="talk"]
         [chara_config pos_mode="false" ]
@@ -78,41 +78,51 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
             ここで名前入力
         */
 
-        [edit left="600" top="200" name="f.playername" initial="あなた" maxchars="6"]
-        [show name="pl" face="suit" side="R"]
+    ;     [edit left="600" top="200" name="f.playername" initial="あなた" maxchars="6"]
+    ;     [show name="pl" face="suit" side="R"]
 
-        [glink color="btn_01_red" text="あなたの名前を決定→" target=next x=600 y=300 cm=false]
-        [s]
+    ;     [glink color="btn_01_red" text="あなたの名前を決定→" target=next x=600 y=300 cm=false]
+    ;     [s]
 
-        *next
-        [commit name="f.playername"]
-        [cm]
+    ;     *next
+    ;     [commit name="f.playername"]
+    ;     [cm]
 
-        [reg_chara01]
-        [show name="pl" face="suit" side="R"]
-        #pl
-        はーい！[p]
-        ;[l]同じく[<mid][emb exp="f.playername"][>]です！[p]
-        #案内人
-        それではみなさん、2Fの更衣室で白衣に着替えてください[p]
-        [se nm="imp"]
-        [image name="keyboard" layer="1" folder="image/tutorial" storage="keyboard.png" width="400" left="&1280/2-200" top="0" ]
-        #◇操作説明◇
-        画面左下の十字ボタンをクリック、あるいはキーボードの十字キーで[<mid][emb exp="f.playername"][>]を動かすことができます。[p]
-        [<imp]Shiftキーを押しながら十字キーを長押し[>]で少し早く動けます。[p]
-        [free name="keyboard" layer="1" time="2000"]
-        さっそく階段へ移動しましょう![p]
+    ;     [reg_chara01]
+    ;     [show name="pl" face="suit" side="R"]
+    ;     #pl
+    ;     はーい！[p]
+    ;     ;[l]同じく[<mid][emb exp="f.playername"][>]です！[p]
+    ;     #案内人
+    ;     それではみなさん、2Fの更衣室で白衣に着替えてください[p]
+    ;     [se nm="imp"]
+    ;     [image name="keyboard" layer="1" folder="image/tutorial" storage="keyboard.png" width="400" left="&1280/2-200" top="0" ]
+    ;     #◇操作説明◇
+    ;     画面左下の十字ボタンをクリック、あるいはキーボードの十字キーで[<mid][emb exp="f.playername"][>]を動かすことができます。[p]
+    ;     [<imp]Shiftキーを押しながら十字キーを長押し[>]で少し早く動けます。[p]
+    ;     [free name="keyboard" layer="1" time="2000"]
+    ;     さっそく階段へ移動しましょう![p]
 
-        [se nm="imp"]
-        #pl
-        [<imp]階段を上って更衣室で着替える[>]だったね。[l ]よし、行こう![p]
-         @eval exp="f.isevt_fst=true"
-        [mask time="1000" ]
-        [fadeoutbgm]
-        [wait time="1000" ]
+    ;     [se nm="imp"]
+    ;     #pl
+    ;     [<imp]階段を上って更衣室で着替える[>]だったね。[l ]よし、行こう![p]
+    ;      @eval exp="f.isevt_fst=true"
+    ;     [mask time="1000" ]
+    ;     [fadeoutbgm]
+    ;     [wait time="1000" ]
+
+    ; [endadv]
+
+    ; ///////////
+    ; 省略用
+    [iscript]
+         f.isevt_fst=true
+         f.playername="あなた"
+    [endscript]
+    ; ///////////
 
     [endadv]
-; [skipstop]
+[skipstop]
     ;エンジンの限界で、一度にfor文まで処理ができないためここで再起動させる。
     ;もっかい破壊
     [destroy]
@@ -152,6 +162,10 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     [call target="wap" cond="f.mpnm=='f101_12_25_wap'&&f.fstWap!=true"]
     ;生産管理室
     [call target="pic" cond="f.mpnm=='f101_34_01_pic'&&f.fstPic!=true"]
+    ; [dialog text="通った"]
+
+    ;収回場(第一工場玄関・プラットフォーム)
+    [call target="ent" cond="f.mpnm=='f101_62_01_ent'&&f.fstEnt!=true"]
 
 
     ; これを軸にしようか、下の*00000にしようか悩んでる
@@ -169,36 +183,58 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
                 f.flg01wap==true&&
                 f.flg01pic==100;
 
-        //f.end01=true;
+        f.end01=true;
     [endscript ]
-    [if exp="f.end01" ]
-        [iadv ]
-        [se nm="eye"]
-        [bgm nm="talk"]
-        [show name="kuri"]
-            #マロン
-            おつかれさま！回ってこられた？[p ]
-        [show name="pl" side="R"]
-            #pl
-            うん！一通り見てきたよ！[p ]
-            社員さんに話を聞けたよ。[p ]
-            #マロン
-            それは良かった！[p ]
-            クリハラでは野菜のカットを含めた「惣菜キット」を作っていることがわかったね。[p ]
-            #pl
-            そうだね！スーパーでどんなお惣菜になるのか、ワクワクするね！[p ]
-            #マロン
-            それでは今日の工場見学は終わりだよ。[p ]
-            もっとクリハラのことを知りたい！と思ったら、ぜひリアルの工場見学もしてみてね。[p ]
-        [mask time="2000" ]
-        [wait time="2000" ]
 
-        [endadv ]
-        [dialog text="タイトル画面に戻ります" ]
-        [destroy ]
-        [mask_off time="50" ]
-        [jump storage="titlever2.ks" ]
+    [if exp="f.end01&&!f.isevt_end1"]
+        [iadv ]
+            [se nm="eye"]
+            [bgm nm="talk"]
+            #収集回収トラック
+            トラックが来たよ！[p]
+            [show name="kuri"]
+
+            #kuri
+            やあ！どうやらトラックが来たみたいだね。[r]
+            [emb exp="f.playername"]、積み込みを見に行こう。この部屋の右から外に出よう。[p]
+
+            @eval exp="f.isevt_end1=true"
+
+            @eval exp="f.evt_ed01=true"
+            [chara_hide_all layer="1"]
+        [endadv]
     [endif ]
+
+
+
+    ; [if exp="f.end01" ]
+    ;     [iadv ]
+    ;     [se nm="eye"]
+    ;     [bgm nm="talk"]
+    ;     [show name="kuri"]
+    ;         #kuri
+    ;         おつかれさま！回ってこられた？[p ]
+    ;     [show name="pl" side="R"]
+    ;         #pl
+    ;         うん！一通り見てきたよ！[p ]
+    ;         社員さんに話を聞けたよ。[p ]
+    ;         #kuri
+    ;         それは良かった！[p ]
+    ;         クリハラでは野菜のカットを含めた「惣菜キット」を作っていることがわかったね。[p ]
+    ;         #pl
+    ;         そうだね！スーパーでどんなお惣菜になるのか、ワクワクするね！[p ]
+    ;         #kuri
+    ;         それでは今日の工場見学は終わりだよ。[p ]
+    ;         もっとクリハラのことを知りたい！と思ったら、ぜひリアルの工場見学もしてみてね。[p ]
+    ;     [mask time="2000" ]
+    ;     [wait time="2000" ]
+
+    ;     [endadv ]
+    ;     [dialog text="タイトル画面に戻ります" ]
+    ;     [destroy ]
+    ;     [mask_off time="50" ]
+    ;     [jump storage="titlever2.ks" ]
+    ; [endif ]
 [endmacro ]
 
 ;移動先変更マクロ
@@ -226,6 +262,7 @@ f.ginfoが0-3のときそれぞれの効果を変更する。
     f.mod_image[5]='f101_20_01_set';
     f.mod_image[6]='f101_12_25_wap';
     f.mod_image[7]='f101_34_01_pic';
+    f.mod_image[9]='f101_62_01_ent';
     
 
 [endscript ]
@@ -401,6 +438,8 @@ f.mpnm=='f201_06_15_wgh'||
 f.mpnm=='f101_20_01_set'||
 f.mpnm=='f101_12_25_wap'||
 f.mpnm=='f101_34_01_pic';
+ED追加
+f101_62_01_ent(収集回収外)
   */  
         tf.reg_mob03=   f.mpnm=='f201_39_13_ant';
     [endscript ]
@@ -482,6 +521,10 @@ f.mpnm=='f101_34_01_pic';
         push(1,1,0,17,2)//移動先変更(セット室へ)
 
     }
+    //第一工場玄関(プラットフォーム)新規イベント
+    if(f.mpnm=='f101_62_01_ent'){
+        push(1,1,3,13,3)//帰宅スイッチ
+    }
 
 //TODO:①ここにイベントアドレスを入れる
 
@@ -550,6 +593,8 @@ f.mpnm=='f101_34_01_pic';
         f.arlbl[40]="1127243"//立ち入り禁止+話しかけ(南封鎖)
         f.arlbl[42]="142942"//立ち入り禁止(戻し)
         f.arlbl[43]="110172"//移動先変更(セット室へ)
+        //第一工場玄関(プラットフォーム)(f101_62_01_ent)
+        f.arlbl[44]="113133"//帰宅スイッチ
 
         
 //TODO:②この配列にイベントアドレスを入れる
@@ -588,7 +633,7 @@ f.mpnm=='f101_34_01_pic';
         #pl
         さっそく工場の白衣に着替えてきたよ。楽しみだね！[p]
         [show name="kuri"]
-        #マロン
+        #kuri
         そうだね。[p ]
         [se nm="imp"]
         今日の工場見学は、[<imp]社員さんに話を聞いてきてもらう[>]よ。[p ]
@@ -602,7 +647,7 @@ f.mpnm=='f101_34_01_pic';
         #pl
         はーい！わかりました。[l][r]
         どんな工程があるのか聞けるといいな！[p]
-        #マロン
+        #kuri
         それじゃあいったん解散！また会おう！[p]
         [chara_hide_all layer="1"]
         [bgm nm="evt"]
@@ -678,7 +723,97 @@ f.mpnm=='f101_34_01_pic';
     [endadv]
 @eval exp="f.fstPic=true"
 [return ]
+[s]
+
+*ent
+[eval exp="tf.aoi='これはent(収回場)初回イベント'" ]
+[trace exp="tf.aoi" ]
+; ここ内容
+    ; [mask color="white"]
+    ; [mask_off]
+    [movie storage="受け渡し.mp4" ]
+    ; [wait_bgmovie]
+    ; [stop_bgmovie]
+
+    ; トラックが動き出して画面外に行く
+    ; [movie storage="gotrack.mp4"]
+    ; [layermode_movie video="gotrack.mp4" loop="false" fit="false" wait="true" left="500"]
+    [KA s="OFF"]
+        [clearfix ]
+        [cm]
+
+
+        [image name="track" storage="gotrack.gif" layer="0" left="&80*11" top="&-80*5"]
+        ; 4000sでエンジンかかる
+        [wait time="4000"]
+        [playse storage="engine1.mp3" buf="0"]
+        [wait time="2000"]
+        [fadeinse storage="engine2.mp3" buf="1" time="4000"]
+        [fadeoutse time="4000" buf="0"]
+        [wait time="4000"]
+        ; 6000sで走り出す
+        ; 10000sでクロスフィード
+        [fadeoutse time="4000" buf="1"]
+        ; [wait time="10000"]
+        [free layer="0" name="track"]
+    [endadv]
+
+    [iadv]
+        [show name="kuri"]
+        #kuri
+        クリハラで加工した野菜が行っちゃったね。[p]
+        #&f.playername
+        ええと、確か[<imp]『惣菜キット』[>]が出来て出荷されたんだよね？[p]
+        #kuri
+        そうそう。[<imp]お弁当は作ってなくて、惣菜の元を作っている[>]んだ。[p]
+        #アナウンス
+        本日の会社見学会の終了時刻がやってきました。[r]
+        お忘れ物がないようにご帰宅の準備をお願いします。(英語で同じ内容を繰り返す)
+        [wait time="2000"]
+        [p]
+        #kuri
+        そろそろ終わりみたいだ。[r]
+        帰りたくなったらボクに話しかけてね[p]
+        [chara_hide name="kuri" layer="1"]
+
+    [endadv]
+
+    ; [dialog text="トラック出発アニメ、エンディングが流れる動作をいれる"]
+
+@eval exp="f.fstEnt=true"
+[return ]
 [s ]
+;帰宅スイッチ
+*113133
+[dialog text="会社見学会を終了しますか？(EDです)" type="confirm" target_cancel="*113133_f"]
+[iadv]
+    [show name="kuri"]
+    [show name="pl" side="R"]
+    #kuri
+    じゃあ帰ろうか！[p]
+    #pl
+    はーい！[p]
+    #社員さん
+    本日はお越しいただきありがとうございました。[r]
+    会社説明会にもぜひお越しください！[p]
+    #pl
+    わかりましたー[p]
+    #kuri
+    最新情報はホームページをチェック！[p]
+
+    ; ホームページへのボタンが出る
+
+    [destroy]
+[endadv]
+
+    [clearstack]
+    [jump storage="credit01.ks"]
+
+
+*113133_f
+[eval exp="f.ismdeve=true""]
+[return]
+[s]
 
 ;ラベル数でまとめる
 
@@ -687,7 +822,10 @@ f.mpnm=='f101_34_01_pic';
 ;以上のラベルで第二工場前室の時のイベント内容
 *142942
 ;生産管理室も追加
-[if exp="f.mpnm=='f201_39_13_ant'||f.mpnm=='f101_34_01_pic'"]
+
+; 142942は、f.evt_ed01=trueのとき以下を無視する。
+
+[if exp="f.mpnm=='f201_39_13_ant'||f.mpnm=='f101_34_01_pic'&&!f.evt_ed01"]
     [trace exp="tf.hoge3='21722か21182ノックバックイベント中'" ]
     [noenter]
 
@@ -818,7 +956,7 @@ f.mpnm=='f101_34_01_pic';
 
     [else ]
     [show name="kuri"]
-    #マロン
+    #kuri
     ふんふん…なるほどなぁ[r]
     [endif]
     あ、こっちは進行方向じゃないよ、[emb exp="tf.way"]だって。[p]

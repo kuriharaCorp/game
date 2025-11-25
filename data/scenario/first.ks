@@ -11,6 +11,14 @@
 
 ;ゲームで必ず必要な初期化処理はこのファイルに記述するのがオススメ
 
+;CSV読込プラグイン(https://memocho.no-tenki.me/tyrano/archives/33)
+[plugin name="mc_loadcsv"]
+
+; @jump storage="test_cameraworld.ks"
+
+; @jump storage="mcr/test_test.ks"
+
+
 ;メッセージボックスは非表示
 @layopt layer="message" visible=false
 
@@ -19,13 +27,13 @@
 
 
 ;基本動作まとめマクロ
-@call storage="mcr/bsc.ks"
+; @call storage="mcr/bsc.ks"
 
 ;共通JSfunction読み込み
-@loadjs storage="../scenario/js/style.js"
+; @loadjs storage="../scenario/js/style.js"
 
 
-;オリジナルタグてすと
+;オリジナルタグてすと(使ってない)
 [loadjs storage="orizinal.js"]
 
 
@@ -44,7 +52,7 @@
 @eval exp="tf.count=0"
 
 
-[dialog text="音が鳴ります。ご注意ください。"]
+;[dialog text="音が鳴ります。ご注意ください。"]
 [call storage="soundtrack.ks" ]
 
 ;編集中は音が出ないようにしておく
@@ -54,6 +62,13 @@
 ;///////////////////////////
 
 
+; 基本マクロ呼出
+[loadjs storage="../scenario/js/bsc.js"]
+[call storage="mcr/bscv2.ks" ]
+
+
+
+; @jump storage="credit01.ks"
 
 ; @jump storage="testfile.ks" 
 @jump storage="titlever2.ks"

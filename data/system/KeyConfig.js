@@ -307,192 +307,177 @@ Ver4.50以降で有効
 */
 
 window.__tyrano_key_config = {
-    
-    // ◆ system_key_event
-    //
-    // 各種キーを押したときのブラウザのデフォルト動作を許可するか？
-    // （F5で更新、F12で開発者ツールを開くなど）
-    //
-    // "true"  : ブラウザのデフォルト動作をすべて許可します。
-    // "false" : ブラウザのデフォルト動作をすべて無効化します。
-    // "debug" : Config.tjs の debugMenu.visible が true　の場合のみ、
-    //           ブラウザのデフォルト動作をすべて許可します。
-    // 
-    // ただし、ここに "false" や "debug" を指定した場合でも、
-    // 各キーに個別に default アクションや default_debug アクションを指定することで
-    // キーごとにブラウザのデフォルト動作を許可することができます。
-    //
-    // ブラウザの制限によって、ティラノスクリプトからは無効化しきれないデフォルト動作も存在します。
-    // ご注意ください。
-    // (無効化できない例) Ctrl + W : タブを閉じる
-    
-    // ブラウザのデフォルト動作は無効にしておく
-    system_key_event: "false",
-    
-    // ◆ system_mouse_event
-    // マウスの進むボタンや戻るボタンを押したときのページ移動を許可するかどうか
-    // "true"  : 許可する
-    // "false" : 無効化する
-    system_mouse_event: "false",
+  // ◆ system_key_event
+  //
+  // 各種キーを押したときのブラウザのデフォルト動作を許可するか？
+  // （F5で更新、F12で開発者ツールを開くなど）
+  //
+  // "true"  : ブラウザのデフォルト動作をすべて許可します。
+  // "false" : ブラウザのデフォルト動作をすべて無効化します。
+  // "debug" : Config.tjs の debugMenu.visible が true　の場合のみ、
+  //           ブラウザのデフォルト動作をすべて許可します。
+  //
+  // ただし、ここに "false" や "debug" を指定した場合でも、
+  // 各キーに個別に default アクションや default_debug アクションを指定することで
+  // キーごとにブラウザのデフォルト動作を許可することができます。
+  //
+  // ブラウザの制限によって、ティラノスクリプトからは無効化しきれないデフォルト動作も存在します。
+  // ご注意ください。
+  // (無効化できない例) Ctrl + W : タブを閉じる
 
-    // キーボード操作
-    key: {
-        
-        "Enter"      : "ok     -a",
-        "Escape"     : "cancel -a",
-        " "          : "hidemessage",
-        "Meta"       : "holdskip", // Mac の Command キーのこと
-        "Control"    : "holdskip",
-        "m"          : "menu",
-        
-        // w, a, s, d で仮想マウスカーソルを操作できるようにします
-        "w"          : "vmouse_up    -a -h",
-        "s"          : "vmouse_down  -a -h",
-        "a"          : "vmouse_left  -a -h",
-        "d"          : "vmouse_right -a -h",
-        
-        // Tab キーでボタンをフォーカスできるようにします
-        "Tab"        : "focus_next -a",
-        
-        // 方向キーでボタンのフォーカスを上下左右に動かせるようにします
-        /*
+  // ブラウザのデフォルト動作は無効にしておく
+  system_key_event: "false",
+
+  // ◆ system_mouse_event
+  // マウスの進むボタンや戻るボタンを押したときのページ移動を許可するかどうか
+  // "true"  : 許可する
+  // "false" : 無効化する
+  system_mouse_event: "false",
+
+  // キーボード操作
+  key: {
+    Enter: "ok     -a",
+    Escape: "cancel -a",
+    " ": "hidemessage",
+    Meta: "holdskip", // Mac の Command キーのこと
+    Control: "holdskip",
+    m: "menu",
+
+    // w, a, s, d で仮想マウスカーソルを操作できるようにします
+    w: "vmouse_up    -a -h",
+    s: "vmouse_down  -a -h",
+    a: "vmouse_left  -a -h",
+    d: "vmouse_right -a -h",
+
+    // Tab キーでボタンをフォーカスできるようにします
+    Tab: "focus_next -a",
+
+    // 方向キーでボタンのフォーカスを上下左右に動かせるようにします
+    /*
         "ArrowUp"    : "focus_up    -a -h delay=300",
         "ArrowDown"  : "focus_down  -a -h delay=300",
         "ArrowLeft"  : "focus_left  -a -h delay=300",
         "ArrowRight" : "focus_right -a -h delay=300",
         */
-        //追加。ボタンでキャラ操作
-        "ArrowUp": function () {
-            TYRANO.kag.stat.f['vec']='T';
-            TYRANO.kag.ftag.startTag("jump",{target:"*ahead"});
-        },
-        "ArrowRight": function () {
-            TYRANO.kag.stat.f['vec']='R';
-            TYRANO.kag.ftag.startTag("jump",{target:"*ahead"});
-        },
-        "ArrowDown": function () {
-            TYRANO.kag.stat.f['vec']='B';
-            TYRANO.kag.ftag.startTag("jump",{target:"*ahead"});
-        },
-        "ArrowLeft": function () {
-            TYRANO.kag.stat.f['vec']='L';
-            TYRANO.kag.ftag.startTag("jump",{target:"*ahead"});
-        },
+    //追加。ボタンでキャラ操作
+    /*
+    ArrowUp: function () {
+      TYRANO.kag.stat.f["vec"] = "T";
+      TYRANO.kag.ftag.startTag("jump", { target: "*ahead" });
+    },
+    ArrowRight: function () {
+      TYRANO.kag.stat.f["vec"] = "R";
+      TYRANO.kag.ftag.startTag("jump", { target: "*ahead" });
+    },
+    ArrowDown: function () {
+      TYRANO.kag.stat.f["vec"] = "B";
+      TYRANO.kag.ftag.startTag("jump", { target: "*ahead" });
+    },
+    ArrowLeft: function () {
+      TYRANO.kag.stat.f["vec"] = "L";
+      TYRANO.kag.ftag.startTag("jump", { target: "*ahead" });
+    },
+*/
+    // PageUp, PageDown でバックログをスクロールできるようにします
+    PageUp: "scroll_up",
+    PageDown: "scroll_down",
 
-        
-        // PageUp, PageDown でバックログをスクロールできるようにします
-        "PageUp"     : "scroll_up",
-        "PageDown"   : "scroll_down",
-        
-        // 数字キーで数に応じた特定のボタンをフォーカスできるようにします
-        "1"          : "focus_index -a index=1",
-        "2"          : "focus_index -a index=2",
-        "3"          : "focus_index -a index=3",
-        "4"          : "focus_index -a index=4",
-        "5"          : "focus_index -a index=5",
-        "6"          : "focus_index -a index=6",
-        "7"          : "focus_index -a index=7",
-        "8"          : "focus_index -a index=8",
-        "9"          : "focus_index -a index=9",
-        
-        // Config.tjs の debugMenu.visible が true の場合のみ
-        // F12 キーのデフォルト動作（開発者ツールを開く）を有効にします
-        "F12"        : "default_debug",
-        
+    // 数字キーで数に応じた特定のボタンをフォーカスできるようにします
+    1: "focus_index -a index=1",
+    2: "focus_index -a index=2",
+    3: "focus_index -a index=3",
+    4: "focus_index -a index=4",
+    5: "focus_index -a index=5",
+    6: "focus_index -a index=6",
+    7: "focus_index -a index=7",
+    8: "focus_index -a index=8",
+    9: "focus_index -a index=9",
+
+    // Config.tjs の debugMenu.visible が true の場合のみ
+    // F12 キーのデフォルト動作（開発者ツールを開く）を有効にします
+    F12: "default_debug",
+  },
+
+  // マウス操作
+  mouse: {
+    right: "hidemessage",
+    // "center"     : "menu",
+    wheel_up: "backlog",
+    wheel_down: "next",
+    next: "holdskip",
+    prev: "auto",
+
+    right_swipe_up: "",
+    right_swipe_down: "",
+    right_swipe_left: "",
+    right_swipe_right: "",
+    center_swipe_up: "",
+    center_swipe_down: "",
+    center_swipe_left: "",
+    center_swipe_right: "",
+    prev_swipe_up: "",
+    prev_swipe_down: "",
+    prev_swipe_left: "",
+    prev_swipe_right: "",
+    next_swipe_up: "",
+    next_swipe_down: "",
+    next_swipe_left: "",
+    next_swipe_right: "",
+  },
+
+  // スマホ・タブレットのジェスチャー操作
+  gesture: {
+    swipe_up_1: "backlog",
+    swipe_down_1: "load",
+    swipe_left_1: "auto",
+    swipe_right_1: "menu",
+    hold: "holdskip",
+
+    // 画面右端のダブルタップ・トリプルタップ
+    mash_right_2: "auto",
+    mash_right_3: "skip",
+
+    // 画面左端のダブルタップ・トリプルタップ
+    mash_left_2: "",
+    mash_left_3: "",
+  },
+
+  // ゲームパッド操作
+  gamepad: {
+    button: {
+      A: "cancel -a",
+      B: "ok     -a",
+      X: "auto",
+      Y: "backlog",
+      LB: "save",
+      LT: "load",
+      RB: "skip",
+      RT: "holdskip",
+      START: "menu",
+      SELECT: "",
+      HOME: "title",
+      LS: "",
+      RS: "",
+      UP: "focus_up    -a -h delay=300",
+      DOWN: "focus_down  -a -h delay=300",
+      LEFT: "focus_left  -a -h delay=300",
+      RIGHT: "focus_right -a -h delay=300",
     },
 
-    // マウス操作
-    mouse: {
-        
-        "right"      : "hidemessage",
-        "center"     : "menu",
-        "wheel_up"   : "backlog",
-        "wheel_down" : "next",
-        "next"       : "holdskip",
-        "prev"       : "auto",
-        
-        "right_swipe_up"     : "",
-        "right_swipe_down"   : "",
-        "right_swipe_left"   : "",
-        "right_swipe_right"  : "",
-        "center_swipe_up"    : "",
-        "center_swipe_down"  : "",
-        "center_swipe_left"  : "",
-        "center_swipe_right" : "",
-        "prev_swipe_up"      : "",
-        "prev_swipe_down"    : "",
-        "prev_swipe_left"    : "",
-        "prev_swipe_right"   : "",
-        "next_swipe_up"      : "",
-        "next_swipe_down"    : "",
-        "next_swipe_left"    : "",
-        "next_swipe_right"   : "",
-        
+    stick_digital: {
+      L_UP: "",
+      L_DOWN: "",
+      L_LEFT: "",
+      L_RIGHT: "",
+      R_UP: "vmouse_wheelup   -a -h",
+      R_DOWN: "vmouse_wheeldown -a -h",
+      R_LEFT: "",
+      R_RIGHT: "",
     },
 
-    // スマホ・タブレットのジェスチャー操作
-    gesture: {
-        
-        "swipe_up_1"    : "backlog",
-        "swipe_down_1"  : "load",
-        "swipe_left_1"  : "auto",
-        "swipe_right_1" : "menu",
-        "hold"          : "holdskip",
-        
-        // 画面右端のダブルタップ・トリプルタップ
-        "mash_right_2"  : "auto",
-        "mash_right_3"  : "skip",
-        
-        // 画面左端のダブルタップ・トリプルタップ
-        "mash_left_2"  : "",
-        "mash_left_3"  : "",
-        
-    
+    stick: {
+      L: "vmouse_move",
+      R: "",
     },
-    
-    // ゲームパッド操作
-    gamepad: {
-        
-        button: {
-        
-            A       : "cancel -a",
-            B       : "ok     -a",
-            X       : "auto",
-            Y       : "backlog",
-            LB      : "save",
-            LT      : "load",
-            RB      : "skip",
-            RT      : "holdskip",
-            START   : "menu",
-            SELECT  : "",
-            HOME    : "title",
-            LS      : "",
-            RS      : "",
-            UP      : "focus_up    -a -h delay=300",
-            DOWN    : "focus_down  -a -h delay=300",
-            LEFT    : "focus_left  -a -h delay=300",
-            RIGHT   : "focus_right -a -h delay=300",
-        
-        },
-        
-        stick_digital: {
-            
-            L_UP    : "",
-            L_DOWN  : "",
-            L_LEFT  : "",
-            L_RIGHT : "",
-            R_UP    : "vmouse_wheelup   -a -h",
-            R_DOWN  : "vmouse_wheeldown -a -h",
-            R_LEFT  : "",
-            R_RIGHT : "",
-            
-        },
-        
-        stick: {
-            
-            L       : "vmouse_move",
-            R       : "",
-        
-        }
-    },
+  },
 };
