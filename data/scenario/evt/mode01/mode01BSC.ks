@@ -310,9 +310,17 @@
                 [chara_ptext name="&mp.name"]
 
                 [emb exp="getTalk(mp.category, mp.item, 'WHAT')"][p]
-                [eval exp="[f.score[mp.category], f.count[mp.category][mp.item]] = StudyScore(tf.score, tf.count,1,25);" cond="tf.count === 0"]
+
+                [if exp="mp.category == 'ante2'"]
+                    [eval exp="tf.point = 50"]
+                    [else]
+                    [eval exp="tf.point = 25"]
+                [endif]
+
+                ; [eval exp="[f.score[mp.category], f.count[mp.category][mp.item]] = StudyScore(tf.score, tf.count,1,25);" cond="tf.count === 0"]
+                [eval exp="[f.score[mp.category], f.count[mp.category][mp.item]] = StudyScore(tf.score, tf.count,1,tf.point);" cond="tf.count === 0"]
                 ; 暫定処理
-                [clearvar exp="f.score[mp.category]" cond="mp.category == 'ante2'"]
+                ; [clearvar exp="f.score[mp.category]" cond="mp.category == 'ante2'"]
                 
                 [jump target="*QAAEnd" ]
             [s ]
@@ -321,9 +329,17 @@
                 [chara_ptext name="&mp.name"]
 
                 [emb exp="getTalk(mp.category, mp.item, 'HOW')"][p]
-                [eval exp="[f.score[mp.category], f.count[mp.category][mp.item]] = StudyScore(tf.score, tf.count,2,25);" cond="tf.count === 1"]
+
+                [if exp="mp.category == 'ante2'"]
+                    [eval exp="tf.point = 50"]
+                    [else]
+                    [eval exp="tf.point = 25"]
+                [endif]
+
+                ; [eval exp="[f.score[mp.category], f.count[mp.category][mp.item]] = StudyScore(tf.score, tf.count,2,25);" cond="tf.count === 1"]
+                [eval exp="[f.score[mp.category], f.count[mp.category][mp.item]] = StudyScore(tf.score, tf.count,2,tf.point);" cond="tf.count === 1"]
                 ; 暫定処理
-                [clearvar exp="f.score[mp.category]" cond="mp.category == 'ante2'"]
+                ; [clearvar exp="f.score[mp.category]" cond="mp.category == 'ante2'"]
 
                 [jump target="*QAAEnd" ]
             [s ]

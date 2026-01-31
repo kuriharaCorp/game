@@ -49,6 +49,7 @@
         今日の工場見学は、[<imp]社員さんに話を聞いてきてもらう[>]よ。[p ]
         [se nm="imp"]
         [<imp]緑の帽子をかぶった人[>]が社員さんなんだって。[p ]
+        [se nm="imp"]
         各部屋に社員さんがいるから、話しかけてみてね。[p ]
         [se nm="imp"]
         #◇ゲームの目的◇
@@ -91,6 +92,39 @@
             ちょっと待って！[p]
             ここから先は衣服の埃や髪の毛を取ってから進んでください。[r]
             そこにある『取るミング』を使ってね[p]
+
+            ; カメラ座標を一時取得
+            [iscript]
+
+                tf.tempX = tf.v.x;
+                tf.tempY = tf.v.y;
+
+            [endscript]
+
+            ; ここにカメラ挙動を変化させる。
+            ; [entrance roomname="取るミング"]
+            [camera layer="0"  x="&-80*4" y="&-80*6" wait="false" ease_type="ease-in-out"]
+            [camera layer="1"  x="&-80*4" y="&-80*6" wait="true" ease_type="ease-in-out"]
+            [se nm="imp"]
+            [wait time="500"]
+
+            ; 矢印アニメーションを追加
+            ; もしすでに　以下が表示されている場合は処理を無視する仕組みを入れておく
+            ;class="ArrowTM"
+            [eval exp="tf.IsAPed = document.querySelector('.ArrowTM') !== null;"]
+
+            [AutoPut name="ArrowTM" pct="arrow_anim_T.gif" x="3.5" y="11" c="t" layer="0" cond="!tf.IsAPed"]
+            ;//imageなので消すときはimageと同じ処理
+            [clearvar exp="tf.IsAPed"]
+
+
+            [camera layer="0"  x="&tf.tempX" y="&tf.tempY" wait="false" ease_type="ease-in-out"]
+            [camera layer="1"  x="&tf.tempX" y="&tf.tempY" wait="true" ease_type="ease-in-out"]
+            [wait time="100"]
+            
+            [clearvar exp="tf.tempX"]
+            [clearvar exp="tf.tempY"]
+
 
             ; 選択肢表示準備
             #

@@ -68,6 +68,11 @@
 
     [eval exp="f.istoruming=true"]
     [glink storage="&tf.str" target="*end_Event" text="動画を閉じる" x="1000" y="60" color="btn_12_blue"]
+    
+    ;追加した矢印を動画が見終わったら消すようにする
+    [free layer="0" name="ArrowTM" ]
+    [free layer="1" name="ArrowTM" ]
+
     [s]
 
 [endmacro]
